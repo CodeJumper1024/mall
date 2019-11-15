@@ -21,8 +21,6 @@ public class AdminController {
     public BaseReqVo login(@RequestBody Admin admin){
         BaseReqVo baseReqVo = adminService.login(admin);
         return baseReqVo;
-<<<<<<< HEAD
-=======
     }
     //显示
     @RequestMapping("info")
@@ -41,6 +39,5 @@ public class AdminController {
         baseReqVo.setErrmsg("成功");
         baseReqVo.setErrno(0);
         return baseReqVo;
->>>>>>> 5c78a40a5cdf6453aecff3e706a938c5646cd238
     }
 }
