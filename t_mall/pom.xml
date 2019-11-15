@@ -41,15 +41,18 @@
             <version>1.3.7</version>
         </dependency>
         <dependency>
-<<<<<<< HEAD
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>1.1.1</version>
-=======
+        </dependency>
+        <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
             <version>3.5.2</version>
->>>>>>> 9e7920cf495aa67d9939f852547a4e90da13b755
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 
