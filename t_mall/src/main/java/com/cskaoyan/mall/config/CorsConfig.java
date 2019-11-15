@@ -2,10 +2,11 @@ package com.cskaoyan.mall.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-
+@Service
 @Configuration
 public class CorsConfig {
     private CorsConfiguration buildConfig() {
