@@ -1,1 +1,4 @@
 .idea/
+README.md/
+!**/t_mall/src/
+!**/t_mall/pom.xml
