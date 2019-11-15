@@ -34,4 +34,9 @@ public interface GoodsMapper {
     int updateByPrimaryKeyWithBLOBs(Goods record);
 
     int updateByPrimaryKey(Goods record);
+
+    //获取所有商品
+    List<Goods> selectAllGoods();
+
+    int selectGoodsNum();
 }
