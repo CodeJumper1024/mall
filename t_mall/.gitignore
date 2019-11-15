@@ -29,3 +29,10 @@ build/
 
 ### VS Code ###
 .vscode/
+/.idea/
+/.mvn/
+/mall.iml
+/mvnw
+/mvnw.cmd
+!/pom.xml
+!/src/
