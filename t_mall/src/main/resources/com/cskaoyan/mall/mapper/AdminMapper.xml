@@ -291,4 +291,9 @@
   <select id="selectByUsernameAndPassword" resultType="com.cskaoyan.mall.bean.Admin">
     select id from cskaoyan_mall_admin where username = #{admin.username} and password = #{admin.password}
   </select>
+
+  <select id="selectAll" resultType="com.cskaoyan.mall.bean.Admin">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_admin
+  </select>
+
 </mapper>
