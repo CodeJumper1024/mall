@@ -1,10 +1,8 @@
 package com.cskaoyan.mall.controller;
 
 import com.cskaoyan.mall.bean.BaseReqVo;
-import com.cskaoyan.mall.bean.User;
-import com.cskaoyan.mall.service.UserService;
-
-import com.github.pagehelper.PageHelper;
+import com.cskaoyan.mall.bean.Footprint;
+import com.cskaoyan.mall.service.FootprintService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,22 +14,21 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("admin")
-public class UserController {
+public class FootprintController {
 
     @Autowired
-    UserService userService;
+    FootprintService footprintService;
 
-    @RequestMapping("user/list")
-    public BaseReqVo userList(Integer page, Integer limit, String sort, String order, String username, String mobile) {
+    @RequestMapping("footprint/list")
+    public BaseReqVo userList(Integer page, Integer limit, String sort, String order, Integer userId, Integer goodsId) {
+        List<Footprint> footprints = footprintService.queryFootprints(page, limit, sort, order, userId, goodsId);
 
-        List<User> users = userService.queryUsers(page, limit, sort, order, username, mobile);
-
-        PageInfo<User> userPageInfo = new PageInfo<>(users);
+        PageInfo<Footprint> userPageInfo = new PageInfo<>(footprints);
         long total = userPageInfo.getTotal();
 
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("total", total);
-        dataMap.put("items", users);
+        dataMap.put("items", footprints);
 
         BaseReqVo<Object> listBaseReqVo = new BaseReqVo<>();
         listBaseReqVo.setErrno(0);

@@ -1,10 +1,8 @@
 package com.cskaoyan.mall.controller;
 
 import com.cskaoyan.mall.bean.BaseReqVo;
-import com.cskaoyan.mall.bean.User;
-import com.cskaoyan.mall.service.UserService;
-
-import com.github.pagehelper.PageHelper;
+import com.cskaoyan.mall.bean.Feedback;
+import com.cskaoyan.mall.service.FeedbackService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,22 +14,21 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("admin")
-public class UserController {
+public class FeedbackController {
 
     @Autowired
-    UserService userService;
+    FeedbackService feedbackService;
 
-    @RequestMapping("user/list")
-    public BaseReqVo userList(Integer page, Integer limit, String sort, String order, String username, String mobile) {
+    @RequestMapping("feedback/list")
+    public BaseReqVo feedbackList(Integer page, Integer limit, String sort, String order, String username, Integer id) {
+        List<Feedback> feedbacks = feedbackService.queryFeedbacks(page, limit, sort, order, username, id);
 
-        List<User> users = userService.queryUsers(page, limit, sort, order, username, mobile);
-
-        PageInfo<User> userPageInfo = new PageInfo<>(users);
+        PageInfo<Feedback> userPageInfo = new PageInfo<>(feedbacks);
         long total = userPageInfo.getTotal();
 
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("total", total);
-        dataMap.put("items", users);
+        dataMap.put("items", feedbacks);
 
         BaseReqVo<Object> listBaseReqVo = new BaseReqVo<>();
         listBaseReqVo.setErrno(0);

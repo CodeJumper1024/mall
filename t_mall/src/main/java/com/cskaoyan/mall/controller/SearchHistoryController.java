@@ -1,10 +1,8 @@
 package com.cskaoyan.mall.controller;
 
 import com.cskaoyan.mall.bean.BaseReqVo;
-import com.cskaoyan.mall.bean.User;
-import com.cskaoyan.mall.service.UserService;
-
-import com.github.pagehelper.PageHelper;
+import com.cskaoyan.mall.bean.SearchHistory;
+import com.cskaoyan.mall.service.SearchHistoryService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,22 +14,22 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("admin")
-public class UserController {
+public class SearchHistoryController {
 
     @Autowired
-    UserService userService;
+    SearchHistoryService searchHistoryService;
 
-    @RequestMapping("user/list")
-    public BaseReqVo userList(Integer page, Integer limit, String sort, String order, String username, String mobile) {
+    @RequestMapping("history/list")
+    public BaseReqVo historyList(Integer page, Integer limit, String sort, String order, Integer userId, String keyword) {
 
-        List<User> users = userService.queryUsers(page, limit, sort, order, username, mobile);
+        List<SearchHistory> searchHistories = searchHistoryService.querySearchHistory(page, limit, sort, order, userId, keyword);
 
-        PageInfo<User> userPageInfo = new PageInfo<>(users);
+        PageInfo<SearchHistory> userPageInfo = new PageInfo<>(searchHistories);
         long total = userPageInfo.getTotal();
 
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("total", total);
-        dataMap.put("items", users);
+        dataMap.put("items", searchHistories);
 
         BaseReqVo<Object> listBaseReqVo = new BaseReqVo<>();
         listBaseReqVo.setErrno(0);

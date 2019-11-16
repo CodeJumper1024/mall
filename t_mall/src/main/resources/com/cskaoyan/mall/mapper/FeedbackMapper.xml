@@ -97,6 +97,20 @@
     from cskaoyan_mall_feedback
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="queryFeedbacks" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cskaoyan_mall_feedback
+    <where>
+      <if test="username != '%null%'">
+        username like #{username}
+      </if>
+      <if test="id != null">
+        and id = #{id}
+      </if>
+    </where>
+    order by add_time desc
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from cskaoyan_mall_feedback
     where id = #{id,jdbcType=INTEGER}

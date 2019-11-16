@@ -225,4 +225,18 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="queryFootprints" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cskaoyan_mall_footprint
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="goodsId != null">
+        and goods_id = #{goodsId}
+      </if>
+    </where>
+    order by add_time desc
+  </select>
 </mapper>
