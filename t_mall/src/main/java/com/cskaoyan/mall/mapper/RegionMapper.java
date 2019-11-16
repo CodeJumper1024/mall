@@ -1,5 +1,6 @@
 package com.cskaoyan.mall.mapper;
 
+import com.cskaoyan.mall.bean.Children;
 import com.cskaoyan.mall.bean.Region;
 import com.cskaoyan.mall.bean.RegionExample;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +29,8 @@ public interface RegionMapper {
     int updateByPrimaryKeySelective(Region record);
 
     int updateByPrimaryKey(Region record);
+
+    List<Region> selectAll();
+
+    List<Children>selectByPid(@Param("id") Integer id);
 }
