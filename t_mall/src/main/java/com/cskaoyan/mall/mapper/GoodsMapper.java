@@ -34,4 +34,7 @@ public interface GoodsMapper {
     int updateByPrimaryKeyWithBLOBs(Goods record);
 
     int updateByPrimaryKey(Goods record);
+
+    //获取商品
+    List<Goods> selectGoodsByQueryCondition(@Param("sort") String sort, @Param("order") String order, @Param("name") String name, @Param("goodsSn") Long goodsSn);
 }

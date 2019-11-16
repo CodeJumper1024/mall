@@ -28,4 +28,8 @@ public interface GrouponRulesMapper {
     int updateByPrimaryKeySelective(GrouponRules record);
 
     int updateByPrimaryKey(GrouponRules record);
+
+    List<GrouponRules> queryGrouponRulersByGoodsId(@Param("goodsId") Integer goodsId);
+
+    int delete(Integer id);
 }

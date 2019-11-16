@@ -25,7 +25,7 @@ public class Ad {
 
     private Date updateTime;
 
-    private Boolean deleted;
+    private Integer deleted;
 
     public Integer getId() {
         return id;
@@ -115,11 +115,11 @@ public class Ad {
         this.updateTime = updateTime;
     }
 
-    public Boolean getDeleted() {
+    public Integer getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(Integer deleted) {
         this.deleted = deleted;
     }
 }

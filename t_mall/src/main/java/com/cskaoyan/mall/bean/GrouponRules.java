@@ -22,7 +22,7 @@ public class GrouponRules {
 
     private Date expireTime;
 
-    private Boolean deleted;
+    private Integer deleted;
 
     public Integer getId() {
         return id;
@@ -96,11 +96,11 @@ public class GrouponRules {
         this.expireTime = expireTime;
     }
 
-    public Boolean getDeleted() {
+    public Integer getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(Integer deleted) {
         this.deleted = deleted;
     }
 }
