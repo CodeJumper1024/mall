@@ -15,8 +15,8 @@ public class GoodsController {
 
     //分页获取商品
     @RequestMapping("list")
-    public BaseReqVo list(Integer page, Integer limit, String sort, String order){
-        BaseReqVo baseReqVo = adminGoodsService.list(page, limit, sort, order);
+    public BaseReqVo list(Integer page, Integer limit, String sort, String order, String name, Long goodsSn){
+        BaseReqVo baseReqVo = adminGoodsService.list(page, limit, sort, order, name, goodsSn);
         return baseReqVo;
     }
 }

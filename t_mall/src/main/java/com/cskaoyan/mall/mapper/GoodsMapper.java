@@ -35,8 +35,6 @@ public interface GoodsMapper {
 
     int updateByPrimaryKey(Goods record);
 
-    //获取所有商品
-    List<Goods> selectAllGoods();
-
-    int selectGoodsNum();
+    //获取商品
+    List<Goods> selectGoodsByQueryCondition(@Param("sort") String sort, @Param("order") String order, @Param("name") String name, @Param("goodsSn") Long goodsSn);
 }
