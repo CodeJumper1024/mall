@@ -21,9 +21,9 @@ public class Groupon {
 
     private String shareUrl;
 
-    private Boolean payed;
+    private Integer payed;
 
-    private Boolean deleted;
+    private Integer deleted;
 
     public Integer getId() {
         return id;
@@ -97,19 +97,19 @@ public class Groupon {
         this.shareUrl = shareUrl == null ? null : shareUrl.trim();
     }
 
-    public Boolean getPayed() {
+    public Integer getPayed() {
         return payed;
     }
 
-    public void setPayed(Boolean payed) {
+    public void setPayed(Integer payed) {
         this.payed = payed;
     }
 
-    public Boolean getDeleted() {
+    public Integer getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(Integer deleted) {
         this.deleted = deleted;
     }
 }
