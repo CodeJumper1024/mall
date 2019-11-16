@@ -22,8 +22,7 @@ public class AdminServiceImpl implements AdminService {
         PageHelper.startPage(page,limit);
         List<Admin> admins = adminMapper.selectAll();
         PageInfo<Admin> objectPageInfo = new PageInfo<>();
-
-
+        return null;
     }
 
 }

@@ -18,11 +18,11 @@ public class BrandServiceImpl implements BrandService {
     @Autowired
     BrandMapper brandMapper;
     @Override
-    public BaseReqVo list(Integer page, Integer limit, String sort, String order) {
+    public BaseReqVo list(Integer page,Integer limit, String sort, String order,Integer id,String name) {
         BaseReqVo baseReqVo=new BaseReqVo();
         //分页工具
         PageHelper.startPage(page, limit);
-        List<Brand> brandList = brandMapper.selectAllBrand();
+        List<Brand> brandList = brandMapper.selectAllBrand(id,name);
         PageInfo<Brand> brandPageInfo=new PageInfo<>(brandList);
         long total = brandPageInfo.getTotal();
         Map<String,Object> map=new HashMap<>();

@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class BrandController {
     @Autowired
     BrandService brandService;
-    //分页获取品牌制造商
+    //查询获取品牌制造商
     @RequestMapping("list")
-    public BaseReqVo list(Integer page, Integer limit, String sort, String order){
-        BaseReqVo baseReqVo = brandService.list(page, limit, sort, order);
+    public BaseReqVo list(Integer page,Integer limit, String sort, String order,Integer id,String name){
+        BaseReqVo baseReqVo = brandService.list(page, limit, sort, order,id,name);
         return baseReqVo;
     }
 }

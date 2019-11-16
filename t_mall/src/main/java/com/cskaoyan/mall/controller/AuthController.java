@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("admin/auth/")
 public class AuthController {
     @Autowired
-    AuthService adminService;
+    AuthService authService;
 
     //登录
     @RequestMapping("login")
     public BaseReqVo login(@RequestBody Admin admin){
-        BaseReqVo baseReqVo = adminService.login(admin);
+        BaseReqVo baseReqVo = authService.login(admin);
         return baseReqVo;
     }
 
