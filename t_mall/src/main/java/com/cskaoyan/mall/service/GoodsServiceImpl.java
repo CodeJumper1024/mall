@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AdminGoodsServiceImpl implements AdminGoodsService{
+public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     GoodsMapper goodsMapper;

@@ -84,7 +84,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_region
     where id = #{id,jdbcType=INTEGER}
@@ -100,9 +100,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.mall.bean.Region">
-    insert into cskaoyan_mall_region (id, pid, name, 
+    insert into cskaoyan_mall_region (id, pid, name,
       type, code)
-    values (#{id,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
       #{type,jdbcType=TINYINT}, #{code,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.cskaoyan.mall.bean.Region">
@@ -208,4 +208,10 @@
       code = #{code,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id,name,type,code from cskaoyan_mall_region where type=1
+  </select>
+  <select id="selectByPid" resultType="com.cskaoyan.mall.bean.Children">
+    select id,name,type,code from cskaoyan_mall_region where pid= #{id}
+  </select>
 </mapper>
