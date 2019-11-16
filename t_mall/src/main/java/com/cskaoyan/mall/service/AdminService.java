@@ -2,6 +2,8 @@ package com.cskaoyan.mall.service;
 
 import com.cskaoyan.mall.bean.BaseReqVo;
 
+import java.util.Map;
+
 public interface AdminService {
-    public BaseReqVo list(int page, int limit, String sort, String order);
+    public Map<String,Object> list(int page, int limit, String username, String sort, String order);
 }

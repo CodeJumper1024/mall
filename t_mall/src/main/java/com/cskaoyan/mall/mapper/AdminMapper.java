@@ -4,6 +4,7 @@ import com.cskaoyan.mall.bean.Admin;
 import com.cskaoyan.mall.bean.AdminExample;
 import com.cskaoyan.mall.bean.User;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -32,5 +33,7 @@ public interface AdminMapper {
 
     List<Admin> selectByUsernameAndPassword(@Param("admin") Admin admin);
 
-    List<Admin> selectAll();
+    List<Admin> selectByCondition(@Param("username") String username);
+
+    int selectCountId();
 }
