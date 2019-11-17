@@ -245,4 +245,14 @@
     from cskaoyan_mall_goods_attribute
     where goods_id = #{goodsId}
   </select>
+    <update id="updateByAttributeMap">
+      update cskaoyan_mall_goods_attribute
+      set goods_id = #{attribute.goodsId},
+      attribute = #{attribute.attribute},
+      value = #{attribute.value},
+      add_time = #{attribute.addTime, typeHandler=com.cskaoyan.mall.handler.String2dateStringTypeHandler},
+      update_time = #{attribute.updateTime, typeHandler=com.cskaoyan.mall.handler.String2dateStringTypeHandler},
+      deleted = #{attribute.deleted}
+      where id = #{attribute.id}
+    </update>
 </mapper>

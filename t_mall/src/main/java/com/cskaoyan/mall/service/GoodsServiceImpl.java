@@ -26,6 +26,8 @@ public class GoodsServiceImpl implements GoodsService {
     CategoryMapper categoryMapper;
     @Autowired
     BrandMapper brandMapper;
+    @Autowired
+    GoodsSpecificationMapper goodsSpecificationMapper;
 
     //分页获取商品
     @Override
@@ -55,10 +57,12 @@ public class GoodsServiceImpl implements GoodsService {
         int[] categoryIds = {goods.getCategoryId()};
         List<GoodsAttribute> attributes = goodsAttributeMapper.selectByGoodsId(id);
         List<GoodsProduct> products = goodsProductMapper.selectByGoodsId(id);
+        List<GoodsSpecification> specifications = goodsSpecificationMapper.selectByGoodsId(id);
         HashMap<String, Object> dataMap = new HashMap<>();
         dataMap.put("categoryIds", categoryIds);
         dataMap.put("goods", goods);
         dataMap.put("attributes", attributes);
+        dataMap.put("specifications", specifications);
         dataMap.put("products", products);
         baseReqVo.setData(dataMap);
         baseReqVo.setErrmsg("成功");
@@ -109,6 +113,36 @@ public class GoodsServiceImpl implements GoodsService {
         dataMap.put("brandList", brandList);
         baseReqVo.setErrno(0);
         baseReqVo.setData(dataMap);
+        baseReqVo.setErrmsg("成功");
+        return baseReqVo;
+    }
+
+    //更新商品信息
+    @Override
+    public BaseReqVo update(Map<String, Object> info) {
+        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+        if (info.get("goods") != null){
+            goodsMapper.updateByGoodsMap((Map)(info.get("goods")));
+        }
+        if ((List)(info.get("specifications")) != null){
+            List specifications = (List)(info.get("specifications"));
+            for (Object specification : specifications) {
+                goodsSpecificationMapper.updateBySpecificationMap((Map)(specification));
+            }
+        }
+        if (info.get("products") != null){
+            List products = (List)(info.get("products"));
+            for (Object product : products) {
+                 goodsProductMapper.updateByProductMap((Map)product);
+            }
+        }
+        if (info.get("attributes") != null){
+            List attributes = (List)(info.get("attributes"));
+            for (Object attribute : attributes) {
+                goodsAttributeMapper.updateByAttributeMap((Map)attribute);
+            }
+        }
+        baseReqVo.setData(0);
         baseReqVo.setErrmsg("成功");
         return baseReqVo;
     }
