@@ -8,4 +8,8 @@ public interface TopicService {
     List<Topic> queryTopics(Integer page, Integer limit, String title, String subtitle);
 
     int deleteTopic(Integer id);
+
+    int insert(Topic topic);
+
+    int updateTopic(Topic topic);
 }

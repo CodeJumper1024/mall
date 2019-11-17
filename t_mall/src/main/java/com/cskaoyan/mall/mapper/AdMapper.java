@@ -18,7 +18,7 @@ public interface AdMapper {
 
     int updateByPrimaryKey(Ad record);
 
-    List<Ad> queryAdsByContentAndName(@Param("name") String name,@Param("content") String content);
+    List<Ad> queryAdsByContentAndName(@Param("name") String name, @Param("content") String content);
 
     int delete(Integer id);
 }

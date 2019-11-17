@@ -30,5 +30,15 @@ public interface CategoryMapper {
 
     int updateByPrimaryKey(Category record);
 
+    List<Category> selectAll();
+
+    List<Category> selectByPid(@Param("id") int pid);
+
     List<Category> selectAllCat();
+
+    int insertAll(@Param("category")Category category);
+
+    int updateCategoryById(@Param("category")Category category);
+
+    int deleteById(@Param("id") Integer id);
 }
