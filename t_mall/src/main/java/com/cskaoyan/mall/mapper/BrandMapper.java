@@ -32,4 +32,8 @@ public interface BrandMapper {
     List<Brand> selectAllBrand(@Param("id") Integer id, @Param("name") String name);
 
     List<Brand> selectAllBrandNoParm();
+
+    void insertBrand(@Param("brand") Brand brand);
+
+    void updateBrandById(@Param("brand") Brand brand);
 }
