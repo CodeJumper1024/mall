@@ -28,4 +28,8 @@ public interface CategoryMapper {
     int updateByPrimaryKeySelective(Category record);
 
     int updateByPrimaryKey(Category record);
+
+    List<Category> selectAll();
+
+    List<Category> selectByPid(@Param("id") int pid);
 }

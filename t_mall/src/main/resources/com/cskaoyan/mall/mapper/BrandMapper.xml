@@ -277,14 +277,12 @@
     from cskaoyan_mall_brand
     <where>
         <if test="id != null and id != ''">
-            <bind name="id1" value="'%' + id + '%'"/>
-            id like #{id1}
+            id =#{id}
         </if>
         <if test="name != null and name != ''">
           <bind name="name1" value="'%' + name + '%'"/>
             and `name` like #{name1}
         </if>
-
     </where>
   </select>
 </mapper>

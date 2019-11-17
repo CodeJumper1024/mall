@@ -22,7 +22,8 @@ public class BrandServiceImpl implements BrandService {
         BaseReqVo baseReqVo=new BaseReqVo();
         //分页工具
         PageHelper.startPage(page, limit);
-        List<Brand> brandList = brandMapper.selectAllBrand(id,name);
+        List<Brand> brandList=null;
+        brandList = brandMapper.selectAllBrand(id,name);
         PageInfo<Brand> brandPageInfo=new PageInfo<>(brandList);
         long total = brandPageInfo.getTotal();
         Map<String,Object> map=new HashMap<>();

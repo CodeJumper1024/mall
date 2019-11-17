@@ -28,4 +28,6 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+
+    List<Order> listByExample(@Param("orderStatusArray") Integer[] orderStatusArray, @Param("userId") Integer userId, @Param("orderSn") String orderSn);
 }
