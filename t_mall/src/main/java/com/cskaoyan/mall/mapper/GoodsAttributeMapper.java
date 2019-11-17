@@ -5,6 +5,7 @@ import com.cskaoyan.mall.bean.GoodsAttributeExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GoodsAttributeMapper {
     long countByExample(GoodsAttributeExample example);
@@ -30,4 +31,6 @@ public interface GoodsAttributeMapper {
     int updateByPrimaryKey(GoodsAttribute record);
 
     List<GoodsAttribute> selectByGoodsId(@Param("goodsId") int goodsId);
+
+    void updateByAttributeMap(@Param("attribute") Map attribute);
 }

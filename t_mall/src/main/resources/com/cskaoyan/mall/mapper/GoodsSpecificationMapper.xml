@@ -87,7 +87,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_goods_specification
     where id = #{id,jdbcType=INTEGER}
@@ -103,11 +103,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.mall.bean.GoodsSpecification">
-    insert into cskaoyan_mall_goods_specification (id, goods_id, specification, 
-      value, pic_url, add_time, 
+    insert into cskaoyan_mall_goods_specification (id, goods_id, specification,
+      value, pic_url, add_time,
       update_time, deleted)
-    values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, 
-      #{value,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR},
+      #{value,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.cskaoyan.mall.bean.GoodsSpecification">
@@ -254,5 +254,21 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByGoodsId" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+      from cskaoyan_mall_goods_specification
+      where goods_id = #{goodsId}
+    </select>
+  <update id="updateBySpecificationMap">
+    update cskaoyan_mall_goods_specification
+    set goods_id = #{specification.goodsId},
+      specification = #{specification.specification},
+      value = #{specification.value},
+      pic_url = #{specification.picUrl},
+      add_time = #{specification.addTime, typeHandler=com.cskaoyan.mall.handler.String2dateStringTypeHandler},
+      update_time = #{specification.updateTime, typeHandler=com.cskaoyan.mall.handler.String2dateStringTypeHandler},
+      deleted = #{specification.false}
+    where id = #{specification.id}
   </update>
 </mapper>

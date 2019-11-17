@@ -1,10 +1,14 @@
 package com.cskaoyan.mall.controller;
 
 import com.cskaoyan.mall.bean.BaseReqVo;
+import com.cskaoyan.mall.bean.GoodsUpdateInfo;
 import com.cskaoyan.mall.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("admin/goods/")
@@ -31,6 +35,12 @@ public class GoodsController {
     @RequestMapping("catAndBrand")
     public BaseReqVo catAndBrand(){
         BaseReqVo baseReqVo = adminGoodsService.catAndBrand();
+        return baseReqVo;
+    }
+
+    @RequestMapping("update")
+    public BaseReqVo update(@RequestBody Map<String, Object> info){
+        BaseReqVo baseReqVo = adminGoodsService.update(info);
         return baseReqVo;
     }
 }

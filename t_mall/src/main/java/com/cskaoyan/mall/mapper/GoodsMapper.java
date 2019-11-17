@@ -5,6 +5,7 @@ import com.cskaoyan.mall.bean.GoodsExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GoodsMapper {
     long countByExample(GoodsExample example);
@@ -37,4 +38,6 @@ public interface GoodsMapper {
 
     //获取商品
     List<Goods> selectGoodsByQueryCondition(@Param("sort") String sort, @Param("order") String order, @Param("name") String name, @Param("goodsSn") Long goodsSn);
+
+    void updateByGoodsMap(@Param("goods") Map goods);
 }
