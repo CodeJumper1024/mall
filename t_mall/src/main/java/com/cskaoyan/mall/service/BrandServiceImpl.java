@@ -34,4 +34,43 @@ public class BrandServiceImpl implements BrandService {
         baseReqVo.setErrno(0);
         return baseReqVo;
     }
+
+    @Override
+    public BaseReqVo createBrand(Brand brand) {
+        BaseReqVo baseReqVo=new BaseReqVo();
+        brandMapper.insertBrand(brand);
+        int id=brand.getId();
+        brand = brandMapper.selectByPrimaryKey(id);
+        baseReqVo.setData(brand);
+        baseReqVo.setErrno(0);
+        baseReqVo.setErrmsg("成功");
+        return baseReqVo;
+    }
+
+    @Override
+    public BaseReqVo updateBrand(Brand brand) {
+        BaseReqVo baseReqVo=new BaseReqVo();
+        brandMapper.updateBrandById(brand);
+        int id=brand.getId();
+        brand = brandMapper.selectByPrimaryKey(id);
+        baseReqVo.setData(brand);
+        baseReqVo.setErrno(0);
+        baseReqVo.setErrmsg("成功");
+        return baseReqVo;
+    }
+
+    @Override
+    public BaseReqVo deleteBrand(Brand brand) {
+        BaseReqVo baseReqVo=new BaseReqVo();
+        int a = brandMapper.deleteByPrimaryKey(brand.getId());
+        if(a>0) {
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("成功");
+        }
+        else{
+            baseReqVo.setErrno(1000);
+            baseReqVo.setErrmsg("失败");
+        }
+        return baseReqVo;
+    }
 }

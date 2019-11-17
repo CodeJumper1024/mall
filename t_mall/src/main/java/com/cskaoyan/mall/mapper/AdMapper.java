@@ -1,6 +1,9 @@
 package com.cskaoyan.mall.mapper;
 
 import com.cskaoyan.mall.bean.Ad;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface AdMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,8 @@ public interface AdMapper {
     int updateByPrimaryKeySelective(Ad record);
 
     int updateByPrimaryKey(Ad record);
+
+    List<Ad> queryAdsByContentAndName(@Param("name") String name,@Param("content") String content);
+
+    int delete(Integer id);
 }

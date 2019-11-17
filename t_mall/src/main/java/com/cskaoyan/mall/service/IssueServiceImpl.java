@@ -39,24 +39,37 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public BaseReqVo createIssue(Issue issue) {
         BaseReqVo baseReqVo=new BaseReqVo();
-        issueMapper.insertIssue(issue);
-        int id=issue.getId();
-        issue = issueMapper.selectByPrimaryKey(id);
-        baseReqVo.setData(issue);
-        baseReqVo.setErrno(0);
-        baseReqVo.setErrmsg("成功");
+        int i=issueMapper.insertIssue(issue);
+        if(i>0) {
+            int id = issue.getId();
+            issue = issueMapper.selectByPrimaryKey(id);
+            baseReqVo.setData(issue);
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("成功");
+        }else{
+            baseReqVo.setData(issue);
+            baseReqVo.setErrno(1001);
+            baseReqVo.setErrmsg("失败");
+        }
         return baseReqVo;
     }
 
     @Override
     public BaseReqVo updateIssue(Issue issue) {
         BaseReqVo baseReqVo=new BaseReqVo();
-        issueMapper.updateIssueById(issue);
-        int id=issue.getId();
-        issue = issueMapper.selectByPrimaryKey(id);
-        baseReqVo.setData(issue);
-        baseReqVo.setErrno(0);
-        baseReqVo.setErrmsg("成功");
+        int i=issueMapper.updateIssueById(issue);
+        if(i>0) {
+            int id=issue.getId();
+            issue = issueMapper.selectByPrimaryKey(id);
+            baseReqVo.setData(issue);
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("成功");
+        }
+        else{
+            baseReqVo.setData(issue);
+            baseReqVo.setErrno(1002);
+            baseReqVo.setErrmsg("失败");
+        }
         return baseReqVo;
     }
 
@@ -69,7 +82,8 @@ public class IssueServiceImpl implements IssueService {
             baseReqVo.setErrmsg("成功");
         }
         else{
-            baseReqVo.setErrno(1000);
+            baseReqVo.setData(issue);
+            baseReqVo.setErrno(1003);
             baseReqVo.setErrmsg("失败");
         }
         return baseReqVo;

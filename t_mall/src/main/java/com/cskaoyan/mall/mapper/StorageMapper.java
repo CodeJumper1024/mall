@@ -28,4 +28,8 @@ public interface StorageMapper {
     int updateByPrimaryKeySelective(Storage record);
 
     int updateByPrimaryKey(Storage record);
+
+    int create(@Param("storage") Storage storage);
+
+    int selectLastId();
 }

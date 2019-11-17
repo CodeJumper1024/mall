@@ -24,7 +24,7 @@ public class Topic {
 
     private Date updateTime;
 
-    private Boolean deleted;
+    private Integer deleted;
 
     private String content;
 
@@ -108,11 +108,11 @@ public class Topic {
         this.updateTime = updateTime;
     }
 
-    public Boolean getDeleted() {
+    public Integer getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(Integer deleted) {
         this.deleted = deleted;
     }
 

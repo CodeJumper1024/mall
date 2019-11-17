@@ -533,7 +533,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <!--获取所有商品-->
-  <select id="selectAllGoods" resultMap="BaseResultMap">
+  <sql id="defaultsql">
     select id, goods_sn, name,
       category_id, brand_id, gallery,
       keywords, brief, is_on_sale,
@@ -541,9 +541,17 @@
       is_new, is_hot, unit, counter_price,
       retail_price, add_time, update_time,
       deleted, detail from cskaoyan_mall_goods
-  </select>
-  <!--查询商品的总数目-->
-  <select id="selectGoodsNum" resultType="integer">
-    select count(id) from cskaoyan_mall_goods
+  </sql>
+  <select id="selectGoodsByQueryCondition" resultMap="BaseResultMap">
+    <include refid="defaultsql"/>
+    <where>
+      <if test="name != '%null%'">
+        and name like #{name}
+      </if>
+      <if test="goodsSn != null">
+        and goods_sn = #{goodsSn}
+      </if>
+    </where>
+    order by #{sort} #{order}
   </select>
 </mapper>

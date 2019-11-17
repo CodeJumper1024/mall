@@ -19,6 +19,8 @@ public interface SearchHistoryMapper {
 
     List<SearchHistory> selectByExample(SearchHistoryExample example);
 
+    List<SearchHistory> querySearchHistory(@Param("userId") Integer userId, @Param("keyword") String keyword);
+
     SearchHistory selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") SearchHistory record, @Param("example") SearchHistoryExample example);

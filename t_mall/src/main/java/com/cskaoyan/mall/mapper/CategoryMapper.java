@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface CategoryMapper {
+
     long countByExample(CategoryExample example);
 
     int deleteByExample(CategoryExample example);
@@ -32,4 +33,12 @@ public interface CategoryMapper {
     List<Category> selectAll();
 
     List<Category> selectByPid(@Param("id") int pid);
+
+    List<Category> selectAllCat();
+
+    int insertAll(@Param("category")Category category);
+
+    int updateCategoryById(@Param("category")Category category);
+
+    int deleteById(@Param("id") Integer id);
 }

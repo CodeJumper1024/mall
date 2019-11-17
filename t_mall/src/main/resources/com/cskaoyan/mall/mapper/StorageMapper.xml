@@ -88,7 +88,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_storage
     where id = #{id,jdbcType=INTEGER}
@@ -104,11 +104,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.mall.bean.Storage">
-    insert into cskaoyan_mall_storage (id, key, name, 
-      type, size, url, add_time, 
+    insert into cskaoyan_mall_storage (id, key, name,
+      type, size, url, add_time,
       update_time, deleted)
-    values (#{id,jdbcType=INTEGER}, #{key,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{key,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{type,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.cskaoyan.mall.bean.Storage">
@@ -270,4 +270,22 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <insert id="create">
+    insert into cskaoyan_mall_storage (`key`,`name`,`type`,`size`,url,add_time,update_time) values
+    (
+    #{storage.key},
+    #{storage.name},
+    #{storage.type},
+    #{storage.size},
+    #{storage.url},
+    #{storage.addTime},
+    #{storage.updateTime}
+    )
+  </insert>
+
+  <select id="selectLastId" resultType="int">
+    	select LAST_INSERT_ID()
+  </select>
+
 </mapper>

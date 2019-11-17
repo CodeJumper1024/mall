@@ -19,6 +19,8 @@ public interface AddressMapper {
 
     List<Address> selectByExample(AddressExample example);
 
+    List<Address> queryAddresses(@Param("userId") Integer userId, @Param("name") String name);
+
     Address selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") Address record, @Param("example") AddressExample example);
