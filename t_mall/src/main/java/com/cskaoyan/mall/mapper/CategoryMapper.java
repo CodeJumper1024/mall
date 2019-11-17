@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface CategoryMapper {
+
     long countByExample(CategoryExample example);
 
     int deleteByExample(CategoryExample example);
@@ -28,4 +29,6 @@ public interface CategoryMapper {
     int updateByPrimaryKeySelective(Category record);
 
     int updateByPrimaryKey(Category record);
+
+    List<Category> selectAllCat();
 }

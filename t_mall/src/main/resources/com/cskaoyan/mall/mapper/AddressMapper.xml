@@ -91,6 +91,20 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="queryAddresses" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cskaoyan_mall_address
+    <where>
+      <if test="name != '%null%'">
+        name like #{name}
+      </if>
+      <if test="userId != null">
+        and user_id = #{userId}
+      </if>
+    </where>
+    order by add_time desc
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

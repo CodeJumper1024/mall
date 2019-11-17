@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, desc, pic_url, sort_order, floor_price, add_time, update_time, deleted
+    id, name, `desc`, pic_url, sort_order, floor_price, add_time, update_time, deleted
   </sql>
   <select id="selectByExample" parameterType="com.cskaoyan.mall.bean.BrandExample" resultMap="BaseResultMap">
     select
@@ -286,5 +286,9 @@
         </if>
 
     </where>
+  </select>
+  <select id="selectAllBrandNoParm" resultMap="BaseResultMap">
+    select id, name, `desc`, pic_url, sort_order, floor_price, add_time, update_time, deleted
+    from cskaoyan_mall_brand
   </select>
 </mapper>

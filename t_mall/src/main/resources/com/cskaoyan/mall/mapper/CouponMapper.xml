@@ -82,7 +82,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, desc, tag, total, discount, min, limit, type, status, goods_type, goods_value, 
+    id, `name`, `desc`, tag, total, discount, `min`, `limit`, `type`, status, goods_type, goods_value,
     code, time_type, days, start_time, end_time, add_time, update_time, deleted
   </sql>
   <select id="selectByExample" parameterType="com.cskaoyan.mall.bean.CouponExample" resultMap="BaseResultMap">
@@ -116,9 +116,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.mall.bean.Coupon">
-    insert into cskaoyan_mall_coupon (id, name, desc, 
+    insert into cskaoyan_mall_coupon (id, `name`, `desc`,
       tag, total, discount, 
-      min, limit, type, 
+      `min`, `limit`, `type`,
       status, goods_type, goods_value, 
       code, time_type, days, 
       start_time, end_time, add_time, 
@@ -134,64 +134,64 @@
   <insert id="insertSelective" parameterType="com.cskaoyan.mall.bean.Coupon">
     insert into cskaoyan_mall_coupon
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+      <if test="id != null and id != ''">
         id,
       </if>
-      <if test="name != null">
-        name,
+      <if test="name != null and name != ''">
+        `name`,
       </if>
-      <if test="desc != null">
-        desc,
+      <if test="desc != null and desc != ''">
+        `desc`,
       </if>
-      <if test="tag != null">
+      <if test="tag != null and tag != ''">
         tag,
       </if>
-      <if test="total != null">
+      <if test="total != null and total != ''">
         total,
       </if>
-      <if test="discount != null">
+      <if test="discount != null and discount !=''">
         discount,
       </if>
-      <if test="min != null">
-        min,
+      <if test="min != null and min != ''">
+        `min`,
       </if>
-      <if test="limit != null">
+      <if test="limit != null and limit != ''">
         limit,
       </if>
-      <if test="type != null">
-        type,
+      <if test="type != null and != ''">
+        `type`,
       </if>
-      <if test="status != null">
+      <if test="status != null and status != ''">
         status,
       </if>
-      <if test="goodsType != null">
+      <if test="goodsType != null goodsType != ''">
         goods_type,
       </if>
-      <if test="goodsValue != null">
+      <if test="goodsValue != null and goodsValue != ''">
         goods_value,
       </if>
-      <if test="code != null">
+      <if test="code != null and code != ''">
         code,
       </if>
-      <if test="timeType != null">
+      <if test="timeType != null and timeType !=''">
         time_type,
       </if>
-      <if test="days != null">
+      <if test="days != null and days != ''">
         days,
       </if>
-      <if test="startTime != null">
+      <if test="startTime != null and startTime != ''">
         start_time,
       </if>
-      <if test="endTime != null">
+      <if test="endTime != null and endTime != ''">
         end_time,
       </if>
-      <if test="addTime != null">
+      <if test="addTime != null and addTime != ''">
         add_time,
       </if>
-      <if test="updateTime != null">
+      <if test="updateTime != null and updateTime !=''">
         update_time,
       </if>
-      <if test="deleted != null">
+      <if test="deleted != null and delete != ''">
         deleted,
       </if>
     </trim>
@@ -443,5 +443,51 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="queryAdsByNameAndTypeAndStatus" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from cskaoyan_mall_coupon
+      <where>
+        <if test="name != null and name != ''">
+          and `name` like "%"#{name}"%"
+        </if>
+        <if test="type != null and type != ''">
+          <bind name="pattern1" value="'%' + type + '%'"/>
+          and `type` like #{pattern1}
+        </if>
+        <if test="status != null and status != ''">
+          and status like "%"#{status}"%"
+        </if>
+          `deleted` = 0
+      </where>
+      order by id desc
+    </select>
+  <update id="delete">
+    update cskaoyan_mall_coupon set `deleted` = 1 where id = #{id};
+  </update>
+  <update id="update" parameterType="com.cskaoyan.mall.bean.Coupon">
+    update cskaoyan_mall_coupon
+    set id = #{id},
+      `name` = #{name},
+      `desc` = #{desc},
+      tag = #{tag},
+      total = #{total},
+      discount = #{discount},
+      `min` = #{min},
+      `limit` = #{limit},
+      `type` = #{type},
+      status = #{status},
+      goods_type = #{goodsType},
+      goods_value = #{goodsValue},
+      code = #{code},
+      time_type = #{timeType},
+      days = #{days},
+      start_time = #{startTime},
+      end_time = #{endTime},
+      add_time = #{addTime},
+      update_time = #{updateTime},
+      deleted = #{deleted}
+      where id = #{id}
   </update>
 </mapper>

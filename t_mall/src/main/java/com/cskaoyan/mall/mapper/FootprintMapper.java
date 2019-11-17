@@ -19,6 +19,8 @@ public interface FootprintMapper {
 
     List<Footprint> selectByExample(FootprintExample example);
 
+    List<Footprint> queryFootprints(@Param("userId") Integer userId, @Param("goodsId") Integer goodsId);
+
     Footprint selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") Footprint record, @Param("example") FootprintExample example);
