@@ -374,4 +374,22 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="queryTopicsByTitleAndBySubtitle" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from cskaoyan_mall_topic
+      <where>
+        <if test="title != null and title != ''">
+          and title like "%"#{title}"%"
+        </if>
+        <if test="subtitle != null and subtitle != ''">
+          and subtitle like "%"#{subtitle}"%"
+        </if>
+          `deleted` = 0
+      </where>
+      order by id desc
+    </select>
+  <update id="delete">
+    update cskaoyan_mall_topic set `deleted` = 1 where id = #{id};
+  </update>
 </mapper>

@@ -26,7 +26,7 @@ public class Coupon {
 
     private Short goodsType;
 
-    private String goodsValue;
+    private String[] goodsValue;
 
     private String code;
 
@@ -42,7 +42,7 @@ public class Coupon {
 
     private Date updateTime;
 
-    private Boolean deleted;
+    private Integer deleted;
 
     public Integer getId() {
         return id;
@@ -132,12 +132,12 @@ public class Coupon {
         this.goodsType = goodsType;
     }
 
-    public String getGoodsValue() {
+    public String[] getGoodsValue() {
         return goodsValue;
     }
 
-    public void setGoodsValue(String goodsValue) {
-        this.goodsValue = goodsValue == null ? null : goodsValue.trim();
+    public void setGoodsValue(String[] goodsValue) {
+        this.goodsValue = goodsValue;
     }
 
     public String getCode() {
@@ -196,11 +196,11 @@ public class Coupon {
         this.updateTime = updateTime;
     }
 
-    public Boolean getDeleted() {
+    public Integer getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(Integer deleted) {
         this.deleted = deleted;
     }
 }

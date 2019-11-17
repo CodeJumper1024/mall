@@ -95,6 +95,20 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="queryUsers" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cskaoyan_mall_user
+    <where>
+      <if test="username != '%null%'">
+        username like #{username}
+      </if>
+      <if test="mobile != null">
+        and mobile = #{mobile}
+      </if>
+    </where>
+    order by add_time desc
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -233,6 +247,14 @@
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
+  </select>
+  <select id="queryUsersByAddTime" resultType="int">
+    select count(*) from cskaoyan_mall_user
+    where add_time = #{addTime}
+  </select>
+  <select id="queryLatestAddTime" resultType="date">
+    select add_time from cskaoyan_mall_user
+    order by add_time desc limit 1
   </select>
   <update id="updateByExampleSelective" parameterType="map">
     update cskaoyan_mall_user

@@ -19,6 +19,8 @@ public interface CollectMapper {
 
     List<Collect> selectByExample(CollectExample example);
 
+    List<Collect> queryCollection(@Param("userId") Integer userId, @Param("valueId") Integer valueId);
+
     Collect selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") Collect record, @Param("example") CollectExample example);

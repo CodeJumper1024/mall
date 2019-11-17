@@ -350,4 +350,11 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="queryOrderNumByAddTime" resultType="int">
+    select count(*) from cskaoyan_mall_order_goods
+    where add_time = #{addTime}
+  </select>
+  <select id="queryGoodsNumByAddTime" resultType="int">
+
+  </select>
 </mapper>
