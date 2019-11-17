@@ -8,4 +8,8 @@ public interface GrouponRulesService {
     List<GrouponRules> queryGrouponRulers(Integer page, Integer limit, Integer goodsId);
 
     int deleteGroupRules(Integer id);
+
+    int updateGrouponRules(GrouponRules grouponRules);
+
+    int insertGrouponRules(GrouponRules grouponRules);
 }

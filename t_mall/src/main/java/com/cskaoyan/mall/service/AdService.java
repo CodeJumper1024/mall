@@ -8,4 +8,8 @@ public interface AdService {
     List<Ad> queryAds(Integer page, Integer limit, String name, String content);
 
     int deleteAd(Integer id);
+
+    int insertAd(Ad ad);
+
+    int updateAd(Ad ad);
 }

@@ -461,7 +461,6 @@
         </if>
           `deleted` = 0
       </where>
-      order by id desc
     </select>
   <update id="delete">
     update cskaoyan_mall_coupon set `deleted` = 1 where id = #{id};
