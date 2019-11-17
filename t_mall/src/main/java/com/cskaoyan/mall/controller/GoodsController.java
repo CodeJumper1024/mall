@@ -19,4 +19,18 @@ public class GoodsController {
         BaseReqVo baseReqVo = adminGoodsService.list(page, limit, sort, order, name, goodsSn);
         return baseReqVo;
     }
+
+    //获取商品详情
+    @RequestMapping("detail")
+    public BaseReqVo detail(int id){
+        BaseReqVo baseReqVo = adminGoodsService.detail(id);
+        return baseReqVo;
+    }
+
+    //获取所有分类和品牌信息
+    @RequestMapping("catAndBrand")
+    public BaseReqVo catAndBrand(){
+        BaseReqVo baseReqVo = adminGoodsService.catAndBrand();
+        return baseReqVo;
+    }
 }
