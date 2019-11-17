@@ -5,6 +5,7 @@ import com.cskaoyan.mall.bean.GoodsProductExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GoodsProductMapper {
     long countByExample(GoodsProductExample example);
@@ -28,4 +29,8 @@ public interface GoodsProductMapper {
     int updateByPrimaryKeySelective(GoodsProduct record);
 
     int updateByPrimaryKey(GoodsProduct record);
+
+    List<GoodsProduct> selectByGoodsId(@Param("goodsId") int goodsId);
+
+    void updateByProductMap(@Param("product") Map product);
 }

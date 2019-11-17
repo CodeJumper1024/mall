@@ -22,7 +22,8 @@ public class BrandServiceImpl implements BrandService {
         BaseReqVo baseReqVo=new BaseReqVo();
         //分页工具
         PageHelper.startPage(page, limit);
-        List<Brand> brandList = brandMapper.selectAllBrand(id,name);
+        List<Brand> brandList=null;
+        brandList = brandMapper.selectAllBrand(id,name);
         PageInfo<Brand> brandPageInfo=new PageInfo<>(brandList);
         long total = brandPageInfo.getTotal();
         Map<String,Object> map=new HashMap<>();
@@ -31,6 +32,45 @@ public class BrandServiceImpl implements BrandService {
         baseReqVo.setData(map);
         baseReqVo.setErrmsg("成功");
         baseReqVo.setErrno(0);
+        return baseReqVo;
+    }
+
+    @Override
+    public BaseReqVo createBrand(Brand brand) {
+        BaseReqVo baseReqVo=new BaseReqVo();
+        brandMapper.insertBrand(brand);
+        int id=brand.getId();
+        brand = brandMapper.selectByPrimaryKey(id);
+        baseReqVo.setData(brand);
+        baseReqVo.setErrno(0);
+        baseReqVo.setErrmsg("成功");
+        return baseReqVo;
+    }
+
+    @Override
+    public BaseReqVo updateBrand(Brand brand) {
+        BaseReqVo baseReqVo=new BaseReqVo();
+        brandMapper.updateBrandById(brand);
+        int id=brand.getId();
+        brand = brandMapper.selectByPrimaryKey(id);
+        baseReqVo.setData(brand);
+        baseReqVo.setErrno(0);
+        baseReqVo.setErrmsg("成功");
+        return baseReqVo;
+    }
+
+    @Override
+    public BaseReqVo deleteBrand(Brand brand) {
+        BaseReqVo baseReqVo=new BaseReqVo();
+        int a = brandMapper.deleteByPrimaryKey(brand.getId());
+        if(a>0) {
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("成功");
+        }
+        else{
+            baseReqVo.setErrno(1000);
+            baseReqVo.setErrmsg("失败");
+        }
         return baseReqVo;
     }
 }

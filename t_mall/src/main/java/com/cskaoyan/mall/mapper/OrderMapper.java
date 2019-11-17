@@ -31,4 +31,7 @@ public interface OrderMapper {
     int updateByPrimaryKey(Order record);
 
     List<OrderStatInfo> queryOrderStatInfo();
+
+    List<Order> listByExample(@Param("orderStatusArray") Integer[] orderStatusArray, @Param("userId") Integer userId, @Param("orderSn") String orderSn);
 }
+

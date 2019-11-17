@@ -1,5 +1,7 @@
 package com.cskaoyan.mall.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Storage {
@@ -15,8 +17,10 @@ public class Storage {
 
     private String url;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT + 8")
     private Date addTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT + 8")
     private Date updateTime;
 
     private Boolean deleted;
@@ -34,7 +38,7 @@ public class Storage {
     }
 
     public void setKey(String key) {
-        this.key = key == null ? null : key.trim();
+        this.key = key;
     }
 
     public String getName() {
@@ -42,7 +46,7 @@ public class Storage {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getType() {
@@ -50,7 +54,7 @@ public class Storage {
     }
 
     public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+        this.type = type;
     }
 
     public Integer getSize() {
@@ -66,7 +70,7 @@ public class Storage {
     }
 
     public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
+        this.url = url;
     }
 
     public Date getAddTime() {

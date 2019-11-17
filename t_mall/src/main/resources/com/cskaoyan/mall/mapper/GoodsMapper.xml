@@ -122,7 +122,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     ,
@@ -551,7 +551,30 @@
       <if test="goodsSn != null">
         and goods_sn = #{goodsSn}
       </if>
+        and `deleted` = 0
     </where>
     order by #{sort} #{order}
   </select>
+  <update id="updateByGoodsMap" parameterType="map">
+    update cskaoyan_mall_goods
+    set goods_sn = #{goods.goodsSn},
+      name = #{goods.name},
+      category_id = #{goods.categoryId},
+      brand_id = #{goods.brandId},
+      gallery = #{goods.gallery},
+      keywords = #{goods.keywords},
+      brief = #{goods.brief},
+      is_on_sale = #{goods.isOnSale},
+      sort_order = #{goods.sortOrde},
+      pic_url = #{goods.picUrl},
+      is_new = #{goods.isNew},
+      is_hot = #{goods.true},
+      unit = #{goods.unit},
+      counter_price = #{goods.100},
+      retail_price = #{goods.200},
+      add_time = #{goods.addTime, typeHandler=com.cskaoyan.mall.handler.String2dateStringTypeHandler},
+      update_time = #{goods.updateTime, typeHandler=com.cskaoyan.mall.handler.String2dateStringTypeHandler},
+      deleted = #{goods.deleted}
+    where id = #{goods.id}
+  </update>
 </mapper>

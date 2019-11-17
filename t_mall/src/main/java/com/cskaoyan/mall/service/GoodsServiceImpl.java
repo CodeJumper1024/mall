@@ -1,22 +1,33 @@
 package com.cskaoyan.mall.service;
 
-import com.cskaoyan.mall.bean.BaseReqVo;
-import com.cskaoyan.mall.bean.Goods;
-import com.cskaoyan.mall.mapper.GoodsMapper;
+import com.cskaoyan.mall.bean.*;
+import com.cskaoyan.mall.mapper.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 @Service
 public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     GoodsMapper goodsMapper;
+    @Autowired
+    GoodsAttributeMapper goodsAttributeMapper;
+    @Autowired
+    GoodsProductMapper goodsProductMapper;
+    @Autowired
+    CategoryMapper categoryMapper;
+    @Autowired
+    BrandMapper brandMapper;
+    @Autowired
+    GoodsSpecificationMapper goodsSpecificationMapper;
 
     //分页获取商品
     @Override
@@ -35,6 +46,104 @@ public class GoodsServiceImpl implements GoodsService {
         baseReqVo.setData(dataMap);
         baseReqVo.setErrmsg("成功");
         baseReqVo.setErrno(0);
+        return baseReqVo;
+    }
+
+    //显示商品详情
+    @Override
+    public BaseReqVo detail(int id) {
+        BaseReqVo<Map> baseReqVo = new BaseReqVo<>();
+        Goods goods = goodsMapper.selectByPrimaryKey(id);
+        int[] categoryIds = {goods.getCategoryId()};
+        List<GoodsAttribute> attributes = goodsAttributeMapper.selectByGoodsId(id);
+        List<GoodsProduct> products = goodsProductMapper.selectByGoodsId(id);
+        List<GoodsSpecification> specifications = goodsSpecificationMapper.selectByGoodsId(id);
+        HashMap<String, Object> dataMap = new HashMap<>();
+        dataMap.put("categoryIds", categoryIds);
+        dataMap.put("goods", goods);
+        dataMap.put("attributes", attributes);
+        dataMap.put("specifications", specifications);
+        dataMap.put("products", products);
+        baseReqVo.setData(dataMap);
+        baseReqVo.setErrmsg("成功");
+        baseReqVo.setErrno(0);
+        return baseReqVo;
+    }
+
+    //获取所有分类和品牌信息
+    @Override
+    public BaseReqVo catAndBrand() {
+        BaseReqVo<Map> baseReqVo = new BaseReqVo<>();
+
+        List<Category> categories = categoryMapper.selectAllCat();
+        ArrayList<Category> listL1 = new ArrayList<>();
+        for (Category category : categories) {
+            if (category.getLevel().equals("L1")){
+                listL1.add(category);
+            }
+        }
+        ArrayList<Map> categoryList = new ArrayList<>();
+        for (Category category : listL1) {
+            HashMap<String, Object> categoryListMap = new HashMap<>();
+            categoryListMap.put("value", category.getId());
+            categoryListMap.put("label", category.getName());
+            ArrayList<Map> children = new ArrayList<>();
+            HashMap<String, Object> childrenMap = null;
+            for (Category category1 : categories) {
+                if ((category1.getSortOrder() == category.getSortOrder()) && (category1.getId() != category.getId())){
+                    childrenMap = new HashMap<>();
+                    childrenMap.put("value", category1.getId());
+                    childrenMap.put("label", category1.getName());
+                    children.add(childrenMap);
+                }
+            }
+            categoryListMap.put("children", children);
+            categoryList.add(categoryListMap);
+        }
+        List<Brand> brands = brandMapper.selectAllBrandNoParm();
+        ArrayList<Map> brandList = new ArrayList<>();
+        for (Brand brand : brands) {
+            HashMap<String, Object> brandMap = new HashMap<>();
+            brandMap.put("value", brand.getId());
+            brandMap.put("label", brand.getName());
+            brandList.add(brandMap);
+        }
+        HashMap<String, Object> dataMap = new HashMap<>();
+        dataMap.put("categoryList", categoryList);
+        dataMap.put("brandList", brandList);
+        baseReqVo.setErrno(0);
+        baseReqVo.setData(dataMap);
+        baseReqVo.setErrmsg("成功");
+        return baseReqVo;
+    }
+
+    //更新商品信息
+    @Override
+    public BaseReqVo update(Map<String, Object> info) {
+        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+        if (info.get("goods") != null){
+            goodsMapper.updateByGoodsMap((Map)(info.get("goods")));
+        }
+        if ((List)(info.get("specifications")) != null){
+            List specifications = (List)(info.get("specifications"));
+            for (Object specification : specifications) {
+                goodsSpecificationMapper.updateBySpecificationMap((Map)(specification));
+            }
+        }
+        if (info.get("products") != null){
+            List products = (List)(info.get("products"));
+            for (Object product : products) {
+                 goodsProductMapper.updateByProductMap((Map)product);
+            }
+        }
+        if (info.get("attributes") != null){
+            List attributes = (List)(info.get("attributes"));
+            for (Object attribute : attributes) {
+                goodsAttributeMapper.updateByAttributeMap((Map)attribute);
+            }
+        }
+        baseReqVo.setData(0);
+        baseReqVo.setErrmsg("成功");
         return baseReqVo;
     }
 }

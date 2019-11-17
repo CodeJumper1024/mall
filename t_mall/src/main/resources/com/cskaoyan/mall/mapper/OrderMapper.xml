@@ -88,9 +88,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, order_sn, order_status, consignee, mobile, address, message, goods_price, 
-    freight_price, coupon_price, integral_price, groupon_price, order_price, actual_price, 
-    pay_id, pay_time, ship_sn, ship_channel, ship_time, confirm_time, comments, end_time, 
+    id, user_id, order_sn, order_status, consignee, mobile, address, message, goods_price,
+    freight_price, coupon_price, integral_price, groupon_price, order_price, actual_price,
+    pay_id, pay_time, ship_sn, ship_channel, ship_time, confirm_time, comments, end_time,
     add_time, update_time, deleted
   </sql>
   <select id="selectByExample" parameterType="com.cskaoyan.mall.bean.OrderExample" resultMap="BaseResultMap">
@@ -108,7 +108,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_order
     where id = #{id,jdbcType=INTEGER}
@@ -124,23 +124,23 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.mall.bean.Order">
-    insert into cskaoyan_mall_order (id, user_id, order_sn, 
-      order_status, consignee, mobile, 
-      address, message, goods_price, 
-      freight_price, coupon_price, integral_price, 
-      groupon_price, order_price, actual_price, 
-      pay_id, pay_time, ship_sn, 
-      ship_channel, ship_time, confirm_time, 
-      comments, end_time, add_time, 
+    insert into cskaoyan_mall_order (id, user_id, order_sn,
+      order_status, consignee, mobile,
+      address, message, goods_price,
+      freight_price, coupon_price, integral_price,
+      groupon_price, order_price, actual_price,
+      pay_id, pay_time, ship_sn,
+      ship_channel, ship_time, confirm_time,
+      comments, end_time, add_time,
       update_time, deleted)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{orderSn,jdbcType=VARCHAR}, 
-      #{orderStatus,jdbcType=SMALLINT}, #{consignee,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DECIMAL}, 
-      #{freightPrice,jdbcType=DECIMAL}, #{couponPrice,jdbcType=DECIMAL}, #{integralPrice,jdbcType=DECIMAL}, 
-      #{grouponPrice,jdbcType=DECIMAL}, #{orderPrice,jdbcType=DECIMAL}, #{actualPrice,jdbcType=DECIMAL}, 
-      #{payId,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}, #{shipSn,jdbcType=VARCHAR}, 
-      #{shipChannel,jdbcType=VARCHAR}, #{shipTime,jdbcType=TIMESTAMP}, #{confirmTime,jdbcType=TIMESTAMP}, 
-      #{comments,jdbcType=SMALLINT}, #{endTime,jdbcType=TIMESTAMP}, #{addTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{orderSn,jdbcType=VARCHAR},
+      #{orderStatus,jdbcType=SMALLINT}, #{consignee,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
+      #{address,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DECIMAL},
+      #{freightPrice,jdbcType=DECIMAL}, #{couponPrice,jdbcType=DECIMAL}, #{integralPrice,jdbcType=DECIMAL},
+      #{grouponPrice,jdbcType=DECIMAL}, #{orderPrice,jdbcType=DECIMAL}, #{actualPrice,jdbcType=DECIMAL},
+      #{payId,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}, #{shipSn,jdbcType=VARCHAR},
+      #{shipChannel,jdbcType=VARCHAR}, #{shipTime,jdbcType=TIMESTAMP}, #{confirmTime,jdbcType=TIMESTAMP},
+      #{comments,jdbcType=SMALLINT}, #{endTime,jdbcType=TIMESTAMP}, #{addTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.cskaoyan.mall.bean.Order">
@@ -540,6 +540,34 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="listByExample" resultMap="BaseResultMap">
+    select id,user_id,order_sn,order_status,consignee,mobile,address,
+    message,goods_price,freight_price,coupon_price,integral_price,groupon_price,
+    order_price,actual_price,comments,end_time,add_time,update_time,deleted
+    from cskaoyan_mall_order
+    <where>
+      <if test="userId != null and userId != ''">
+      user_id = #{userId}
+    </if>
+      <if test="orderSn != null and orderSn != ''">
+        and order_sn = #{orderSn}
+      </if>
+      <if test="orderStatusArray!=null and orderStatusArray != ''">
+        and
+        <foreach collection="orderStatusArray" item="order_status" index="index" separator="or">
+          <if test="order_status==101">  order_status=101</if>
+          <if test="order_status==102">  order_status=102</if>
+          <if test="order_status==103">  order_status=103</if>
+          <if test="order_status==201">  order_status=201</if>
+          <if test="order_status==202">  order_status=202</if>
+          <if test="order_status==203">  order_status=203</if>
+          <if test="order_status==301">  order_status=301</if>
+          <if test="order_status==401">  order_status=401</if>
+          <if test="order_status==402">  order_status=402</if>
+        </foreach>
+      </if>
+    </where>
+  </select>
   <select id="queryOrderStatInfo" resultType="com.cskaoyan.mall.bean.OrderStatInfo">
     select goods_price as amount, count(id) as orders, count(user_id) as customers,
     date_format(pay_time, '%Y-%m-%d') as day, goods_price / count(user_id) as pcr

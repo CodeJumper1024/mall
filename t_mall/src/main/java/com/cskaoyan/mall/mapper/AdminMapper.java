@@ -4,7 +4,9 @@ import com.cskaoyan.mall.bean.Admin;
 import com.cskaoyan.mall.bean.AdminExample;
 import com.cskaoyan.mall.bean.User;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 public interface AdminMapper {
@@ -33,4 +35,24 @@ public interface AdminMapper {
     List<Admin> selectByUsernameAndPassword(@Param("admin") Admin admin);
 
     List<Admin> selectAll();
+
+    List<Admin> selectByNameLike(@PathParam("username") String username);
+
+    int selectCountId();
+
+    int selectCountIdByNameLike(@Param("username") String username);
+
+    int queryAdminByName(@Param("username") String username);
+
+    int insertAdmin(@Param("admin") Admin admin);
+
+    int selectLastId();
+
+    Admin selectById(@Param("id") int id);
+
+    int deleteAdminById(@Param("id") Integer id);
+
+    int updateAdminById(@Param("admin") Admin admin);
+
+    Admin selectById(Integer id);
 }

@@ -37,7 +37,6 @@
       </choose>
       and `deleted` = 0
     </where>
-    order by id desc
     <!--where `name` like '%'#{name,jdbcType=VARCHAR}'%' and content like'%' #{content,jdbcType=VARCHAR}'%'-->
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -51,12 +50,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.mall.bean.Ad">
-    insert into cskaoyan_mall_ad (id, name, link, 
-      url, position, content, 
+    insert into cskaoyan_mall_ad ( `name`, link,
+      url, `position`, content,
       start_time, end_time, enabled, 
       add_time, update_time, deleted
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{link,jdbcType=VARCHAR}, 
+    values ( #{name,jdbcType=VARCHAR}, #{link,jdbcType=VARCHAR},
       #{url,jdbcType=VARCHAR}, #{position,jdbcType=TINYINT}, #{content,jdbcType=VARCHAR}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{enabled,jdbcType=BIT}, 
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
@@ -182,10 +181,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cskaoyan.mall.bean.Ad">
     update cskaoyan_mall_ad
-    set name = #{name,jdbcType=VARCHAR},
+    set `name` = #{name,jdbcType=VARCHAR},
       link = #{link,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
-      position = #{position,jdbcType=TINYINT},
+      `position` = #{position,jdbcType=TINYINT},
       content = #{content,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},

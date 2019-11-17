@@ -1,9 +1,6 @@
 package com.cskaoyan.mall.controller;
 
-import com.cskaoyan.mall.bean.BaseReqVo;
-import com.cskaoyan.mall.bean.Coupon;
-import com.cskaoyan.mall.bean.GrouponRules;
-import com.cskaoyan.mall.bean.Topic;
+import com.cskaoyan.mall.bean.*;
 import com.cskaoyan.mall.service.TopicService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +34,27 @@ public class TopicController {
     @PostMapping(value = "delete")
     public BaseReqVo delete(@RequestBody Topic topic){
         int result = topicService.deleteTopic(topic.getId());
+        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+        if(result == 1){
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("成功");
+        }
+        return baseReqVo;
+    }
+    @PostMapping(value = "create")
+    public BaseReqVo create(@RequestBody Topic topic){
+        int result = topicService.insert(topic);
+        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+        if(result == 1){
+            baseReqVo.setData(topic);
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("成功");
+        }
+        return baseReqVo;
+    }
+    @PostMapping(value = "update")
+    public BaseReqVo update(@RequestBody Topic topic){
+        int result = topicService.updateTopic(topic);
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
         if(result == 1){
             baseReqVo.setErrno(0);

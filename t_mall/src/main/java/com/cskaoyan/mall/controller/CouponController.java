@@ -3,6 +3,7 @@ package com.cskaoyan.mall.controller;
 import com.cskaoyan.mall.bean.Ad;
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.bean.Coupon;
+import com.cskaoyan.mall.bean.CouponUser;
 import com.cskaoyan.mall.service.CouponService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
@@ -63,5 +64,28 @@ public class CouponController {
             baseReqVo.setErrmsg("成功");
         }
         return baseReqVo;
+    }
+    @RequestMapping("read")
+    public BaseReqVo read(Integer id){
+        Coupon coupon = couponService.selectCouponsById(id);
+        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+        baseReqVo.setData(coupon);
+        baseReqVo.setErrmsg("成功");
+        baseReqVo.setErrno(0);
+        return baseReqVo;
+    }
+    @RequestMapping("listuser")
+    public BaseReqVo listuser(Integer page, Integer limit,Integer couponId,Integer userId,Integer status){
+        List<CouponUser> couponUsers = couponService.queryCouponsUser(page, limit,couponId,userId,status);
+        PageInfo<CouponUser> adsPageInfo = new PageInfo<>(couponUsers);
+        long total = adsPageInfo.getTotal();
+        BaseReqVo<HashMap<String,Object>> mapBaseReqVo = new BaseReqVo<>();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("items",couponUsers);
+        map.put("total",total);
+        mapBaseReqVo.setData(map);
+        mapBaseReqVo.setErrmsg("成功");
+        mapBaseReqVo.setErrno(0);
+        return mapBaseReqVo;
     }
 }

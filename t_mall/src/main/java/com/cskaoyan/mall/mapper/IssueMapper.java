@@ -28,4 +28,10 @@ public interface IssueMapper {
     int updateByPrimaryKeySelective(Issue record);
 
     int updateByPrimaryKey(Issue record);
+
+    List<Issue> selectByQuestion(@Param("question") String question);
+
+    Integer insertIssue(@Param("issue") Issue issue);
+
+    int updateIssueById(@Param("issue")Issue issue);
 }

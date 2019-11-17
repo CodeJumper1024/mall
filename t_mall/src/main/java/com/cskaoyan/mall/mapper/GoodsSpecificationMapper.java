@@ -5,6 +5,7 @@ import com.cskaoyan.mall.bean.GoodsSpecificationExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GoodsSpecificationMapper {
     long countByExample(GoodsSpecificationExample example);
@@ -28,4 +29,8 @@ public interface GoodsSpecificationMapper {
     int updateByPrimaryKeySelective(GoodsSpecification record);
 
     int updateByPrimaryKey(GoodsSpecification record);
+
+    List<GoodsSpecification> selectByGoodsId(@Param("goodsId") int goodsId);
+
+    void updateBySpecificationMap(@Param("specification") Map specification);
 }
