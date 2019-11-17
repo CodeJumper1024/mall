@@ -20,11 +20,4 @@ logging:
         mall:
           mapper: debug
 mybatis:
-<<<<<<< HEAD
   type-handlers-package: com.cskaoyan.mall.handler
-
-
-
-=======
-  type-handlers-package: com.cskaoyan.mall.handler
->>>>>>> f1ddb115bee9c58349e44ab0b66e9278d63014cf
