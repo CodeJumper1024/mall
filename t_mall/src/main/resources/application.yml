@@ -16,3 +16,6 @@ logging:
           mapper: debug
 mybatis:
   type-handlers-package: com.cskaoyan.mall.handler
+
+
+
