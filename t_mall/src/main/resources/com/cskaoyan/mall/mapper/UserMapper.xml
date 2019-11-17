@@ -248,14 +248,6 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select id="queryUsersByAddTime" resultType="int">
-    select count(*) from cskaoyan_mall_user
-    where add_time = #{addTime}
-  </select>
-  <select id="queryLatestAddTime" resultType="date">
-    select add_time from cskaoyan_mall_user
-    order by add_time desc limit 1
-  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update cskaoyan_mall_user
     <set>
@@ -404,4 +396,8 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="queryUserStatInfo" resultType="com.cskaoyan.mall.bean.UserStatInfo">
+    select count(id) as users, date_format(add_time, '%Y-%m-%d') as day from cskaoyan_mall_user
+    GROUP BY date_format(add_time, '%Y-%m-%d')
+  </select>
 </mapper>
