@@ -1,10 +1,9 @@
 package com.cskaoyan.mall.mapper;
 
+import com.cskaoyan.mall.bean.GoodsStatInfo;
 import com.cskaoyan.mall.bean.OrderGoods;
 import com.cskaoyan.mall.bean.OrderGoodsExample;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.Date;
 import java.util.List;
 
 public interface OrderGoodsMapper {
@@ -30,7 +29,5 @@ public interface OrderGoodsMapper {
 
     int updateByPrimaryKey(OrderGoods record);
 
-    int queryOrderNumByAddTime(@Param("addTime") Date addTime);
-
-    int queryGoodsNumByAddTime(@Param("addTime") Date addTime);
+    List<GoodsStatInfo> queryGoodsStatInfo();
 }

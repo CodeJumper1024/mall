@@ -21,8 +21,8 @@ public class ConfigServiceImpl implements ConfigService{
     public int updateMall(Mall mall) {
         Date date = new Date();
         system.setUpdateTime(date);
-        if(mall.getLitemall_mall_address()!=null && mall.getLitemall_mall_name()!=null &&
-                mall.getLitemall_mall_phone()!=null && mall.getLitemall_mall_qq()!=null){
+        if(mall.getLitemall_mall_address().length()!= 0&& mall.getLitemall_mall_name().length()!= 0 &&
+                mall.getLitemall_mall_phone().length()!= 0&& mall.getLitemall_mall_qq().length()!= 0){
             SystemExample addressExample = new SystemExample();
             addressExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_mall_address");
             system.setKeyValue(mall.getLitemall_mall_address());
@@ -73,7 +73,7 @@ public class ConfigServiceImpl implements ConfigService{
     public int updateExpress(Express express) {
         Date date = new Date();
         system.setUpdateTime(date);
-        if(express.getLitemall_express_freight_min() != null &&express.getLitemall_express_freight_value() !=null){
+        if(express.getLitemall_express_freight_min().length()!= 0 &&express.getLitemall_express_freight_value().length()!= 0){
             SystemExample minExample = new SystemExample();
             minExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_express_freight_min");
             system.setKeyValue(express.getLitemall_express_freight_min());
@@ -111,8 +111,8 @@ public class ConfigServiceImpl implements ConfigService{
     public int updateOrderz(Orderz orderz) {
         Date date = new Date();
         system.setUpdateTime(date);
-        if(orderz.getLitemall_order_comment() != null &&orderz.getLitemall_order_unconfirm() !=null
-                && orderz.getLitemall_order_unpaid()!=null){
+        if(orderz.getLitemall_order_comment().length()!= 0 &&orderz.getLitemall_order_unconfirm().length()!= 0
+                && orderz.getLitemall_order_unpaid().length()!= 0){
             SystemExample commentExample = new SystemExample();
             commentExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_order_comment");
             system.setKeyValue(orderz.getLitemall_order_comment());
@@ -156,10 +156,10 @@ public class ConfigServiceImpl implements ConfigService{
     public int updateWx(Wx wx) {
         Date date = new Date();
         system.setUpdateTime(date);
-        if(wx.getLitemall_wx_catlog_goods()!= null &&wx.getLitemall_wx_catlog_list() !=null
-                && wx.getLitemall_wx_index_brand()!=null && wx.getLitemall_wx_index_hot()!=null
-                && wx.getLitemall_wx_index_new()!=null && wx.getLitemall_wx_index_topic()!=null
-                && wx.getLitemall_wx_share()!=null){
+        if(wx.getLitemall_wx_catlog_goods().length()!= 0 &&wx.getLitemall_wx_catlog_list().length()!= 0
+                && wx.getLitemall_wx_index_brand().length()!= 0 && wx.getLitemall_wx_index_hot().length()!= 0
+                && wx.getLitemall_wx_index_new().length()!= 0&& wx.getLitemall_wx_index_topic().length()!= 0
+                && wx.getLitemall_wx_share().length()!= 0){
 
             SystemExample goodsExample = new SystemExample();
             goodsExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_wx_catlog_goods");

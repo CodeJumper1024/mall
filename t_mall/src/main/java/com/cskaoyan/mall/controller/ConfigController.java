@@ -18,10 +18,11 @@ public class ConfigController {
         int num = configService.updateMall(mall);
         if(num == 1){
             baseReqVo.setErrmsg("成功");
+            baseReqVo.setErrno(0);
         }else{
-            baseReqVo.setErrmsg("更新信息不全，更新失败");
+            baseReqVo.setErrmsg("信息不全，更新失败");
+            baseReqVo.setErrno(1);
         }
-        baseReqVo.setErrno(0);
         return baseReqVo;
     }
 
