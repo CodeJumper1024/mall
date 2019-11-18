@@ -33,4 +33,6 @@ public interface OrderGoodsMapper {
     int queryOrderNumByAddTime(@Param("addTime") Date addTime);
 
     int queryGoodsNumByAddTime(@Param("addTime") Date addTime);
+
+    List<OrderGoods> selectByOrderId(@Param("orderId")Integer orderId);
 }
