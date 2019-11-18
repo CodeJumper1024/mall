@@ -100,10 +100,10 @@
     <include refid="Base_Column_List" />
     from cskaoyan_mall_user
     <where>
-      <if test="username != '%null%'">
+      <if test="username != '%null%' and username != ''">
         username like #{username}
       </if>
-      <if test="mobile != null">
+      <if test="mobile != null and mobile != ''">
         and mobile = #{mobile}
       </if>
     </where>
