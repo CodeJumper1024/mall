@@ -4,6 +4,8 @@ import com.cskaoyan.mall.bean.GoodsStatInfo;
 import com.cskaoyan.mall.bean.OrderGoods;
 import com.cskaoyan.mall.bean.OrderGoodsExample;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
 import java.util.List;
 
 public interface OrderGoodsMapper {
@@ -28,15 +30,10 @@ public interface OrderGoodsMapper {
     int updateByPrimaryKeySelective(OrderGoods record);
 
     int updateByPrimaryKey(OrderGoods record);
-
-<<<<<<< HEAD
     int queryOrderNumByAddTime(@Param("addTime") Date addTime);
 
     int queryGoodsNumByAddTime(@Param("addTime") Date addTime);
 
     List<OrderGoods> selectByOrderId(@Param("orderId")Integer orderId);
-}
-=======
     List<GoodsStatInfo> queryGoodsStatInfo();
 }
->>>>>>> 67414d9ef85f2392070b11cf34e2c218440ea498
