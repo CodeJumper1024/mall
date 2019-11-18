@@ -2,6 +2,7 @@ package com.cskaoyan.mall.mapper;
 
 import com.cskaoyan.mall.bean.User;
 import com.cskaoyan.mall.bean.UserExample;
+import com.cskaoyan.mall.bean.UserStatInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -22,10 +23,6 @@ public interface UserMapper {
 
     List<User> queryUsers(@Param("username") String username, @Param("mobile") String mobile);
 
-    int queryUsersByAddTime(@Param("addTime") Date addTime);
-
-    Date queryLatestAddTime();
-
     User selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
@@ -35,4 +32,6 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    List<UserStatInfo> queryUserStatInfo();
 }

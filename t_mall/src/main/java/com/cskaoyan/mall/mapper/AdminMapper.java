@@ -40,7 +40,9 @@ public interface AdminMapper {
 
     int selectCountId();
 
-    int queryAdminByName(@Param("username") String name);
+    int selectCountIdByNameLike(@Param("username") String username);
+
+    int queryAdminByName(@Param("username") String username);
 
     int insertAdmin(@Param("admin") Admin admin);
 
@@ -48,4 +50,9 @@ public interface AdminMapper {
 
     Admin selectById(@Param("id") int id);
 
+    int deleteAdminById(@Param("id") Integer id);
+
+    int updateAdminById(@Param("admin") Admin admin);
+
+    Admin selectById(Integer id);
 }

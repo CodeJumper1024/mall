@@ -1,10 +1,12 @@
 package com.cskaoyan.mall.service;
 
-import java.util.Date;
+import com.cskaoyan.mall.bean.BaseReqVo;
 
 public interface StatService {
 
-    int queryUsersByAddTime();
+    BaseReqVo goodsStat();
 
-    Date queryLatestAddTime();
+    BaseReqVo userStat();
+
+    BaseReqVo orderStat();
 }

@@ -43,8 +43,18 @@ public class AdController {
         return baseReqVo;
     }
     @PostMapping(value = "create")
-    public BaseReqVo create(Ad ad){
-        int result = adService.deleteAd(ad.getId());
+    public BaseReqVo create(@RequestBody Ad ad){
+        int result = adService.insertAd(ad);
+        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+        if(result == 1){
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("成功");
+        }
+        return baseReqVo;
+    }
+    @PostMapping(value = "update")
+    public BaseReqVo update(@RequestBody Ad ad){
+        int result = adService.updateAd(ad);
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
         if(result == 1){
             baseReqVo.setErrno(0);

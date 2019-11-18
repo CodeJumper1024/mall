@@ -3,6 +3,7 @@ package com.cskaoyan.mall.bean;
 import java.util.Date;
 
 public class CouponUser {
+
     private Integer id;
 
     private Integer userId;
@@ -11,17 +12,17 @@ public class CouponUser {
 
     private Short status;
 
-    private Date usedTime;
+    private String usedTime;
 
-    private Date startTime;
+    private String startTime;
 
-    private Date endTime;
+    private String endTime;
 
     private Integer orderId;
 
-    private Date addTime;
+    private String addTime;
 
-    private Date updateTime;
+    private String updateTime;
 
     private Boolean deleted;
 
@@ -57,27 +58,27 @@ public class CouponUser {
         this.status = status;
     }
 
-    public Date getUsedTime() {
+    public String getUsedTime() {
         return usedTime;
     }
 
-    public void setUsedTime(Date usedTime) {
+    public void setUsedTime(String usedTime) {
         this.usedTime = usedTime;
     }
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
@@ -89,19 +90,19 @@ public class CouponUser {
         this.orderId = orderId;
     }
 
-    public Date getAddTime() {
+    public String getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Date addTime) {
+    public void setAddTime(String addTime) {
         this.addTime = addTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 

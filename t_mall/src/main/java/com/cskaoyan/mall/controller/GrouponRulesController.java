@@ -1,8 +1,6 @@
 package com.cskaoyan.mall.controller;
 
-import com.cskaoyan.mall.bean.BaseReqVo;
-import com.cskaoyan.mall.bean.Coupon;
-import com.cskaoyan.mall.bean.GrouponRules;
+import com.cskaoyan.mall.bean.*;
 import com.cskaoyan.mall.service.GrouponRulesService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,4 +41,41 @@ public class GrouponRulesController {
         }
         return baseReqVo;
     }
+    @PostMapping(value = "update")
+    public BaseReqVo update(@RequestBody GrouponRules grouponRules){
+        int result = grouponRulesService.updateGrouponRules(grouponRules);
+        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+        if(result == 1){
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("成功");
+        }
+        return baseReqVo;
+    }
+    @PostMapping(value = "create")
+    public BaseReqVo create(@RequestBody GrouponRules grouponRules){
+        int result = grouponRulesService.insertGrouponRules(grouponRules);
+        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+        if(result == 1){
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("成功");
+        }else if(result == 2){
+            baseReqVo.setErrno(1004);
+            baseReqVo.setErrmsg("商品ID错误");
+        }
+        return baseReqVo;
+    }
+//    @RequestMapping("listRecord")
+//    public BaseReqVo listRecord(Integer page, Integer limit){
+//        List<Groupon> groupon = grouponRulesService.queryGroupon(page, limit);
+//        PageInfo<GrouponRules> adsPageInfo = new PageInfo<>(groupon);
+//        long total = adsPageInfo.getTotal();
+//        BaseReqVo<HashMap<String,Object>> mapBaseReqVo = new BaseReqVo<>();
+//        HashMap<String, Object> map = new HashMap<>();
+//        map.put("items",groupon);
+//        map.put("total",total);
+//        mapBaseReqVo.setData(map);
+//        mapBaseReqVo.setErrmsg("成功");
+//        mapBaseReqVo.setErrno(0);
+//        return mapBaseReqVo;
+//    }
 }

@@ -28,14 +28,21 @@ public class AdminServiceImpl implements AdminService {
             //传入的参数username!=null 要进行模糊查询
             admins = adminMapper.selectByNameLike("%" + username +"%");
         } else{
-            //username为null 不用进行模糊查询
+            //username为null 不用进行模糊查询 显示所有管理员
             admins = adminMapper.selectAll();
         }
         PageInfo<Admin> objectPageInfo = new PageInfo<>(admins);
 
         HashMap<String, Object> dataMap = new HashMap<>();
-        //查询管理员总数
-        int total = adminMapper.selectCountId();
+        //查询管理员数目
+        int total = 0;
+        if(username == null){
+            //显示所有管理员
+            total = adminMapper.selectCountId();
+        }else{
+            //username !=null 模糊查询
+            total = adminMapper.selectCountIdByNameLike("%" + username +"%");
+        }
         dataMap.put("total",total);
         dataMap.put("items",admins);
 
@@ -64,6 +71,25 @@ public class AdminServiceImpl implements AdminService {
         }
         //向数据库写入管理员信息失败
         return null;
+    }
+
+    @Override
+    public int deleteAdminById(Integer id) {
+        return adminMapper.deleteAdminById(id);
+    }
+
+    @Override
+    public Admin updateAdmin(Admin admin) {
+        //更新管理员信息,修改更新时间 updateTime
+        Date date = new Date();
+        admin.setUpdateTime(date);
+        int update = adminMapper.updateAdminById(admin);
+        //通过id获得管理员信息
+        Admin resultAdmin = null;
+        if(update ==1){
+            resultAdmin = adminMapper.selectById(admin.getId());
+        }
+        return resultAdmin;
     }
 
 }

@@ -122,7 +122,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     ,
@@ -551,7 +551,60 @@
       <if test="goodsSn != null">
         and goods_sn = #{goodsSn}
       </if>
+        and `deleted` = 0
     </where>
     order by #{sort} #{order}
   </select>
+  <update id="updateByGoodsMap" parameterType="map">
+    update cskaoyan_mall_goods
+    set goods_sn = #{goods.goodsSn},
+      name = #{goods.name},
+      category_id = #{goods.categoryId},
+      brand_id = #{goods.brandId},
+      gallery = #{goods.gallery},
+      keywords = #{goods.keywords},
+      brief = #{goods.brief},
+      is_on_sale = #{goods.isOnSale},
+      sort_order = #{goods.sortOrder},
+      pic_url = #{goods.picUrl},
+      is_new = #{goods.isNew},
+      is_hot = #{goods.true},
+      unit = #{goods.unit},
+      counter_price = #{goods.counterPrice},
+      retail_price = #{goods.retailPrice},
+      update_time = #{updateTime},
+      deleted = #{goods.deleted}
+    where id = #{goods.id}
+  </update>
+    <update id="deleteByGoodsId">
+      update cskaoyan_mall_goods set deleted = 1 where id = #{goodsId}
+    </update>
+  <insert id="insertByGoodsMap">
+    <selectKey resultType="integer" keyProperty="goods.id" keyColumn="idz" order="AFTER">
+      select LAST_INSERT_ID() as idz
+    </selectKey>
+    insert into cskaoyan_mall_goods (name,
+      category_id, brand_id, <!--gallery,-->
+      keywords, brief, is_on_sale,
+      pic_url,
+      is_new, is_hot, unit, counter_price,
+      retail_price, add_time,
+      deleted, detail)
+    values (#{goods.name},
+      #{goods.categoryId},
+      #{goods.brandId},
+      <!--#{goods.gallery, typeHandler=com.cskaoyan.mall.handler.String2StringArrayTypeHandler1},-->
+      #{goods.keywords},
+      #{goods.brief},
+      #{goods.isOnSale},
+      #{goods.picUrl},
+      #{goods.isNew},
+      #{goods.isHot},
+      #{goods.unit},
+      #{goods.counterPrice},
+      #{goods.retailPrice},
+      #{addTime},
+      0,
+      #{goods.detail})
+  </insert>
 </mapper>

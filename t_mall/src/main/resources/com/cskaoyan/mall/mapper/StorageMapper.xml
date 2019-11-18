@@ -70,9 +70,6 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List">
-    id, key, name, type, size, url, add_time, update_time, deleted
-  </sql>
   <select id="selectByExample" parameterType="com.cskaoyan.mall.bean.StorageExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -286,6 +283,79 @@
 
   <select id="selectLastId" resultType="int">
     	select LAST_INSERT_ID()
+  </select>
+
+  <sql id="Base_Column_List">
+    id, `key`, `name`, `type`, `size`, url, add_time, update_time, deleted
+  </sql>
+
+  <resultMap id="selectMap" type="com.cskaoyan.mall.bean.Storage">
+    <result property="id" column="id"/>
+    <result property="key" column="key"/>
+    <result property="name" column="name"/>
+    <result property="type" column="type"/>
+    <result property="size" column="size"/>
+    <result property="url" column="url"/>
+    <result property="addTime" column="add_time"/>
+    <result property="updateTime" column="update_time"/>
+    <result property="deleted" column="deleted"/>
+  </resultMap>
+
+  <!--下面8个接口是一组多条件的模糊查询-->
+
+  <select id="selectAll" resultMap="selectMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_storage
+  </select>
+
+  <select id="selectCountId" resultType="int">
+    select count(id) from cskaoyan_mall_storage
+  </select>
+
+  <select id="selectByKey" resultMap="selectMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_storage where `key` like #{key} order by id desc
+  </select>
+
+  <select id="selectCountIdByKeyLike" resultType="int">
+    select count(id) from cskaoyan_mall_storage where `key` like #{key}
+  </select>
+
+  <select id="selectByName" resultMap="selectMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_storage where `name` like #{name} order by id desc
+  </select>
+
+  <select id="selectCountIdByNameLike" resultType="int">
+    select count(id) from cskaoyan_mall_storage where `name` like #{name}
+  </select>
+
+  <select id="selectByKeyAndName" resultMap="selectMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_storage where `key` like #{key} and `name` like #{name} order by id desc
+  </select>
+
+  <select id="selectCountIdByKeyAndNameLike" resultType="int">
+    select count(id) from cskaoyan_mall_storage where `key` like #{key} and `name` like #{name}
+  </select>
+
+<!--上面8个接口是一组多条件的模糊查询-->
+
+  <delete id="deleteStorageById">
+    delete from cskaoyan_mall_storage where id = #{id}
+  </delete>
+
+  <update id="update" >
+    update cskaoyan_mall_storage
+    <trim prefix="set" suffixOverrides=",">
+      <if test="storage.name != null">
+        name = #{storage.name},
+      </if>
+      <if test="storage.updateTime != null">
+        update_time = #{storage.updateTime}
+      </if>
+    </trim>
+    where id = #{storage.id}
+  </update>
+
+  <select id="selectStorageById" resultMap="selectMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_storage where id = #{id}
   </select>
 
 </mapper>

@@ -15,15 +15,15 @@ public class Groupon {
 
     private Integer creatorUserId;
 
-    private Date addTime;
+    private String addTime;
 
-    private Date updateTime;
+    private String updateTime;
 
     private String shareUrl;
 
-    private Integer payed;
+    private Boolean payed;
 
-    private Integer deleted;
+    private Boolean deleted;
 
     public Integer getId() {
         return id;
@@ -73,19 +73,19 @@ public class Groupon {
         this.creatorUserId = creatorUserId;
     }
 
-    public Date getAddTime() {
+    public String getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Date addTime) {
+    public void setAddTime(String addTime) {
         this.addTime = addTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -97,19 +97,19 @@ public class Groupon {
         this.shareUrl = shareUrl == null ? null : shareUrl.trim();
     }
 
-    public Integer getPayed() {
+    public Boolean getPayed() {
         return payed;
     }
 
-    public void setPayed(Integer payed) {
+    public void setPayed(Boolean payed) {
         this.payed = payed;
     }
 
-    public Integer getDeleted() {
+    public Boolean getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(Integer deleted) {
+    public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }
 }

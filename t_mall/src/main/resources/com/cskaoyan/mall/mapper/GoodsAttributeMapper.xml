@@ -245,4 +245,28 @@
     from cskaoyan_mall_goods_attribute
     where goods_id = #{goodsId}
   </select>
+    <update id="updateByAttributeMap">
+      update cskaoyan_mall_goods_attribute
+      set goods_id = #{attribute.goodsId},
+      attribute = #{attribute.attribute},
+      value = #{attribute.value},
+      update_time = #{updateTime},
+      deleted = #{attribute.deleted}
+      where id = #{attribute.id}
+    </update>
+  <update id="deleteByGoodsId">
+    update cskaoyan_mall_goods_attribute
+    set deleted = 1
+    where goods_id = #{goodsId}
+  </update>
+    <insert id="insertByAttributeMap">
+      insert into cskaoyan_mall_goods_attribute (goods_id, attribute,
+      value, add_time,
+      deleted)
+      values (#{goodsId},
+      #{attribute.attribute},
+      #{attribute.value},
+      #{addTime},
+      0)
+    </insert>
 </mapper>

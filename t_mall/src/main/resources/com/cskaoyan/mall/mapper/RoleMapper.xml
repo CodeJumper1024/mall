@@ -68,9 +68,6 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List">
-    id, name, desc, enabled, add_time, update_time, deleted
-  </sql>
   <select id="selectByExample" parameterType="com.cskaoyan.mall.bean.RoleExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -244,6 +241,53 @@
   <select id="allRole" resultType="com.cskaoyan.mall.bean.Role">
       select id, `name` from cskaoyan_mall_role
   </select>
+
+  <sql id="Base_Column_List">
+    id, `name`, `desc`, enabled, add_time, update_time, deleted
+  </sql>
+
+  <resultMap id="selectMap" type="com.cskaoyan.mall.bean.Role">
+    <result property="id" column="id" />
+    <result property="name" column="name" />
+    <result property="desc" column="desc" />
+    <result property="enabled" column="enabled" />
+    <result property="addTime" column="add_time" />
+    <result property="updateTime" column="update_time" />
+    <result property="deleted" column="deleted" />
+  </resultMap>
+
+  <select id="selectAll" resultMap="selectMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_role
+  </select>
+
+  <select id="selectCountId" resultType="int">
+    select count(id) from cskaoyan_mall_role
+  </select>
+
+  <select id="selectByNameLike" resultMap="selectMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_role where `name` like #{name}
+  </select>
+
+  <select id="selectCountIdByNameLike" resultType="int">
+    select count(id) from cskaoyan_mall_role where `name` like #{name}
+  </select>
+
+  <update id="update" >
+    update cskaoyan_mall_role
+    <trim prefix="set" suffixOverrides=",">
+      <if test="role.name != null">
+        `name` = #{role.name},
+      </if>
+      <if test="role.desc != null">
+        `desc` = #{role.desc},
+      </if>
+      <if test="role.updateTime != null">
+        update_time = #{role.updateTime}
+      </if>
+    </trim>
+    where id = #{role.id}
+  </update>
+
 
 </mapper>
 

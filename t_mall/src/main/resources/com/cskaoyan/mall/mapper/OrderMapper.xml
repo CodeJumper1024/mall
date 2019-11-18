@@ -568,4 +568,9 @@
       </if>
     </where>
   </select>
+  <select id="queryOrderStatInfo" resultType="com.cskaoyan.mall.bean.OrderStatInfo">
+    select goods_price as amount, count(id) as orders, count(user_id) as customers,
+    date_format(pay_time, '%Y-%m-%d') as day, goods_price / count(user_id) as pcr
+    from cskaoyan_mall_order group by DATE_FORMAT(pay_time,'%Y-%m-%d')
+  </select>
 </mapper>

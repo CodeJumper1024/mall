@@ -46,4 +46,28 @@ public class AdminController {
         return baseReqVo;
     }
 
+    @RequestMapping("delete")
+    public BaseReqVo delete(@RequestBody Admin admin){
+        BaseReqVo baseReqVo = new BaseReqVo();
+        Integer id = admin.getId();
+        int delete = adminService.deleteAdminById(id);
+        if(delete == 1){
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("成功");
+        }
+        return baseReqVo;
+    }
+
+    @RequestMapping("update")
+    public BaseReqVo update(@RequestBody Admin admin){
+        BaseReqVo baseReqVo = new BaseReqVo();
+        Admin resultAdmin = adminService.updateAdmin(admin);
+        if(resultAdmin != null){
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("成功");
+            baseReqVo.setData(resultAdmin);
+        }
+        return baseReqVo;
+    }
+
 }
