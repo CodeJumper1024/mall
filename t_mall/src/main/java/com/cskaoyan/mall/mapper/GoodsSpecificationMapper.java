@@ -32,5 +32,9 @@ public interface GoodsSpecificationMapper {
 
     List<GoodsSpecification> selectByGoodsId(@Param("goodsId") int goodsId);
 
-    void updateBySpecificationMap(@Param("specification") Map specification);
+    void updateBySpecificationMap(@Param("specification") Map specification, @Param("updateTime") String updateTime);
+
+    void deleteByGoodsId(@Param("goodsId") int goodsId);
+
+    void insertBySpecificationMap(@Param("specification") Map specification, @Param("addTime") String addTime,@Param("goodsId") int goodsId);
 }

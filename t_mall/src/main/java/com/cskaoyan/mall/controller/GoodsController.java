@@ -43,4 +43,16 @@ public class GoodsController {
         BaseReqVo baseReqVo = adminGoodsService.update(info);
         return baseReqVo;
     }
+
+    @RequestMapping("delete")
+    public BaseReqVo delete(@RequestBody Map<String, Object> info){
+        BaseReqVo baseReqVo = adminGoodsService.delete(info);
+        return baseReqVo;
+    }
+
+    @RequestMapping("create")
+    public BaseReqVo create(@RequestBody Map<String, Object> info){
+        BaseReqVo baseReqVo = adminGoodsService.create(info);
+        return baseReqVo;
+    }
 }

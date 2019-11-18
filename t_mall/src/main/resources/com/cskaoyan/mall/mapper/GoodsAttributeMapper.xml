@@ -250,9 +250,23 @@
       set goods_id = #{attribute.goodsId},
       attribute = #{attribute.attribute},
       value = #{attribute.value},
-      add_time = #{attribute.addTime, typeHandler=com.cskaoyan.mall.handler.String2dateStringTypeHandler},
-      update_time = #{attribute.updateTime, typeHandler=com.cskaoyan.mall.handler.String2dateStringTypeHandler},
+      update_time = #{updateTime},
       deleted = #{attribute.deleted}
       where id = #{attribute.id}
     </update>
+  <update id="deleteByGoodsId">
+    update cskaoyan_mall_goods_attribute
+    set deleted = 1
+    where goods_id = #{goodsId}
+  </update>
+    <insert id="insertByAttributeMap">
+      insert into cskaoyan_mall_goods_attribute (goods_id, attribute,
+      value, add_time,
+      deleted)
+      values (#{goodsId},
+      #{attribute.attribute},
+      #{attribute.value},
+      #{addTime},
+      0)
+    </insert>
 </mapper>

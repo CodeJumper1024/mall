@@ -12,4 +12,8 @@ public interface GoodsService {
     BaseReqVo catAndBrand();
 
     BaseReqVo update(Map<String, Object> info);
+
+    BaseReqVo delete(Map<String, Object> info);
+
+    BaseReqVo create(Map<String, Object> info);
 }
