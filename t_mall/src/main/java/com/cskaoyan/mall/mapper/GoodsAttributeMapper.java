@@ -32,5 +32,9 @@ public interface GoodsAttributeMapper {
 
     List<GoodsAttribute> selectByGoodsId(@Param("goodsId") int goodsId);
 
-    void updateByAttributeMap(@Param("attribute") Map attribute);
+    void updateByAttributeMap(@Param("attribute") Map attribute, @Param("updateTime") String updateTime);
+
+    void deleteByGoodsId(@Param("goodsId") int goodsId);
+
+    void insertByAttributeMap(@Param("attribute") Map attribute,@Param("addTime") String addTime,@Param("goodsId") int goodsId);
 }

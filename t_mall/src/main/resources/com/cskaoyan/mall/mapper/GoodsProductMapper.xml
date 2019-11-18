@@ -283,9 +283,21 @@
       price = #{product.price},
       number = #{product.number},
       url = #{product.url},
-      add_time = #{product.addTime, typeHandler=com.cskaoyan.mall.handler.String2dateStringTypeHandler},
-      update_time = #{product.updateTime, typeHandler=com.cskaoyan.mall.handler.String2dateStringTypeHandler},
+      update_time = #{updateTime},
       deleted = #{product.deleted}
       where id = #{product.id}
     </update>
+    <insert id="insertByProductMap">
+      insert into cskaoyan_mall_goods_product (goods_id, <!--specifications,-->
+      price, number, url,
+      add_time,deleted
+      )
+    values (#{goodsId},
+      <!--#{product.specifications},-->
+      #{product.price},
+      #{product.number},
+      #{product.url},
+      #{addTime},
+      0)
+    </insert>
 </mapper>
