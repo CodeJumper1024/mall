@@ -51,4 +51,9 @@ public interface CategoryMapper {
     Category queryParentCategory(@Param("pid") Integer pid);
 
     int queryPidById(@Param("id") Integer id);
+
+    List<Category> queryCategoryByLv1Id(Integer id);
+
+    Category queryCategoryById(Integer id);
+
 }

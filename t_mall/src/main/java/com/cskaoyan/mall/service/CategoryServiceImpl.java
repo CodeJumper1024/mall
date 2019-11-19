@@ -135,4 +135,19 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return baseReqVo;
     }
+
+    @Override
+    public List<Category> queryCategoryByLv1() {
+         return categoryMapper.selectAllLeve1();
+    }
+
+    @Override
+    public List<Category> queryCategoryByLv1Id(Integer id) {
+        return categoryMapper.queryCategoryByLv1Id(id);
+    }
+
+    @Override
+    public Category queryCategoryById(Integer id) {
+        return categoryMapper.queryCategoryById(id);
+    }
 }

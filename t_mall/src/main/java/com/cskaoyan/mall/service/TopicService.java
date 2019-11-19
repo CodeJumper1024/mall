@@ -12,4 +12,10 @@ public interface TopicService {
     int insert(Topic topic);
 
     int updateTopic(Topic topic);
+
+    List<Topic> queryWxTopics(Integer page, Integer limit);
+
+    Topic queryTopicById(Integer id);
+
+    List<Topic> queryTopicByRelatedId();
 }
