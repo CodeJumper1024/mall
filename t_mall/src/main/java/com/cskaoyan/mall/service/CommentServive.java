@@ -8,4 +8,6 @@ public interface CommentServive {
     List<Comment> queryComments(Integer page, Integer limit, String sort, String order, Integer userId, Integer valueId);
 
     void deleteComment(Integer id);
+
+    List<Comment> queryCommentsByValueIdAndByType(Integer valueId, Integer type);
 }

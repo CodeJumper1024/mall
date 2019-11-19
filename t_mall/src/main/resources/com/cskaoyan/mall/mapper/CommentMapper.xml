@@ -321,4 +321,18 @@
   <update id="deleteComment">
     update cskaoyan_mall_comment set deleted = 1 where id = #{id}
   </update>
+    <select id="queryCommentsByValueIdAndByType" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from cskaoyan_mall_comment
+      <where>
+        <if test="type != null">
+          `type` = #{type}
+        </if>
+        <if test="valueId != null">
+          and value_id = #{valueId}
+        </if>
+        and deleted = 0
+      </where>
+    </select>
 </mapper>
