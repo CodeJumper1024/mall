@@ -303,4 +303,9 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select id,`name`,`desc`,pic_url,sort_order,floor_price from cskaoyan_mall_brand
   </select>
+    <select id="queryBrandByGoodsId" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+      from cskaoyan_mall_brand
+      where id = #{goodsId}
+    </select>
 </mapper>

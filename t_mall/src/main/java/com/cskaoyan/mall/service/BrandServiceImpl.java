@@ -103,7 +103,6 @@ public class BrandServiceImpl implements BrandService {
         baseReqVo.setData(brandMap);
         baseReqVo.setErrmsg("成功");
         baseReqVo.setErrno(0);
-
         return baseReqVo;
     }
 }

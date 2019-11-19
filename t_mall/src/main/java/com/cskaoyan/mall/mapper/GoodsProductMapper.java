@@ -30,6 +30,8 @@ public interface GoodsProductMapper {
 
     int updateByPrimaryKey(GoodsProduct record);
 
+    List<GoodsProduct> selectByGoodsId(@Param("goodsId") Integer id);
+
     List<GoodsProduct> selectByGoodsId(@Param("goodsId") int goodsId);
 
     void updateByProductMap(@Param("product") Map product, @Param("updateTime") String updateTime);

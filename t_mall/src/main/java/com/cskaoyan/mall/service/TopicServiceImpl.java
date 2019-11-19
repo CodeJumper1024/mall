@@ -3,7 +3,6 @@ package com.cskaoyan.mall.service;
 import com.cskaoyan.mall.bean.Topic;
 import com.cskaoyan.mall.mapper.TopicMapper;
 import com.github.pagehelper.PageHelper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +40,23 @@ public class TopicServiceImpl implements TopicService {
         String format = simpleDateFormat.format(new Date());
         topic.setUpdateTime(format);
         return topicMapper.updateByPrimaryKey(topic);
+    }
+
+    @Override
+    public List<Topic> queryWxTopics(Integer page, Integer limit) {
+        //完成分页的查询
+        PageHelper.startPage(page,limit);
+        return topicMapper.queryTopicsByPageAndLimit();
+    }
+
+    @Override
+    public Topic queryTopicById(Integer id) {
+        return topicMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<Topic> queryTopicByRelatedId() {
+        PageHelper.startPage(1,5);
+        return topicMapper.queryTopicsByRelatedId();
     }
 }

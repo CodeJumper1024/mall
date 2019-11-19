@@ -607,6 +607,10 @@
       0,
       #{goods.detail})
   </insert>
+  <select id="queryGoodsInfoByGoodsId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_goods where id = #{goodsId}
+  </select>
   <select id="selectNewGoods" resultMap="BaseResultMap">
     <include refid="defaultsql"/>
     where is_new = 1
@@ -619,5 +623,12 @@
     select <include refid="Base_Column_List"/>
     from cskaoyan_mall_goods
     where category_id = #{catagoryId}
+  </select>
+  <select id="queryRelatedGoods" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_goods order by rand() limit 6
+  </select>
+  <select id="queryGoodsNum" resultType="int">
+    select count(id) from cskaoyan_mall_goods
   </select>
 </mapper>

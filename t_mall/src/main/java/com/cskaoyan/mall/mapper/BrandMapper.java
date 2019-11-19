@@ -38,4 +38,6 @@ public interface BrandMapper {
     void updateBrandById(@Param("brand") Brand brand);
 
     List<Brand> selectAll();
+    
+    Brand queryBrandByGoodsId(@Param("goodsId") Integer id);
 }

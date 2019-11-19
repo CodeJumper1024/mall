@@ -30,4 +30,10 @@ public interface AddressMapper {
     int updateByPrimaryKeySelective(Address record);
 
     int updateByPrimaryKey(Address record);
+
+    String queryProvinceByPid(@Param("provinceId") Integer provinceId);
+
+    String queryCityByCid(@Param("cityId") Integer cityId);
+
+    String queryAreaByAid(@Param("areaId") Integer areaId);
 }

@@ -14,6 +14,19 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
   </resultMap>
+  <resultMap id="BaseResultMap1" type="com.cskaoyan.mall.bean.Comment">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="value_id" jdbcType="INTEGER" property="valueId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="has_picture" jdbcType="BIT" property="hasPicture" />
+    <result column="pic_urls" jdbcType="VARCHAR" property="picList" />
+    <result column="star" jdbcType="SMALLINT" property="star" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -321,4 +334,12 @@
   <update id="deleteComment">
     update cskaoyan_mall_comment set deleted = 1 where id = #{id}
   </update>
+  <select id="queryCommentsByValueId" resultMap="BaseResultMap1">
+      select c.add_time, c.pic_urls, c.id, c.content, u.nickname, u.avatar
+      from cskaoyan_mall_comment c left join cskaoyan_mall_user u
+      on c.user_id = u.id where c.value_id = #{goodsId}
+  </select>
+  <select id="queryCommentCountByValueId" resultType="int">
+    select count(id) from cskaoyan_mall_comment where value_id = #{goodsId}
+  </select>
 </mapper>

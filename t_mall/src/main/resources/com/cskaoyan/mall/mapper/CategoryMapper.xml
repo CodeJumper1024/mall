@@ -357,6 +357,20 @@
     from cskaoyan_mall_category
     where level = 'L1'
   </select>
+  <select id="queryCurrentCategory" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_category where id = #{id}
+  </select>
+  <select id="queryBrotherCategory" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_category where pid = #{pid}
+  </select>
+  <select id="queryParentCategory" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_category where id = #{pid}
+  </select>
+  <select id="queryPidById" resultType="int">
+    select pid from cskaoyan_mall_category where id = #{id}
   <select id="queryCategoryByLv1Id" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from cskaoyan_mall_category

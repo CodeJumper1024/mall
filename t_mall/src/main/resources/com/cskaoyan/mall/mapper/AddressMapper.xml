@@ -91,20 +91,6 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="queryAddresses" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from cskaoyan_mall_address
-    <where>
-      <if test="name != '%null%' and name != ''">
-        name like #{name}
-      </if>
-      <if test="userId != null and userId != ''">
-        and user_id = #{userId}
-      </if>
-    </where>
-    order by add_time desc
-  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -334,4 +320,30 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="queryAddresses" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cskaoyan_mall_address
+    <where>
+      <if test="name != '%null%' and name != ''">
+        name like #{name}
+      </if>
+      <if test="userId != null and userId != ''">
+        and user_id = #{userId}
+      </if>
+    </where>
+    order by add_time desc
+  </select>
+  <select id="queryProvinceByPid" resultType="java.lang.String">
+    select r.name as province from cskaoyan_mall_region r left join cskaoyan_mall_address a
+    on a.province_id = r.id where r.id = #{provinceId}
+  </select>
+  <select id="queryCityByCid" resultType="java.lang.String">
+    select r.name as city from cskaoyan_mall_region r left join cskaoyan_mall_address a
+    on a.city_id = r.id where r.id = #{cityId}
+  </select>
+  <select id="queryAreaByAid" resultType="java.lang.String">
+    select r.name as area from cskaoyan_mall_region r left join cskaoyan_mall_address a
+    on a.area_id = r.id where r.id = #{areaId}
+  </select>
 </mapper>
