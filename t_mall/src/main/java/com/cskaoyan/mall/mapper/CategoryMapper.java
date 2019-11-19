@@ -41,4 +41,6 @@ public interface CategoryMapper {
     int updateCategoryById(@Param("category")Category category);
 
     int deleteById(@Param("id") Integer id);
+
+    List<Category> selectAllLeve1();
 }

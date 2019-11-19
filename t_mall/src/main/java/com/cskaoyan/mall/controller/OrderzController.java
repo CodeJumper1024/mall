@@ -23,7 +23,7 @@ public class OrderzController {
             baseReqVo.setErrmsg("成功");
             baseReqVo.setErrno(0);
         }else{
-            baseReqVo.setErrmsg("信息不全，更新失败");
+            baseReqVo.setErrmsg("输入非法,请输入大于0的正整数");
             baseReqVo.setErrno(1);
         }
         return baseReqVo;

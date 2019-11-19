@@ -607,4 +607,17 @@
       0,
       #{goods.detail})
   </insert>
+  <select id="selectNewGoods" resultMap="BaseResultMap">
+    <include refid="defaultsql"/>
+    where is_new = 1
+  </select>
+  <select id="selectHotGoods" resultMap="BaseResultMap">
+    <include refid="defaultsql"/>
+    where is_hot = 1
+  </select>
+  <select id="selectByCategoryId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_goods
+    where category_id = #{catagoryId}
+  </select>
 </mapper>

@@ -32,4 +32,8 @@ public interface GrouponRulesMapper {
     List<GrouponRules> queryGrouponRulersByGoodsId(@Param("goodsId") Integer goodsId);
 
     int delete(Integer id);
+
+    List<GrouponRules> selectAllRule();
+
+    int selectDiscountById(Integer id);
 }
