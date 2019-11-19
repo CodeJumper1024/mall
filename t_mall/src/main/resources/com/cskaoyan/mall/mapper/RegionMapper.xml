@@ -214,4 +214,7 @@
   <select id="selectByPid" resultType="com.cskaoyan.mall.bean.Children">
     select id,name,type,code from cskaoyan_mall_region where pid= #{id}
   </select>
+  <select id="selectByPid1" resultMap="BaseResultMap">
+    select id,pid,name,type,code from cskaoyan_mall_region where pid= #{pid}
+  </select>
 </mapper>

@@ -73,4 +73,37 @@ public class BrandServiceImpl implements BrandService {
         }
         return baseReqVo;
     }
+
+    @Override
+    public BaseReqVo listWxBrand(Integer page, Integer size) {
+        BaseReqVo baseReqVo=new BaseReqVo();
+        //分页工具
+        PageHelper.startPage(page,size);
+        List<Brand> brandList=null;
+        brandList = brandMapper.selectAll();
+        PageInfo<Brand> brandPageInfo=new PageInfo<>(brandList);
+        long total = brandPageInfo.getTotal();
+        long totalPages=total/size;
+        Map<String,Object> map=new HashMap<>();
+        map.put("totalPages",totalPages);
+        map.put("brandList",brandList);
+        baseReqVo.setData(map);
+        baseReqVo.setErrmsg("成功");
+        baseReqVo.setErrno(0);
+        return baseReqVo;
+    }
+
+    @Override
+    public BaseReqVo detailWxBrand(Integer id) {
+        BaseReqVo baseReqVo=new BaseReqVo();
+        Brand brand = new Brand();
+        brand=brandMapper.selectByPrimaryKey(id);
+        Map<String,Object> brandMap=new HashMap<>();
+        brandMap.put("brand",brand);
+        baseReqVo.setData(brandMap);
+        baseReqVo.setErrmsg("成功");
+        baseReqVo.setErrno(0);
+
+        return baseReqVo;
+    }
 }
