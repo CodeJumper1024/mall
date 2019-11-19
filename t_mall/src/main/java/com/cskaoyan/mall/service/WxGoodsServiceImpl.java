@@ -2,6 +2,7 @@ package com.cskaoyan.mall.service;
 
 import com.cskaoyan.mall.bean.*;
 import com.cskaoyan.mall.mapper.*;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -119,5 +120,24 @@ public class WxGoodsServiceImpl implements WxGoodsService {
         int pid = categoryMapper.queryPidById(id);
         Category parentCategory = categoryMapper.queryParentCategory(pid);
         return parentCategory;
+    }
+
+    @Override
+    public List<Goods> queryGoodsByCategoryId(Integer categoryId, Integer page, Integer size) {
+        PageHelper.startPage(page, size);
+        List<Goods> goodsList = goodsMapper.queryGoodsByCategoryId(categoryId);
+        return goodsList;
+    }
+
+    @Override
+    public int queryGoodsNumByCategoryId(Integer categoryId) {
+        int count = goodsMapper.queryGoodsNumByCategoryId(categoryId);
+        return count;
+    }
+
+    @Override
+    public List<Category> queryL2Categories() {
+        List<Category> l2Categories = categoryMapper.queryL2Categories();
+        return l2Categories;
     }
 }
