@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("admin/config")
-public class ConfigController {
+public class MallController {
     @Autowired
     ConfigService configService;
 
@@ -16,12 +16,19 @@ public class ConfigController {
     public BaseReqVo updateMall(@RequestBody Mall mall){
         BaseReqVo baseReqVo = new BaseReqVo();
         int num = configService.updateMall(mall);
-        if(num == 1){
+        if(num == 0){
             baseReqVo.setErrmsg("成功");
-        }else{
-            baseReqVo.setErrmsg("更新信息不全，更新失败");
+            baseReqVo.setErrno(0);
+        }else if(num == 1){
+            baseReqVo.setErrmsg("信息不全，更新失败");
+            baseReqVo.setErrno(1);
+        }else if(num == 2){
+            baseReqVo.setErrmsg("电话号码格式有误，请重新输入");
+            baseReqVo.setErrno(1);
+        }else if(num == 3){
+            baseReqVo.setErrmsg("qq号格式有误，请重新输入");
+            baseReqVo.setErrno(1);
         }
-        baseReqVo.setErrno(0);
         return baseReqVo;
     }
 

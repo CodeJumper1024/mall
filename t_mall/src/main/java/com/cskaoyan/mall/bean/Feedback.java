@@ -99,7 +99,7 @@ public class Feedback {
     }
 
     public void setPicUrls(String picUrls) {
-        this.picUrls = picUrls == null ? null : picUrls.trim();
+        this.picUrls = picUrls;
     }
 
     public Date getAddTime() {

@@ -1,5 +1,7 @@
 package com.cskaoyan.mall.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Comment {
@@ -19,6 +21,7 @@ public class Comment {
 
     private Short star;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm-ss")
     private Date addTime;
 
     private Date updateTime;

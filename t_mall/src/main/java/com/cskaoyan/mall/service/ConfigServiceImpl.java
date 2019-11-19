@@ -14,38 +14,48 @@ import java.util.List;
 public class ConfigServiceImpl implements ConfigService{
     @Autowired
     SystemMapper systemMapper;
-
     System system = new System();
+    String regex1 = "^[1][34578][0-9]{9}$";
+    String regex2 = "[1-9]\\d{4,11}";
+    String regex3 = "^\\+?[1-9]\\d*$";
 
     @Override
     public int updateMall(Mall mall) {
         Date date = new Date();
-        system.setUpdateTime(date);
-        if(mall.getLitemall_mall_address()!=null && mall.getLitemall_mall_name()!=null &&
-                mall.getLitemall_mall_phone()!=null && mall.getLitemall_mall_qq()!=null){
-            SystemExample addressExample = new SystemExample();
-            addressExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_mall_address");
-            system.setKeyValue(mall.getLitemall_mall_address());
-            systemMapper.updateByExampleSelective(system,addressExample);
-
-            SystemExample nameExample = new SystemExample();
-            nameExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_mall_name");
-            system.setKeyValue(mall.getLitemall_mall_name());
-            systemMapper.updateByExampleSelective(system,nameExample);
-
-            SystemExample phoneExample = new SystemExample();
-            phoneExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_mall_phone");
-            system.setKeyValue(mall.getLitemall_mall_phone());
-            systemMapper.updateByExampleSelective(system,phoneExample);
-
-            SystemExample qqExample = new SystemExample();
-            qqExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_mall_qq");
-            system.setKeyValue(mall.getLitemall_mall_qq());
-            systemMapper.updateByExampleSelective(system,qqExample);
+        String phone = mall.getLitemall_mall_phone();
+        String qq = mall.getLitemall_mall_qq();
+        String address = mall.getLitemall_mall_address();
+        String name =mall.getLitemall_mall_address();
+        if(address.length()==0 || name.length()==0 ||phone.length()==0 ||qq.length()==0){
             return 1;
-        }else{
-            return 0;
+        }else if(!phone.matches(regex1)) {
+            return 2;
+        }else if(!qq.matches(regex2)){
+            return 3;
         }
+
+        system.setUpdateTime(date);
+        SystemExample addressExample = new SystemExample();
+        addressExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_mall_address");
+        system.setKeyValue(address);
+        systemMapper.updateByExampleSelective(system,addressExample);
+
+        SystemExample nameExample = new SystemExample();
+        nameExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_mall_name");
+        system.setKeyValue(name);
+        systemMapper.updateByExampleSelective(system,nameExample);
+
+        SystemExample phoneExample = new SystemExample();
+        phoneExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_mall_phone");
+        system.setKeyValue(phone);
+        systemMapper.updateByExampleSelective(system,phoneExample);
+
+        SystemExample qqExample = new SystemExample();
+        qqExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_mall_qq");
+        system.setKeyValue(qq);
+        systemMapper.updateByExampleSelective(system,qqExample);
+
+        return  0 ;
     }
 
     @Override
@@ -72,22 +82,23 @@ public class ConfigServiceImpl implements ConfigService{
     @Override
     public int updateExpress(Express express) {
         Date date = new Date();
-        system.setUpdateTime(date);
-        if(express.getLitemall_express_freight_min() != null &&express.getLitemall_express_freight_value() !=null){
-            SystemExample minExample = new SystemExample();
-            minExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_express_freight_min");
-            system.setKeyValue(express.getLitemall_express_freight_min());
-            systemMapper.updateByExampleSelective(system,minExample);
-
-            SystemExample valueExample = new SystemExample();
-            valueExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_express_freight_value");
-            system.setKeyValue(express.getLitemall_express_freight_value());
-            systemMapper.updateByExampleSelective(system,valueExample);
-
-            return 1;
-        }else {
+        String min = express.getLitemall_express_freight_min();
+        String value = express.getLitemall_express_freight_value();
+        if(!min.matches(regex3) ||!value.matches(regex3)){
             return 0;
         }
+
+        system.setUpdateTime(date);
+        SystemExample minExample = new SystemExample();
+        minExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_express_freight_min");
+        system.setKeyValue(min);
+        systemMapper.updateByExampleSelective(system,minExample);
+
+        SystemExample valueExample = new SystemExample();
+        valueExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_express_freight_value");
+        system.setKeyValue(value);
+        systemMapper.updateByExampleSelective(system,valueExample);
+        return 1;
     }
 
     @Override
@@ -110,27 +121,29 @@ public class ConfigServiceImpl implements ConfigService{
     @Override
     public int updateOrderz(Orderz orderz) {
         Date date = new Date();
-        system.setUpdateTime(date);
-        if(orderz.getLitemall_order_comment() != null &&orderz.getLitemall_order_unconfirm() !=null
-                && orderz.getLitemall_order_unpaid()!=null){
-            SystemExample commentExample = new SystemExample();
-            commentExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_order_comment");
-            system.setKeyValue(orderz.getLitemall_order_comment());
-            systemMapper.updateByExampleSelective(system,commentExample);
+        String comment = orderz.getLitemall_order_comment();
+        String unconfirm = orderz.getLitemall_order_unconfirm();
+        String unpaid = orderz.getLitemall_order_unpaid();
 
-            SystemExample unconfirmExample = new SystemExample();
-            unconfirmExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_order_unconfirm");
-            system.setKeyValue(orderz.getLitemall_order_unconfirm());
-            systemMapper.updateByExampleSelective(system,unconfirmExample);
-
-            SystemExample unpaidExample = new SystemExample();
-            unpaidExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_order_unpaid");
-            system.setKeyValue(orderz.getLitemall_order_unpaid());
-            systemMapper.updateByExampleSelective(system,unpaidExample);
-            return 1;
-        }else {
+        if(!comment.matches(regex3)||!unconfirm.matches(regex3)||unpaid.matches(regex3)){
             return 0;
         }
+        system.setUpdateTime(date);
+        SystemExample commentExample = new SystemExample();
+        commentExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_order_comment");
+        system.setKeyValue(comment);
+        systemMapper.updateByExampleSelective(system,commentExample);
+
+        SystemExample unconfirmExample = new SystemExample();
+        unconfirmExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_order_unconfirm");
+        system.setKeyValue(unconfirm);
+        systemMapper.updateByExampleSelective(system,unconfirmExample);
+
+        SystemExample unpaidExample = new SystemExample();
+        unpaidExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_order_unpaid");
+        system.setKeyValue(unpaid);
+        systemMapper.updateByExampleSelective(system,unpaidExample);
+        return 1;
     }
 
     @Override
@@ -155,51 +168,55 @@ public class ConfigServiceImpl implements ConfigService{
     @Override
     public int updateWx(Wx wx) {
         Date date = new Date();
-        system.setUpdateTime(date);
-        if(wx.getLitemall_wx_catlog_goods()!= null &&wx.getLitemall_wx_catlog_list() !=null
-                && wx.getLitemall_wx_index_brand()!=null && wx.getLitemall_wx_index_hot()!=null
-                && wx.getLitemall_wx_index_new()!=null && wx.getLitemall_wx_index_topic()!=null
-                && wx.getLitemall_wx_share()!=null){
-
-            SystemExample goodsExample = new SystemExample();
-            goodsExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_wx_catlog_goods");
-            system.setKeyValue(wx.getLitemall_wx_catlog_goods());
-            systemMapper.updateByExampleSelective(system,goodsExample);
-
-            SystemExample listExample = new SystemExample();
-            listExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_wx_catlog_list");
-            system.setKeyValue(wx.getLitemall_wx_catlog_list());
-            systemMapper.updateByExampleSelective(system,listExample);
-
-            SystemExample brandExample = new SystemExample();
-            brandExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_wx_index_brand");
-            system.setKeyValue(wx.getLitemall_wx_index_brand());
-            systemMapper.updateByExampleSelective(system,brandExample);
-
-            SystemExample hotExample = new SystemExample();
-            hotExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_wx_index_hot");
-            system.setKeyValue(wx.getLitemall_wx_index_hot());
-            systemMapper.updateByExampleSelective(system,hotExample);
-
-            SystemExample newExample = new SystemExample();
-            newExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_wx_index_new");
-            system.setKeyValue(wx.getLitemall_wx_index_new());
-            systemMapper.updateByExampleSelective(system,newExample);
-
-            SystemExample topicExample = new SystemExample();
-            topicExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_wx_index_topic");
-            system.setKeyValue(wx.getLitemall_wx_index_topic());
-            systemMapper.updateByExampleSelective(system,topicExample);
-
-            SystemExample shareExample = new SystemExample();
-            shareExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_wx_share");
-            system.setKeyValue(wx.getLitemall_wx_share());
-            systemMapper.updateByExampleSelective(system,shareExample);
-
-            return 1;
-        }else {
+        String goods = wx.getLitemall_wx_catlog_goods();
+        String list = wx.getLitemall_wx_catlog_list();
+        String brand = wx.getLitemall_wx_index_brand();
+        String hot = wx.getLitemall_wx_index_hot();
+        String new1 = wx.getLitemall_wx_index_new();
+        String topic = wx.getLitemall_wx_index_topic();
+        String share = wx.getLitemall_wx_share();
+        if(!goods.matches(regex3)||!list.matches(regex3)||!brand.matches(regex3)||!hot.matches(regex3)||
+        !new1.matches(regex3)||!topic.matches(regex3)){
             return 0;
         }
+
+        system.setUpdateTime(date);
+        SystemExample goodsExample = new SystemExample();
+        goodsExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_wx_catlog_goods");
+        system.setKeyValue(goods);
+        systemMapper.updateByExampleSelective(system,goodsExample);
+
+        SystemExample listExample = new SystemExample();
+        listExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_wx_catlog_list");
+        system.setKeyValue(list);
+        systemMapper.updateByExampleSelective(system,listExample);
+
+        SystemExample brandExample = new SystemExample();
+        brandExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_wx_index_brand");
+        system.setKeyValue(brand);
+        systemMapper.updateByExampleSelective(system,brandExample);
+
+        SystemExample hotExample = new SystemExample();
+        hotExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_wx_index_hot");
+        system.setKeyValue(hot);
+        systemMapper.updateByExampleSelective(system,hotExample);
+
+        SystemExample newExample = new SystemExample();
+        newExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_wx_index_new");
+        system.setKeyValue(new1);
+        systemMapper.updateByExampleSelective(system,newExample);
+
+        SystemExample topicExample = new SystemExample();
+        topicExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_wx_index_topic");
+        system.setKeyValue(topic);
+        systemMapper.updateByExampleSelective(system,topicExample);
+
+        SystemExample shareExample = new SystemExample();
+        shareExample.createCriteria().andKeyNameEqualTo("cskaoyan_mall_wx_share");
+        system.setKeyValue(share);
+        systemMapper.updateByExampleSelective(system,shareExample);
+
+        return 1;
     }
 
     @Override

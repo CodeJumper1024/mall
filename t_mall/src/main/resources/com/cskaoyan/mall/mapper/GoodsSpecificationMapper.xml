@@ -266,9 +266,24 @@
       specification = #{specification.specification},
       value = #{specification.value},
       pic_url = #{specification.picUrl},
-      add_time = #{specification.addTime, typeHandler=com.cskaoyan.mall.handler.String2dateStringTypeHandler},
-      update_time = #{specification.updateTime, typeHandler=com.cskaoyan.mall.handler.String2dateStringTypeHandler},
+      update_time = #{updateTime},
       deleted = #{specification.false}
     where id = #{specification.id}
   </update>
+  <update id="deleteByGoodsId">
+    update cskaoyan_mall_goods_specification
+    set deleted = 1
+    where goods_id = #{goodsId}
+  </update>
+  <insert id="insertBySpecificationMap">
+    insert into cskaoyan_mall_goods_specification (goods_id, specification,
+      value, pic_url, add_time,
+      deleted)
+    values (#{goodsId},
+     #{specification.specification},
+     #{specification.value},
+     #{specification.picUrl},
+     #{addTime},
+     0)
+  </insert>
 </mapper>

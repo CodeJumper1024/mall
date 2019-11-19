@@ -21,10 +21,11 @@ public class ExpressController {
         int num = configService.updateExpress(express);
         if(num == 1){
             baseReqVo.setErrmsg("成功");
-        }else{
-            baseReqVo.setErrmsg("更新信息不全，更新失败");
+            baseReqVo.setErrno(0);
+        }else {
+            baseReqVo.setErrmsg("输入非法,请输入大于0的正整数");
+            baseReqVo.setErrno(1);
         }
-        baseReqVo.setErrno(0);
         return baseReqVo;
     }
 

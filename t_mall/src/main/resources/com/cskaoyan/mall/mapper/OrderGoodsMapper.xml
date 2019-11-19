@@ -76,7 +76,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, order_id, goods_id, goods_name, goods_sn, product_id, number, price, specifications, 
+    id, order_id, goods_id, goods_name, goods_sn, product_id, number, price, specifications,
     pic_url, comment, add_time, update_time, deleted
   </sql>
   <select id="selectByExample" parameterType="com.cskaoyan.mall.bean.OrderGoodsExample" resultMap="BaseResultMap">
@@ -94,7 +94,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_order_goods
     where id = #{id,jdbcType=INTEGER}
@@ -110,15 +110,15 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.mall.bean.OrderGoods">
-    insert into cskaoyan_mall_order_goods (id, order_id, goods_id, 
-      goods_name, goods_sn, product_id, 
-      number, price, specifications, 
-      pic_url, comment, add_time, 
+    insert into cskaoyan_mall_order_goods (id, order_id, goods_id,
+      goods_name, goods_sn, product_id,
+      number, price, specifications,
+      pic_url, comment, add_time,
       update_time, deleted)
-    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, 
-      #{goodsName,jdbcType=VARCHAR}, #{goodsSn,jdbcType=VARCHAR}, #{productId,jdbcType=INTEGER}, 
-      #{number,jdbcType=SMALLINT}, #{price,jdbcType=DECIMAL}, #{specifications,jdbcType=VARCHAR}, 
-      #{picUrl,jdbcType=VARCHAR}, #{comment,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER},
+      #{goodsName,jdbcType=VARCHAR}, #{goodsSn,jdbcType=VARCHAR}, #{productId,jdbcType=INTEGER},
+      #{number,jdbcType=SMALLINT}, #{price,jdbcType=DECIMAL}, #{specifications,jdbcType=VARCHAR},
+      #{picUrl,jdbcType=VARCHAR}, #{comment,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.cskaoyan.mall.bean.OrderGoods">
@@ -354,7 +354,14 @@
     select count(*) from cskaoyan_mall_order_goods
     where add_time = #{addTime}
   </select>
-  <select id="queryGoodsNumByAddTime" resultType="int">
-
+  <select id="queryGoodsStatInfo" resultType="com.cskaoyan.mall.bean.GoodsStatInfo">
+    select sum(number * price) as amount, count(*) as orders,
+    date_format(add_time, '%Y-%m-%d') as day, sum(number) as products
+    from cskaoyan_mall_order_goods
+    group by date_format(add_time, '%Y-%m-%d')
+  </select>
+  <select id="selectByOrderId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_order_goods
+    where order_id=#{orderId}
   </select>
 </mapper>

@@ -32,5 +32,7 @@ public interface GoodsProductMapper {
 
     List<GoodsProduct> selectByGoodsId(@Param("goodsId") int goodsId);
 
-    void updateByProductMap(@Param("product") Map product);
+    void updateByProductMap(@Param("product") Map product, @Param("updateTime") String updateTime);
+
+    void insertByProductMap(@Param("product") Map product,@Param("addTime") String addTime,@Param("goodsId") int goodsId);
 }
