@@ -607,4 +607,8 @@
       0,
       #{goods.detail})
   </insert>
+  <select id="queryGoodsInfoByGoodsId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_goods where id = #{goodsId}
+  </select>
 </mapper>

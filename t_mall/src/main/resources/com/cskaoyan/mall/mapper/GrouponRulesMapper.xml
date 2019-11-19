@@ -303,4 +303,10 @@
   <update id="delete">
     update cskaoyan_mall_groupon_rules set `deleted` = 1 where id = #{id};
   </update>
+  <select id="queryGrouponRulers" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cskaoyan_mall_groupon_rules
+    where goods_id = #{goodsId}
+  </select>
 </mapper>

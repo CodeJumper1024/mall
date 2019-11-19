@@ -286,4 +286,13 @@
      #{addTime},
      0)
   </insert>
+  <select id="querySpecNamesByGoodsId" resultType="java.lang.String">
+    select specification from cskaoyan_mall_goods_specification
+    where goods_id = #{goodsId}
+  </select>
+  <select id="querySpecValue" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_goods_specification
+    where goods_id = #{goodsId} and specification = #{name}
+  </select>
 </mapper>

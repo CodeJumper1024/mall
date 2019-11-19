@@ -300,4 +300,9 @@
     update cskaoyan_mall_brand set `name` = #{brand.name},`desc` = #{brand.desc},pic_url=#{brand.picUrl},floor_price=#{brand.floorPrice},update_time=now()
     where id=#{brand.id}
   </update>
+    <select id="queryBrandByGoodsId" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+      from cskaoyan_mall_brand
+      where id = #{goodsId}
+    </select>
 </mapper>

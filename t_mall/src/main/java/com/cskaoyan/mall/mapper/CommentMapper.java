@@ -32,4 +32,8 @@ public interface CommentMapper {
     List<Comment> queryComments(@Param("userId") Integer userId, @Param("valueId") Integer valueId);
 
     void deleteComment(@Param("id") Integer id);
+
+    List<Comment> queryCommentsByValueId(@Param("goodsId") Integer goodsId);
+
+    int queryCommentCountByValueId(@Param("goodsId") Integer goodsId);
 }
