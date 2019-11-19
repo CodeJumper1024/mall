@@ -36,5 +36,9 @@ public interface GoodsSpecificationMapper {
 
     void deleteByGoodsId(@Param("goodsId") int goodsId);
 
-    void insertBySpecificationMap(@Param("specification") Map specification, @Param("addTime") String addTime,@Param("goodsId") int goodsId);
+    void insertBySpecificationMap(@Param("specification") Map specification, @Param("addTime") String addTime, @Param("goodsId") int goodsId);
+
+    List<String> querySpecNamesByGoodsId(@Param("goodsId") Integer id);
+
+    List<GoodsSpecification> querySpecValue(@Param("goodsId") Integer id, @Param("name") String name);
 }

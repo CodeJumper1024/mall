@@ -39,15 +39,21 @@ public interface GoodsMapper {
     //获取商品
     List<Goods> selectGoodsByQueryCondition(@Param("sort") String sort, @Param("order") String order, @Param("name") String name, @Param("goodsSn") Long goodsSn);
 
-    void updateByGoodsMap(@Param("goods") Map goods,@Param("updateTime") String updateTime);
+    void updateByGoodsMap(@Param("goods") Map goods, @Param("updateTime") String updateTime);
 
     void deleteByGoodsId(@Param("goodsId") int goodsId);
 
-    int insertByGoodsMap(@Param("goods") Map goods,@Param("addTime") String addTime);
+    int insertByGoodsMap(@Param("goods") Map goods, @Param("addTime") String addTime);
+
+    Goods queryGoodsInfoByGoodsId(@Param("goodsId") Integer id);
 
     List<Goods> selectNewGoods();
 
     List<Goods> selectHotGoods();
 
     List<Goods> selectByCategoryId(@Param("catagoryId") Integer catagoryId);
+
+    List<Goods> queryRelatedGoods(Integer id);
+
+    int queryGoodsNum();
 }

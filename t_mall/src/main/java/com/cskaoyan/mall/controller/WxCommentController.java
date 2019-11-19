@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class WxCommentController {
         UserInfo userInfo = new UserInfo();
         userInfo.setAvatarUrl("123");
         userInfo.setNickname("123");
-        List<WxComment> wxComments = null;
+        ArrayList<WxComment> wxComments = new ArrayList<>();
         for (Comment comment : comments) {
             WxComment wxComment = new WxComment();
             wxComment.setUserInfo(userInfo);

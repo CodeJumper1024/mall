@@ -310,4 +310,11 @@
   <select id="selectDiscountById" resultType="int">
     select discount from cskaoyan_mall_groupon_rules where id = #{id}
   </select>
+  <select id="queryGrouponRulers" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cskaoyan_mall_groupon_rules
+    where goods_id = #{goodsId}
+  </select>
 </mapper>
+

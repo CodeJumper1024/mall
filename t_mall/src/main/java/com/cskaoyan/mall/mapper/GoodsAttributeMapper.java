@@ -30,6 +30,8 @@ public interface GoodsAttributeMapper {
 
     int updateByPrimaryKey(GoodsAttribute record);
 
+    List<GoodsAttribute> selectByGoodsId(@Param("goodsId") Integer id);
+
     List<GoodsAttribute> selectByGoodsId(@Param("goodsId") int goodsId);
 
     void updateByAttributeMap(@Param("attribute") Map attribute, @Param("updateTime") String updateTime);

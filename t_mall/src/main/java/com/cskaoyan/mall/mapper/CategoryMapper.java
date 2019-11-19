@@ -36,16 +36,24 @@ public interface CategoryMapper {
 
     List<Category> selectAllCat();
 
-    int insertAll(@Param("category")Category category);
+    int insertAll(@Param("category") Category category);
 
-    int updateCategoryById(@Param("category")Category category);
+    int updateCategoryById(@Param("category") Category category);
 
     int deleteById(@Param("id") Integer id);
 
     List<Category> selectAllLeve1();
 
+    Category queryCurrentCategory(@Param("id") Integer id);
+
+    List<Category> queryBrotherCategory(@Param("pid") Integer pid);
+
+    Category queryParentCategory(@Param("pid") Integer pid);
+
+    int queryPidById(@Param("id") Integer id);
 
     List<Category> queryCategoryByLv1Id(Integer id);
 
     Category queryCategoryById(Integer id);
+
 }
