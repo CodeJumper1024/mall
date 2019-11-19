@@ -56,4 +56,5 @@ public interface CategoryMapper {
 
     Category queryCategoryById(Integer id);
 
+    List<Category> queryL2Categories();
 }

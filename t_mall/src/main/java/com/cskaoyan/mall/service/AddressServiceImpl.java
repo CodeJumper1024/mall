@@ -18,7 +18,6 @@ public class AddressServiceImpl implements AddressService {
         PageHelper.startPage(page, limit);
         List<Address> addresses = addressMapper.queryAddresses(userId, "%" + name + "%");
         for (Address address : addresses) {
-            int i = 0;
             String province = addressMapper.queryProvinceByPid(address.getProvinceId());
             String city = addressMapper.queryCityByCid(address.getCityId());
             String area = addressMapper.queryAreaByAid(address.getAreaId());
