@@ -21,4 +21,6 @@ public interface AdMapper {
     List<Ad> queryAdsByContentAndName(@Param("name") String name, @Param("content") String content);
 
     int delete(Integer id);
+
+    List<Ad> selectAllAd();
 }

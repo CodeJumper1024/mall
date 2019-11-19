@@ -45,4 +45,9 @@ public interface GoodsMapper {
 
     int insertByGoodsMap(@Param("goods") Map goods,@Param("addTime") String addTime);
 
+    List<Goods> selectNewGoods();
+
+    List<Goods> selectHotGoods();
+
+    List<Goods> selectByCategoryId(@Param("catagoryId") Integer catagoryId);
 }

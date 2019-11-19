@@ -52,12 +52,12 @@
   <insert id="insert" parameterType="com.cskaoyan.mall.bean.Ad">
     insert into cskaoyan_mall_ad ( `name`, link,
       url, `position`, content,
-      start_time, end_time, enabled, 
+      start_time, end_time, enabled,
       add_time, update_time, deleted
       )
     values ( #{name,jdbcType=VARCHAR}, #{link,jdbcType=VARCHAR},
-      #{url,jdbcType=VARCHAR}, #{position,jdbcType=TINYINT}, #{content,jdbcType=VARCHAR}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{enabled,jdbcType=BIT}, 
+      #{url,jdbcType=VARCHAR}, #{position,jdbcType=TINYINT}, #{content,jdbcType=VARCHAR},
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{enabled,jdbcType=BIT},
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
       )
   </insert>
@@ -197,4 +197,9 @@
   <update id="delete">
     update cskaoyan_mall_ad set `deleted` = 1 where id = #{id};
   </update>
+  <select id="selectAllAd" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from cskaoyan_mall_ad
+  </select>
 </mapper>

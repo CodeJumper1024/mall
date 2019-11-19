@@ -352,4 +352,9 @@
      delete from cskaoyan_mall_category
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <select id="selectAllLeve1" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_category
+    where level = 'L1'
+  </select>
 </mapper>
