@@ -6,23 +6,33 @@ import java.util.List;
 
 public interface WxGoodsService {
 
-    List<GrouponRules> queryGrouponRules(Integer goodsId);
+    List<GrouponRules> queryGrouponRules(Integer id);
 
     List<Issue> queryIssues();
 
-    List<Comment> queryCommentsByValueId(Integer goodsId);
+    List<Comment> queryCommentsByValueId(Integer id);
 
-    int queryCommentCountByValueId(Integer goodsId);
+    int queryCommentCountByValueId(Integer id);
 
-    List<GoodsAttribute> queryAttributesByGoodsId(Integer goodsId);
+    List<GoodsAttribute> queryAttributesByGoodsId(Integer id);
 
-    Brand queryBrandByGoodsId(Integer goodsId);
+    Brand queryBrandByGoodsId(Integer id);
 
-    List<GoodsProduct> queryProductsByGoodsId(Integer goodsId);
+    List<GoodsProduct> queryProductsByGoodsId(Integer id);
 
-    Goods queryGoodsInfoByGoodsId(Integer goodsId);
+    Goods queryGoodsInfoByGoodsId(Integer id);
 
-    List<String> querySpecNamesByGoodsId(Integer goodsId);
+    List<String> querySpecNamesByGoodsId(Integer id);
 
-    List<GoodsSpecification> querySpecValue(Integer goodsId, String name);
+    List<GoodsSpecification> querySpecValue(Integer id, String name);
+
+    List<Goods> queryRelatedGoods(Integer id);
+
+    int queryGoodsNum();
+
+    Category queryCurrentCategory(Integer id);
+
+    List<Category> queryBrotherCategory(Integer id);
+
+    Category queryParentCategory(Integer id);
 }

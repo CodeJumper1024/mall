@@ -26,10 +26,12 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     GoodsProductMapper goodsProductMapper;
     @Autowired
     GoodsMapper goodsMapper;
+    @Autowired
+    CategoryMapper categoryMapper;
 
     @Override
-    public List<GrouponRules> queryGrouponRules(Integer goodsId) {
-        List<GrouponRules> groupon = grouponRulesMapper.queryGrouponRulers(goodsId);
+    public List<GrouponRules> queryGrouponRules(Integer id) {
+        List<GrouponRules> groupon = grouponRulesMapper.queryGrouponRulers(id);
         return groupon;
     }
 
@@ -40,50 +42,82 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     }
 
     @Override
-    public List<Comment> queryCommentsByValueId(Integer goodsId) {
-        List<Comment> commentData = commentMapper.queryCommentsByValueId(goodsId);
+    public List<Comment> queryCommentsByValueId(Integer id) {
+        List<Comment> commentData = commentMapper.queryCommentsByValueId(id);
         return commentData;
     }
 
     @Override
-    public int queryCommentCountByValueId(Integer goodsId) {
-        int commentCount = commentMapper.queryCommentCountByValueId(goodsId);
+    public int queryCommentCountByValueId(Integer id) {
+        int commentCount = commentMapper.queryCommentCountByValueId(id);
         return commentCount;
     }
 
     @Override
-    public List<GoodsAttribute> queryAttributesByGoodsId(Integer goodsId) {
-        List<GoodsAttribute> attribute = goodsAttributeMapper.selectByGoodsId(goodsId);
+    public List<GoodsAttribute> queryAttributesByGoodsId(Integer id) {
+        List<GoodsAttribute> attribute = goodsAttributeMapper.selectByGoodsId(id);
         return attribute;
     }
 
     @Override
-    public Brand queryBrandByGoodsId(Integer goodsId) {
-        Brand brand = brandMapper.queryBrandByGoodsId(goodsId);
+    public Brand queryBrandByGoodsId(Integer id) {
+        Brand brand = brandMapper.queryBrandByGoodsId(id);
         return brand;
     }
 
     @Override
-    public List<GoodsProduct> queryProductsByGoodsId(Integer goodsId) {
-        List<GoodsProduct> productList = goodsProductMapper.selectByGoodsId(goodsId);
+    public List<GoodsProduct> queryProductsByGoodsId(Integer id) {
+        List<GoodsProduct> productList = goodsProductMapper.selectByGoodsId(id);
         return productList;
     }
 
     @Override
-    public Goods queryGoodsInfoByGoodsId(Integer goodsId) {
-        Goods info = goodsMapper.queryGoodsInfoByGoodsId(goodsId);
+    public Goods queryGoodsInfoByGoodsId(Integer id) {
+        Goods info = goodsMapper.queryGoodsInfoByGoodsId(id);
         return info;
     }
 
     @Override
-    public List<String> querySpecNamesByGoodsId(Integer goodsId) {
-        List<String> names = goodsSpecificationMapper.querySpecNamesByGoodsId(goodsId);
+    public List<String> querySpecNamesByGoodsId(Integer id) {
+        List<String> names = goodsSpecificationMapper.querySpecNamesByGoodsId(id);
         return names;
     }
 
     @Override
-    public List<GoodsSpecification> querySpecValue(Integer goodsId, String name) {
-        List<GoodsSpecification> valueList = goodsSpecificationMapper.querySpecValue(goodsId, name);
+    public List<GoodsSpecification> querySpecValue(Integer id, String name) {
+        List<GoodsSpecification> valueList = goodsSpecificationMapper.querySpecValue(id, name);
         return valueList;
+    }
+
+    @Override
+    public List<Goods> queryRelatedGoods(Integer id) {
+        List<Goods> relatedGoods = goodsMapper.queryRelatedGoods(id);
+        return relatedGoods;
+    }
+
+    @Override
+    public int queryGoodsNum() {
+        int goodsNum = goodsMapper.queryGoodsNum();
+        return goodsNum;
+    }
+
+    @Override
+    public Category queryCurrentCategory(Integer id) {
+        Category currentCategory = categoryMapper.queryCurrentCategory(id);
+        return currentCategory;
+    }
+
+    @Override
+    public List<Category> queryBrotherCategory(Integer id) {
+        int pid = categoryMapper.queryPidById(id);
+        List<Category> brotherCategory = categoryMapper.queryBrotherCategory(pid);
+        return brotherCategory;
+    }
+
+    @Override
+    public Category queryParentCategory(Integer id) {
+        int pid = categoryMapper.queryPidById(id);
+        Category parentCategory = categoryMapper.queryParentCategory(pid);
+        return parentCategory;
     }
 }

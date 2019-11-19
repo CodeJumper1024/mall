@@ -19,30 +19,22 @@ public class WxGoodsController {
     WxGoodsService wxGoodsService;
 
     @RequestMapping("detail")
-    public BaseReqVo goodsDetail(Integer goodsId) {
+    public BaseReqVo goodsDetail(Integer id) {
 
         HashMap<String, Object> dataMap = new HashMap<>();
 
-        /*ArrayList<Map> specificationList = new ArrayList<>();
-        HashMap<String, Object> specMap = new HashMap<>();
-        String specName = wxGoodsService.querySpecNameByGoodsId(goodsId);
-        List<GoodsSpecification> valueList = wxGoodsService.querySpecValuesByGoodsId(goodsId);
-        specMap.put("name", specName);
-        specMap.put("valueList", valueList);
-        specificationList.add(specMap);
-        dataMap.put("specificationList", specificationList);*/
-
         ArrayList<Map> specificationList = new ArrayList<>();
-        List<String> names = wxGoodsService.querySpecNamesByGoodsId(goodsId);
+        List<String> names = wxGoodsService.querySpecNamesByGoodsId(id);
         for (String name : names) {
             HashMap<String, Object> map = new HashMap<>();
-            List<GoodsSpecification> valueList = wxGoodsService.querySpecValue(goodsId, name);
+            List<GoodsSpecification> valueList = wxGoodsService.querySpecValue(id, name);
             map.put("name", name);
             map.put("valueList", valueList);
             specificationList.add(map);
         }
+        dataMap.put("specificationList", specificationList);
 
-        List<GrouponRules> groupon = wxGoodsService.queryGrouponRules(goodsId);
+        List<GrouponRules> groupon = wxGoodsService.queryGrouponRules(id);
         dataMap.put("groupon", groupon);
 
         List<Issue> issue = wxGoodsService.queryIssues();
@@ -52,23 +44,70 @@ public class WxGoodsController {
         dataMap.put("shareImage", "");
 
         HashMap<String, Object> commentMap = new HashMap<>();
-        List<Comment> commentData = wxGoodsService.queryCommentsByValueId(goodsId);
-        int commentCount = wxGoodsService.queryCommentCountByValueId(goodsId);
+        List<Comment> commentData = wxGoodsService.queryCommentsByValueId(id);
+        int commentCount = wxGoodsService.queryCommentCountByValueId(id);
         commentMap.put("data", commentData);
         commentMap.put("count", commentCount);
         dataMap.put("comment", commentMap);
 
-        List<GoodsAttribute> attribute = wxGoodsService.queryAttributesByGoodsId(goodsId);
+        List<GoodsAttribute> attribute = wxGoodsService.queryAttributesByGoodsId(id);
         dataMap.put("attribute", attribute);
 
-        Brand brand = wxGoodsService.queryBrandByGoodsId(goodsId);
+        Brand brand = wxGoodsService.queryBrandByGoodsId(id);
         dataMap.put("brand", brand);
 
-        List<GoodsProduct> productList = wxGoodsService.queryProductsByGoodsId(goodsId);
+        List<GoodsProduct> productList = wxGoodsService.queryProductsByGoodsId(id);
         dataMap.put("productList", productList);
 
-        Goods info = wxGoodsService.queryGoodsInfoByGoodsId(goodsId);
+        Goods info = wxGoodsService.queryGoodsInfoByGoodsId(id);
         dataMap.put("info", info);
+
+        BaseReqVo<Object> listBaseReqVo = new BaseReqVo<>();
+        listBaseReqVo.setErrno(0);
+        listBaseReqVo.setData(dataMap);
+        listBaseReqVo.setErrmsg("成功");
+        return listBaseReqVo;
+    }
+
+    @RequestMapping("related")
+    public BaseReqVo goodsRelated(Integer id) {
+        List<Goods> relatedGoods = wxGoodsService.queryRelatedGoods(id);
+
+        HashMap<String, Object> dataMap = new HashMap<>();
+        dataMap.put("goodsList", relatedGoods);
+
+        BaseReqVo<Object> listBaseReqVo = new BaseReqVo<>();
+        listBaseReqVo.setErrno(0);
+        listBaseReqVo.setData(dataMap);
+        listBaseReqVo.setErrmsg("成功");
+        return listBaseReqVo;
+    }
+
+    @RequestMapping("count")
+    public BaseReqVo goodsCount() {
+        int goodsNum = wxGoodsService.queryGoodsNum();
+
+        HashMap<String, Object> dataMap = new HashMap<>();
+        dataMap.put("goodsCount", goodsNum);
+
+        BaseReqVo<Object> listBaseReqVo = new BaseReqVo<>();
+        listBaseReqVo.setErrno(0);
+        listBaseReqVo.setData(dataMap);
+        listBaseReqVo.setErrmsg("成功");
+        return listBaseReqVo;
+    }
+
+    @RequestMapping("category")
+    public BaseReqVo goodsCategory(Integer id) {
+
+        Category currentCategory = wxGoodsService.queryCurrentCategory(id);
+        List<Category> brotherCategory = wxGoodsService.queryBrotherCategory(id);
+        Category parentCategory = wxGoodsService.queryParentCategory(id);
+
+        HashMap<String, Object> dataMap = new HashMap<>();
+        dataMap.put("currentCategory", currentCategory);
+        dataMap.put("brotherCategory", brotherCategory);
+        dataMap.put("parentCategory", parentCategory);
 
         BaseReqVo<Object> listBaseReqVo = new BaseReqVo<>();
         listBaseReqVo.setErrno(0);

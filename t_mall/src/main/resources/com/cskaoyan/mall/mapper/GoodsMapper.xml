@@ -7,7 +7,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="brand_id" jdbcType="INTEGER" property="brandId" />
-    <result column="gallery" jdbcType="VARCHAR" property="gallery" />
+    <result column="gallery" jdbcType="VARCHAR" property="gallery" typeHandler="com.cskaoyan.mall.handler.String2ArrayTypeHandler"/>
     <result column="keywords" jdbcType="VARCHAR" property="keywords" />
     <result column="brief" jdbcType="VARCHAR" property="brief" />
     <result column="is_on_sale" jdbcType="BIT" property="isOnSale" />
@@ -610,5 +610,25 @@
   <select id="queryGoodsInfoByGoodsId" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from cskaoyan_mall_goods where id = #{goodsId}
+  </select>
+  <select id="selectNewGoods" resultMap="BaseResultMap">
+    <include refid="defaultsql"/>
+    where is_new = 1
+  </select>
+  <select id="selectHotGoods" resultMap="BaseResultMap">
+    <include refid="defaultsql"/>
+    where is_hot = 1
+  </select>
+  <select id="selectByCategoryId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_goods
+    where category_id = #{catagoryId}
+  </select>
+  <select id="queryRelatedGoods" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_goods order by rand() limit 6
+  </select>
+  <select id="queryGoodsNum" resultType="int">
+    select count(id) from cskaoyan_mall_goods
   </select>
 </mapper>

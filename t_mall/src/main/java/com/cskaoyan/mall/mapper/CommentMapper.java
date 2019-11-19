@@ -33,7 +33,7 @@ public interface CommentMapper {
 
     void deleteComment(@Param("id") Integer id);
 
-    List<Comment> queryCommentsByValueId(@Param("goodsId") Integer goodsId);
+    List<Comment> queryCommentsByValueId(@Param("goodsId") Integer id);
 
-    int queryCommentCountByValueId(@Param("goodsId") Integer goodsId);
+    int queryCommentCountByValueId(@Param("goodsId") Integer id);
 }

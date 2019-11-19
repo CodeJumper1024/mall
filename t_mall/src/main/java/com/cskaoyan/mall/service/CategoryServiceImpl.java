@@ -83,7 +83,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public BaseReqVo updateCategory(Category category) {
         BaseReqVo baseReqVo=new BaseReqVo();
-        Category category1=categoryMapper.selectByPrimaryKey(category.getId());
+//        Category category1=categoryMapper.selectByPrimaryKey(category.getId());
         if(category.getChildren()==null||category.getChildren().isEmpty()){
             if((category.getPid().intValue()==category.getId().intValue())&&category.getLevel().equals("L2")){
                 baseReqVo.setData(category);

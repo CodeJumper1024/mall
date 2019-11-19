@@ -325,10 +325,10 @@
     <include refid="Base_Column_List" />
     from cskaoyan_mall_address
     <where>
-      <if test="name != '%null%'">
+      <if test="name != '%null%' and name != ''">
         name like #{name}
       </if>
-      <if test="userId != null">
+      <if test="userId != null and userId != ''">
         and user_id = #{userId}
       </if>
     </where>
