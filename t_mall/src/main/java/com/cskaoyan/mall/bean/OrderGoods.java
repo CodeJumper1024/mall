@@ -1,5 +1,7 @@
 package com.cskaoyan.mall.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -26,6 +28,7 @@ public class OrderGoods {
 
     private Integer comment;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date addTime;
 
     private Date updateTime;

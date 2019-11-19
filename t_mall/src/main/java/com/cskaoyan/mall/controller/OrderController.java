@@ -17,4 +17,10 @@ public class OrderController {
         BaseReqVo baseReqVo = orderService.list(page, limit, sort, order,orderStatusArray,userId,orderSn);
         return baseReqVo;
     }
+    @RequestMapping("detail")
+    public BaseReqVo detailOrder(Integer id){
+
+        BaseReqVo baseReqVo = orderService.detailOrder(id);
+        return baseReqVo;
+    }
 }

@@ -28,4 +28,8 @@ public interface CommentMapper {
     int updateByPrimaryKeySelective(Comment record);
 
     int updateByPrimaryKey(Comment record);
+
+    List<Comment> queryComments(@Param("userId") Integer userId, @Param("valueId") Integer valueId);
+
+    void deleteComment(@Param("id") Integer id);
 }

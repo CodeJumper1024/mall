@@ -8,7 +8,7 @@
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="has_picture" jdbcType="BIT" property="hasPicture" />
-    <result column="pic_urls" jdbcType="VARCHAR" property="picUrls" />
+    <result column="pic_urls" jdbcType="VARCHAR" property="picUrls" typeHandler="com.cskaoyan.mall.handler.String2ArrayTypeHandler"/>
     <result column="star" jdbcType="SMALLINT" property="star" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -302,5 +302,23 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="queryComments" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from cskaoyan_mall_comment
+      <where>
+        <if test="userId != null">
+          user_id = #{userId}
+        </if>
+        <if test="valueId != null">
+          and value_id = #{valueId}
+        </if>
+        and deleted = 0
+      </where>
+      order by add_time desc
+    </select>
+  <update id="deleteComment">
+    update cskaoyan_mall_comment set deleted = 1 where id = #{id}
   </update>
 </mapper>

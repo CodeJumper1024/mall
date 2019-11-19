@@ -31,4 +31,13 @@ public interface RoleMapper {
 
     List<Role> allRole();
 
+    List<Role> selectAll();
+
+    int selectCountId();
+
+    List<Role> selectByNameLike(@Param("name") String name);
+
+    int selectCountIdByNameLike(@Param("name") String name);
+
+    int update(@Param("role") Role role);
 }

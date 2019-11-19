@@ -6,10 +6,12 @@ import com.cskaoyan.mall.service.StorageService;
 import com.fasterxml.jackson.databind.ser.Serializers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
@@ -19,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -89,4 +92,39 @@ public class StorageController {
         baseReqVo.setErrmsg("成功");
         return baseReqVo;
     }
+
+    @RequestMapping("list")
+    public BaseReqVo list(int page, int limit, String sort, String order,String key,String name){
+        BaseReqVo baseReqVo = new BaseReqVo<>();
+        Map<String,Object> map = storageService.list(page,limit,sort,order,key,name);
+        baseReqVo.setErrno(0);
+        baseReqVo.setData(map);
+        baseReqVo.setErrmsg("成功");
+        return baseReqVo;
+    }
+
+    @RequestMapping("delete")
+    public BaseReqVo delete(@RequestBody Storage storage){
+        BaseReqVo baseReqVo = new BaseReqVo<>();
+        Integer id = storage.getId();
+        int delete = storageService.deleteStorageById(id);
+        if(delete != 0){
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("成功");
+        }
+        return baseReqVo;
+    }
+
+    @RequestMapping("update")
+    public BaseReqVo update(@RequestBody Storage storage){
+        BaseReqVo baseReqVo = new BaseReqVo<>();
+        Storage resultStorage = storageService.update(storage);
+        if(resultStorage != null){
+            baseReqVo.setErrmsg("成功");
+            baseReqVo.setData(resultStorage);
+            baseReqVo.setErrno(0);
+        }
+        return baseReqVo;
+    }
+
 }

@@ -310,6 +310,9 @@
   <select id="selectCountId" resultType="int">
     select count(id) from cskaoyan_mall_admin
   </select>
+  <select id="selectCountIdByNameLike" resultType="int">
+    select count(id) from cskaoyan_mall_admin where username like #{username} order by id desc
+  </select>
 
   <select id="queryAdminByName" resultType="int">
     select count(id) from cskaoyan_mall_admin where username = #{username}
@@ -345,5 +348,31 @@
     select id,username,password,avatar,add_time,update_time,role_ids from cskaoyan_mall_admin
     where id = #{id}
   </select>
+
+  <delete id="deleteAdminById" >
+    delete from cskaoyan_mall_admin where id = #{id}
+  </delete>
+
+  <update id="updateAdminById">
+    update cskaoyan_mall_admin
+    <trim prefix="set" suffixOverrides=",">
+      <if test="admin.username != null">
+        username = #{admin.username},
+      </if>
+      <if test="admin.password != null">
+        password = #{admin.password},
+      </if>
+      <if test="admin.avatar != null">
+        avatar = #{admin.avatar},
+      </if>
+      <if test="admin.roleIds != null">
+        role_ids = #{admin.roleIds, typeHandler=com.cskaoyan.mall.handler.String2IntArrayTypeHandler},
+      </if>
+      <if test="admin.updateTime != null">
+        update_time = #{admin.updateTime}
+      </if>
+    </trim>
+    where id = #{admin.id}
+  </update>
 
 </mapper>

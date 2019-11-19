@@ -2,6 +2,7 @@ package com.cskaoyan.mall.mapper;
 
 import com.cskaoyan.mall.bean.Order;
 import com.cskaoyan.mall.bean.OrderExample;
+import com.cskaoyan.mall.bean.OrderStatInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -29,5 +30,8 @@ public interface OrderMapper {
 
     int updateByPrimaryKey(Order record);
 
+    List<OrderStatInfo> queryOrderStatInfo();
+
     List<Order> listByExample(@Param("orderStatusArray") Integer[] orderStatusArray, @Param("userId") Integer userId, @Param("orderSn") String orderSn);
 }
+
