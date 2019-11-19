@@ -2,13 +2,17 @@ package com.cskaoyan.mall.controller;
 
 
 import com.cskaoyan.mall.bean.BaseReqVo;
+import com.cskaoyan.mall.bean.Module;
+import com.cskaoyan.mall.bean.Permission;
 import com.cskaoyan.mall.bean.Role;
+import com.cskaoyan.mall.service.PermissionService;
 import com.cskaoyan.mall.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +22,9 @@ public class RoleController {
 
     @Autowired
     RoleService roleService;
+
+    @Autowired
+    PermissionService permissionService;
 
     @RequestMapping("options")
     public BaseReqVo option(){
@@ -50,5 +57,45 @@ public class RoleController {
         return baseReqVo;
     }
 
+    @RequestMapping("create")
+    public BaseReqVo create(@RequestBody Role role){
+        BaseReqVo baseReqVo = new BaseReqVo<>();
+        Role resultRole = roleService.create(role);
+        if(role !=null){
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("成功");
+            baseReqVo.setData(resultRole);
+        }
+        return baseReqVo;
+    }
+
+    @RequestMapping("delete")
+    public BaseReqVo delete(@RequestBody Role role){
+        BaseReqVo baseReqVo = new BaseReqVo<>();
+        Integer id = role.getId();
+
+        int delete = roleService.deleteRoleById(id);
+        if(delete != 0){
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("成功");
+        }
+        return baseReqVo;
+    }
+
+    @RequestMapping("permissions")
+    public BaseReqVo permission(int roleId){
+        BaseReqVo baseReqVo = new BaseReqVo<>();
+        //获得assignedPermissions 当前角色权限列表
+        List<String> list1 = permissionService.getPermissionsByRoleId(roleId);
+        //获得systemPermissions 系统权限列表
+        List<Module> list2 = permissionService.getSystemPermission();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("assignedPermissions",list1);
+        map.put("systemPermissions",list2);
+        baseReqVo.setErrno(0);
+        baseReqVo.setErrmsg("成功");
+        baseReqVo.setData(map);
+        return baseReqVo;
+    }
 
 }
