@@ -38,4 +38,8 @@ public interface TopicMapper {
     List<Topic> queryTopicsByTitleAndBySubtitle(@Param("title") String title,@Param("subtitle") String subtitle);
 
     int delete(Integer id);
+
+    List<Topic> queryTopicsByPageAndLimit();
+
+    List<Topic> queryTopicsByRelatedId();
 }
