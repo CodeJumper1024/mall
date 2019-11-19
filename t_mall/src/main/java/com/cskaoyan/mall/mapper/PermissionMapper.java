@@ -1,5 +1,6 @@
 package com.cskaoyan.mall.mapper;
 
+import com.cskaoyan.mall.bean.Module;
 import com.cskaoyan.mall.bean.Permission;
 import com.cskaoyan.mall.bean.PermissionExample;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +29,10 @@ public interface PermissionMapper {
     int updateByPrimaryKeySelective(Permission record);
 
     int updateByPrimaryKey(Permission record);
+
+    int deletePermissionByRoleId(@Param("roleId") Integer roleId);
+
+    List<String> selectPermissionsByRoleId (@Param("roleId") int roleId);
+
+    List<Module> selectSystemPermission();
 }

@@ -2,6 +2,7 @@ package com.cskaoyan.mall.service;
 
 import com.cskaoyan.mall.bean.Admin;
 import com.cskaoyan.mall.bean.Role;
+import com.cskaoyan.mall.mapper.PermissionMapper;
 import com.cskaoyan.mall.mapper.RoleMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -15,6 +16,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     RoleMapper roleMapper;
+
+    @Autowired
+    PermissionMapper permissionMapper;
 
     @Override
     public List<Map<String, Object>> selectIdAndName() {
@@ -57,5 +61,31 @@ public class RoleServiceImpl implements RoleService {
         Date date = new Date();
         role.setUpdateTime(date);
         return roleMapper.update(role);
+    }
+
+    @Override
+    public Role create(Role role) {
+        //新建一个对象 1.插入 2.获得lastId 3.获得lastId对应的角色信息
+        Date date = new Date();
+        role.setUpdateTime(date);
+        role.setAddTime(date);
+        role.setEnabled(true);
+        role.setDeleted(false);
+        int insert = roleMapper.insertRole(role);
+        Role resultRole = null;
+        if(insert != 0){
+            int id = roleMapper.selectLastId();
+            resultRole = roleMapper.selectById(id);
+        }
+        return resultRole;
+    }
+
+    @Override
+    public int deleteRoleById(Integer id) {
+        //删除角色信息
+        int delete = roleMapper.deleteRoleById(id);
+        //删除对象的权限信息 delete1可能等于0 有的角色没有权限
+        int delete1 = permissionMapper.deletePermissionByRoleId(id);
+        return delete;
     }
 }

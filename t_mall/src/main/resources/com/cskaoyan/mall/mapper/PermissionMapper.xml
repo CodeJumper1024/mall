@@ -85,7 +85,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_permission
     where id = #{id,jdbcType=INTEGER}
@@ -101,10 +101,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.mall.bean.Permission">
-    insert into cskaoyan_mall_permission (id, role_id, permission, 
+    insert into cskaoyan_mall_permission (id, role_id, permission,
       add_time, update_time, deleted
       )
-    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{permission,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{permission,jdbcType=VARCHAR},
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
       )
   </insert>
@@ -225,4 +225,37 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <delete id="deletePermissionByRoleId">
+    delete from cskaoyan_mall_permission where role_id = #{roleId}
+  </delete>
+
+  <select id="selectPermissionsByRoleId" resultType="string">
+    select permission from cskaoyan_mall_permission where role_id = #{roleId}
+  </select>
+
+
+  <!--下面是查询系统所有模块权限信息的分次查询，一共查询三次-->
+  <resultMap id="moduleMap" type="com.cskaoyan.mall.bean.Module">
+    <result property="id" column="module"/>
+    <result property="label" column="label"/>
+    <collection property="children" column="module" select="com.cskaoyan.mall.mapper.PermissionMapper.SelectBlockByModuleName"/>
+  </resultMap>
+  <select id="selectSystemPermission" resultMap="moduleMap">
+    select `module`,label from cskaoyan_mall_module
+  </select>
+
+  <resultMap id="blockMap" type="com.cskaoyan.mall.bean.Block">
+    <result property="id" column="block"/>
+    <result property="label" column="label"/>
+    <collection property="children" column="block" select="com.cskaoyan.mall.mapper.PermissionMapper.selectActionByBlockName"/>
+  </resultMap>
+  <select id="SelectBlockByModuleName" resultMap="blockMap">
+    select block,label from cskaoyan_mall_block where module_name = #{module}
+  </select>
+
+  <select id="selectActionByBlockName" resultType="com.cskaoyan.mall.bean.Action">
+    select `action` as id, api, label from cskaoyan_mall_action where block_name = #{block}
+  </select>
+
 </mapper>

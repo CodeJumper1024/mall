@@ -288,6 +288,30 @@
     where id = #{role.id}
   </update>
 
+  <select id="selectLastId" resultType="int">
+    select LAST_INSERT_ID()
+  </select>
+
+  <select id="selectById" resultMap="selectMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_role where id = #{id}
+  </select>
+
+  <insert id="insertRole">
+    insert into cskaoyan_mall_role (`name`,`desc`,enabled,add_time,update_time,deleted) values
+    (#{role.name},
+     #{role.desc},
+     #{role.enabled},
+     #{role.addTime},
+     #{role.updateTime},
+     #{role.deleted}
+    )
+  </insert>
+
+  <delete id="deleteRoleById">
+    delete from cskaoyan_mall_role where id = #{id}
+  </delete>
+
+
 
 </mapper>
 

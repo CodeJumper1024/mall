@@ -40,4 +40,12 @@ public interface RoleMapper {
     int selectCountIdByNameLike(@Param("name") String name);
 
     int update(@Param("role") Role role);
+
+    int selectLastId();
+
+    Role selectById(@Param("id") int id);
+
+    int insertRole(@Param("role") Role role);
+
+    int deleteRoleById(@Param("id") Integer id);
 }
