@@ -357,4 +357,14 @@
     from cskaoyan_mall_category
     where level = 'L1'
   </select>
+  <select id="queryCategoryByLv1Id" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_category
+    where pid = #{id}
+  </select>
+  <select id="queryCategoryById" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_category
+    where id = #{id}
+  </select>
 </mapper>

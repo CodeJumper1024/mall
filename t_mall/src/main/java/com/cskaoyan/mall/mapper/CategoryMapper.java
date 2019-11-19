@@ -43,4 +43,9 @@ public interface CategoryMapper {
     int deleteById(@Param("id") Integer id);
 
     List<Category> selectAllLeve1();
+
+
+    List<Category> queryCategoryByLv1Id(Integer id);
+
+    Category queryCategoryById(Integer id);
 }
