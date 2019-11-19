@@ -9,5 +9,9 @@ public interface CommentServive {
 
     void deleteComment(Integer id);
 
-    List<Comment> queryCommentsByValueIdAndByType(Integer valueId, Integer type);
+    List<Comment> queryCommentsByValueIdAndByType(Integer valueId, Integer type, Integer showType);
+
+    int queryCommentsCount(Integer valueId, Integer type);
+
+    int queryCommentsHasPicCount(Integer valueId, Integer type);
 }

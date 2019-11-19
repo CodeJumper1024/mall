@@ -22,7 +22,7 @@ public class WxCommentController {
     public BaseReqVo baseReqVo(Integer valueId,Integer type,Integer size,Integer page,Integer showType){
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
         HashMap<String, Object> map = new HashMap<>();
-        List<Comment> comments = commentServive.queryCommentsByValueIdAndByType(valueId,type);
+        List<Comment> comments = commentServive.queryCommentsByValueIdAndByType(valueId,type,showType);
         UserInfo userInfo = new UserInfo();
         userInfo.setAvatarUrl("123");
         userInfo.setNickname("123");
@@ -40,6 +40,19 @@ public class WxCommentController {
         map.put("currentPage",page);
         baseReqVo.setData(map);
         baseReqVo.setErrno(0);
+        baseReqVo.setErrmsg("成功");
+        return baseReqVo;
+    }
+    @RequestMapping("count")
+    public BaseReqVo count(Integer valueId,Integer type){
+        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+        HashMap<String, Object> map = new HashMap<>();
+        int allCount = commentServive.queryCommentsCount(valueId,type);
+        int hasPicCount = commentServive.queryCommentsHasPicCount(valueId,type);
+        map.put("allCount",allCount);
+        map.put("hasPicCount",hasPicCount);
+        baseReqVo.setErrno(0);
+        baseReqVo.setData(map);
         baseReqVo.setErrmsg("成功");
         return baseReqVo;
     }
