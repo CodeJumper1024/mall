@@ -640,4 +640,30 @@
   <select id="queryGoodsNumByCategoryId" resultType="int">
     select count(id) from cskaoyan_mall_goods where category_id = #{categoryId}
   </select>
+  <select id="queryCategoryIds" resultType="java.lang.Integer">
+    select category_id from cskaoyan_mall_goods where name like #{keyword}
+  </select>
+  <select id="queryGoods" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_goods
+    <where>
+      <if test="keyword != '%null%'">
+        name like #{keyword}
+      </if>
+      <if test="categoryId != null and categoryId != 0">
+        and category_id = #{categoryId}
+      </if>
+    </where>
+    and deleted = 0
+    <if test="sort != null">
+      order by #{sort}
+    </if>
+    <if test="order != null">
+      #{order}
+    </if>
+  </select>
+  <select id="queryHelpers" resultType="java.lang.String">
+    select name from cskaoyan_mall_goods
+    where name like #{keyword} and is_hot = 1
+  </select>
 </mapper>

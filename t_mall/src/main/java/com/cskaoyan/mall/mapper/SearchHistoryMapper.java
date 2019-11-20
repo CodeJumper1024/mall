@@ -30,4 +30,6 @@ public interface SearchHistoryMapper {
     int updateByPrimaryKeySelective(SearchHistory record);
 
     int updateByPrimaryKey(SearchHistory record);
+
+    List<String> queryHistoryKeywords(@Param("id") Integer id);
 }

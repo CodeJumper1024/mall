@@ -60,4 +60,11 @@ public interface GoodsMapper {
     List<Goods> queryGoodsByCategoryId(@Param("categoryId") Integer categoryId);
 
     int queryGoodsNumByCategoryId(@Param("categoryId") Integer categoryId);
+
+    List<Integer> queryCategoryIds(@Param("keyword") String keyword);
+
+    List<Goods> queryGoods(@Param("keyword") String keyword, @Param("categoryId") Integer categoryId,
+                           @Param("sort") String sort, @Param("order") String order);
+
+    List<String> queryHelpers(@Param("keyword") String keyword);
 }

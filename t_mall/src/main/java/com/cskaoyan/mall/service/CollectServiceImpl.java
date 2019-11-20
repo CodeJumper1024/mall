@@ -20,4 +20,16 @@ public class CollectServiceImpl implements CollectService {
         List<Collect> collection = collectMapper.queryCollection(userId, valueId);
         return collection;
     }
+
+    @Override
+    public Byte addOrDelCollect(Integer valueId) {
+        List<Collect> collectList = collectMapper.queryCollect(valueId);
+        if (collectList != null) {
+            collectMapper.delCollect(valueId);
+            return 1;
+        } else {
+            collectMapper.addCollect(valueId);
+        }
+        return 0;
+    }
 }

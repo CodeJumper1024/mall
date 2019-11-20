@@ -21,4 +21,6 @@ public interface CategoryService {
     List<Category> queryCategoryByLv1Id(Integer id);
 
     Category queryCategoryById(Integer id);
+
+    Category queryCategoriesByCid(Integer cid);
 }

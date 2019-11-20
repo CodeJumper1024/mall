@@ -6,7 +6,10 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class WxGoodsServiceImpl implements WxGoodsService {
@@ -123,21 +126,19 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     }
 
     @Override
-    public List<Goods> queryGoodsByCategoryId(Integer categoryId, Integer page, Integer size) {
+    public List<Goods> queryGoods(String keyword, Integer page, Integer size, String sort, String order, Integer categoryId) {
         PageHelper.startPage(page, size);
-        List<Goods> goodsList = goodsMapper.queryGoodsByCategoryId(categoryId);
+        List<Goods> goodsList = goodsMapper.queryGoods("%" + keyword + "%", categoryId, sort, order);
         return goodsList;
     }
 
     @Override
-    public int queryGoodsNumByCategoryId(Integer categoryId) {
-        int count = goodsMapper.queryGoodsNumByCategoryId(categoryId);
-        return count;
-    }
-
-    @Override
-    public List<Category> queryL2Categories() {
-        List<Category> l2Categories = categoryMapper.queryL2Categories();
-        return l2Categories;
+    public List<Integer> queryCategoryIds(String keyword) {
+        List<Integer> cidList = goodsMapper.queryCategoryIds("%" + keyword + "%");
+        Set set = new HashSet();
+        List list = new ArrayList();
+        set.addAll(cidList);
+        list.addAll(set);
+        return list;
     }
 }
