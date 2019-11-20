@@ -1,8 +1,11 @@
 package com.cskaoyan.mall.controller;
 
 import com.cskaoyan.mall.bean.*;
+import com.cskaoyan.mall.service.FootprintService;
 import com.cskaoyan.mall.service.WxGoodsService;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,12 +21,18 @@ public class WxGoodsController {
 
     @Autowired
     WxGoodsService wxGoodsService;
+    @Autowired
+    FootprintService footprintService;
 
     @RequestMapping("detail")
     public BaseReqVo goodsDetail(Integer id) {
-
+        Footprint footprint=new Footprint();
+        Subject subject = SecurityUtils.getSubject();
+        User user= (User) subject.getPrincipal();
+        footprint.setUserId(user.getId());
+        footprint.setGoodsId(id);
+        footprintService.insertFoot(footprint.getUserId(),footprint.getGoodsId());
         HashMap<String, Object> dataMap = new HashMap<>();
-
         ArrayList<Map> specificationList = new ArrayList<>();
         List<String> names = wxGoodsService.querySpecNamesByGoodsId(id);
         for (String name : names) {
