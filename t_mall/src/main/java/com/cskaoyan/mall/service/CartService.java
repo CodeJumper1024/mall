@@ -16,4 +16,6 @@ public interface CartService {
     BaseReqVo updateCart(Cart cart);
 
     BaseReqVo deleteCart(WxCart cart);
+
+    BaseReqVo fastAddCart(Cart cart);
 }

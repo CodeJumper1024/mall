@@ -47,4 +47,6 @@ public interface CartMapper {
     Cart selectByIdAndProductId(@Param("productId")Integer productId, @Param("userId")int userId);
 
     Integer deleteCart(@Param("productId") Integer productId, @Param("userId")int userId);
+
+    int insertAll(@Param("cart") Cart cart);
 }
