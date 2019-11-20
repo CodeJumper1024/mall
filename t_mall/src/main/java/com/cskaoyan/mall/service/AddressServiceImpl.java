@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -35,6 +36,8 @@ public class AddressServiceImpl implements AddressService {
             String province = addressMapper.queryProvinceByPid(address.getProvinceId());
             String city = addressMapper.queryCityByCid(address.getCityId());
             String area = addressMapper.queryAreaByAid(address.getAreaId());
+            String detailedAddress = province+city+area+" "+address.getAddress();
+            address.setDetailedAddress(detailedAddress);
             address.setProvince(province);
             address.setCity(city);
             address.setArea(area);
@@ -49,7 +52,17 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public int insertAddress(Address address) {
-        return addressMapper.insertSelective(address);
+        Date date = new Date();
+        address.setAddTime(date);
+        if(address.getId() == null) {
+            address.setDeleted(false);
+            if(address.getIsDefault() == true){
+                addressMapper.updateIsDefault();
+            }
+            return addressMapper.insertSelective(address);
+        }else{
+            return addressMapper.updateByPrimaryKey(address);
+        }
     }
 
     @Override
@@ -63,9 +76,11 @@ public class AddressServiceImpl implements AddressService {
         String province = addressMapper.queryProvinceByPid(address.getProvinceId());
         String city = addressMapper.queryCityByCid(address.getCityId());
         String area = addressMapper.queryAreaByAid(address.getAreaId());
-        address.setProvince(province);
-        address.setCity(city);
-        address.setArea(area);
+        String detailedAddress = province+city+area+" "+address.getAddress();
+        address.setDetailedAddress(detailedAddress);
+        address.setProvinceName(province);
+        address.setCityName(city);
+        address.setAreaName(area);
         return address;
     }
 }
