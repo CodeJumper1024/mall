@@ -2,6 +2,7 @@ package com.cskaoyan.mall.controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.cskaoyan.mall.aopAnnotation.Security;
 import com.cskaoyan.mall.bean.Admin;
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.bean.InfoData;
@@ -11,9 +12,15 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("admin/auth/")
@@ -22,6 +29,7 @@ public class AuthController {
     AuthService authService;
 
     //登录
+    @Security
     @RequestMapping("login")
     public BaseReqVo login(@RequestBody Admin admin){
         BaseReqVo<String> baseReqVo = new BaseReqVo<>();
@@ -39,7 +47,7 @@ public class AuthController {
             return BaseReqVo.fail();
         }
         baseReqVo = BaseReqVo.ok();
-        String sessionId = (String)subject.getSession().getId();
+        String sessionId = subject.getSession().getId().toString();
         baseReqVo.setData(sessionId);
         return baseReqVo;
     }

@@ -72,9 +72,6 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List">
-    id, admin, ip, type, action, status, result, comment, add_time, update_time, deleted
-  </sql>
   <select id="selectByExample" parameterType="com.cskaoyan.mall.bean.LogExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -90,7 +87,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_log
     where id = #{id,jdbcType=INTEGER}
@@ -106,13 +103,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.mall.bean.Log">
-    insert into cskaoyan_mall_log (id, admin, ip, 
-      type, action, status, result, 
-      comment, add_time, update_time, 
+    insert into cskaoyan_mall_log (id, admin, ip,
+      type, action, status, result,
+      comment, add_time, update_time,
       deleted)
-    values (#{id,jdbcType=INTEGER}, #{admin,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER}, #{action,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{result,jdbcType=VARCHAR}, 
-      #{comment,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{admin,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR},
+      #{type,jdbcType=INTEGER}, #{action,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{result,jdbcType=VARCHAR},
+      #{comment,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
       #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.cskaoyan.mall.bean.Log">
@@ -302,4 +299,47 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <insert id="insertLogger">
+    insert into cskaoyan_mall_log (admin,ip,`type`,`action`,status,result,comment,add_time,update_time,deleted) values
+    (
+    #{log.admin},
+    #{log.ip},
+    #{log.type},
+    #{log.action},
+    #{log.status},
+    #{log.result},
+    #{log.comment},
+    #{log.addTime},
+    #{log.updateTime},
+    #{log.deleted}
+    )
+  </insert>
+
+  <sql id="Base_Column_List">
+    id, admin, ip, `type`, `action`, status, result, comment, add_time, update_time, deleted
+  </sql>
+
+    <resultMap id="selectMap" type="com.cskaoyan.mall.bean.Log">
+        <result property="id" column="id" />
+        <result property="admin" column="admin" />
+        <result property="ip" column="ip" />
+        <result property="type" column="type" />
+        <result property="action" column="action" />
+        <result property="status" column="status" />
+        <result property="result" column="result" />
+        <result property="comment" column="comment" />
+        <result property="addTime" column="add_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="deleted" column="deleted" />
+    </resultMap>
+
+  <select id="selectAll" resultMap="selectMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_log
+  </select>
+
+  <select id="selectByNameLike" resultMap="selectMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_log where `admin` like #{name}
+  </select>
+
 </mapper>

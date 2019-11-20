@@ -1,6 +1,7 @@
 package com.cskaoyan.mall.bean;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
 
 public class Cart {
@@ -18,9 +19,9 @@ public class Cart {
 
     private BigDecimal price;
 
-    private Short number;
+    private Integer number;
 
-    private String specifications;
+    private String[] specifications;
 
     private Boolean checked;
 
@@ -88,20 +89,20 @@ public class Cart {
         this.price = price;
     }
 
-    public Short getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(Short number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
-    public String getSpecifications() {
+    public String[] getSpecifications() {
         return specifications;
     }
 
-    public void setSpecifications(String specifications) {
-        this.specifications = specifications == null ? null : specifications.trim();
+    public void setSpecifications(String[] specifications) {
+        this.specifications = specifications;
     }
 
     public Boolean getChecked() {
@@ -142,5 +143,25 @@ public class Cart {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", goodsId=" + goodsId +
+                ", goodsSn='" + goodsSn + '\'' +
+                ", goodsName='" + goodsName + '\'' +
+                ", productId=" + productId +
+                ", price=" + price +
+                ", number=" + number +
+                ", specifications=" + Arrays.toString(specifications) +
+                ", checked=" + checked +
+                ", picUrl='" + picUrl + '\'' +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
+                ", deleted=" + deleted +
+                '}';
     }
 }

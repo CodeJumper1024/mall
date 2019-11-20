@@ -6,6 +6,7 @@ import com.cskaoyan.mall.bean.UserInfo;
 import com.cskaoyan.mall.bean.WxComment;
 import com.cskaoyan.mall.service.CommentServive;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
