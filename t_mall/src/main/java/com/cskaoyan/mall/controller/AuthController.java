@@ -1,14 +1,21 @@
 package com.cskaoyan.mall.controller;
 import java.util.ArrayList;
 
+import com.cskaoyan.mall.aopAnnotation.Security;
 import com.cskaoyan.mall.bean.Admin;
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.bean.InfoData;
 import com.cskaoyan.mall.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("admin/auth/")
@@ -17,8 +24,12 @@ public class AuthController {
     AuthService authService;
 
     //登录
+    @Security
     @RequestMapping("login")
     public BaseReqVo login(@RequestBody Admin admin){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        session.setAttribute("username","dongdong");
         BaseReqVo baseReqVo = authService.login(admin);
         return baseReqVo;
     }

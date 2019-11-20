@@ -625,10 +625,19 @@
     where category_id = #{catagoryId}
   </select>
   <select id="queryRelatedGoods" resultMap="BaseResultMap">
+    <!--select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_goods order by rand() limit 6-->
     select <include refid="Base_Column_List"/>
-    from cskaoyan_mall_goods order by rand() limit 6
+    from cskaoyan_mall_goods where id between #{id} - 10 and #{id} + 10
   </select>
   <select id="queryGoodsNum" resultType="int">
     select count(id) from cskaoyan_mall_goods
+  </select>
+  <select id="queryGoodsByCategoryId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_goods where category_id = #{categoryId}
+  </select>
+  <select id="queryGoodsNumByCategoryId" resultType="int">
+    select count(id) from cskaoyan_mall_goods where category_id = #{categoryId}
   </select>
 </mapper>

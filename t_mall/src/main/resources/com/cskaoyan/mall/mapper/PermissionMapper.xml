@@ -234,7 +234,6 @@
     select permission from cskaoyan_mall_permission where role_id = #{roleId}
   </select>
 
-
   <!--下面是查询系统所有模块权限信息的分次查询，一共查询三次-->
   <resultMap id="moduleMap" type="com.cskaoyan.mall.bean.Module">
     <result property="id" column="module"/>
@@ -257,5 +256,13 @@
   <select id="selectActionByBlockName" resultType="com.cskaoyan.mall.bean.Action">
     select `action` as id, api, label from cskaoyan_mall_action where block_name = #{block}
   </select>
+  <!--上面是查询系统所有模块权限信息的分次查询，一共查询三次-->
+
+  <insert id="insertPermissionsByArray" >
+    insert into cskaoyan_mall_permission (role_id,permission,add_time,update_time,deleted) values
+    <foreach collection="list" item="permission" separator=",">
+        (#{roleId},#{permission},#{date},#{date},0 )
+    </foreach>
+  </insert>
 
 </mapper>

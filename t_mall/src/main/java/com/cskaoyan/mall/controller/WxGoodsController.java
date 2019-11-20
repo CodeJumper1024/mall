@@ -2,6 +2,7 @@ package com.cskaoyan.mall.controller;
 
 import com.cskaoyan.mall.bean.*;
 import com.cskaoyan.mall.service.WxGoodsService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -108,6 +109,29 @@ public class WxGoodsController {
         dataMap.put("currentCategory", currentCategory);
         dataMap.put("brotherCategory", brotherCategory);
         dataMap.put("parentCategory", parentCategory);
+
+        BaseReqVo<Object> listBaseReqVo = new BaseReqVo<>();
+        listBaseReqVo.setErrno(0);
+        listBaseReqVo.setData(dataMap);
+        listBaseReqVo.setErrmsg("成功");
+        return listBaseReqVo;
+    }
+
+    @RequestMapping("list")
+    public BaseReqVo goodsList(Integer categoryId, Integer page, Integer size) {
+
+        List<Goods> goodsList = wxGoodsService.queryGoodsByCategoryId(categoryId, page, size);
+
+        PageInfo<Goods> goodsPageInfo = new PageInfo<>(goodsList);
+        long total = goodsPageInfo.getTotal();
+
+        int count = wxGoodsService.queryGoodsNumByCategoryId(categoryId);
+        List<Category> filterCategoryList = wxGoodsService.queryL2Categories();
+
+        HashMap<String, Object> dataMap = new HashMap<>();
+        dataMap.put("goodsList", goodsList);
+        dataMap.put("count", count);
+        dataMap.put("filterCategoryList", filterCategoryList);
 
         BaseReqVo<Object> listBaseReqVo = new BaseReqVo<>();
         listBaseReqVo.setErrno(0);

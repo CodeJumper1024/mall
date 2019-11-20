@@ -53,7 +53,11 @@ public interface GoodsMapper {
 
     List<Goods> selectByCategoryId(@Param("catagoryId") Integer catagoryId);
 
-    List<Goods> queryRelatedGoods(Integer id);
+    List<Goods> queryRelatedGoods(@Param("id") Integer id);
 
     int queryGoodsNum();
+
+    List<Goods> queryGoodsByCategoryId(@Param("categoryId") Integer categoryId);
+
+    int queryGoodsNumByCategoryId(@Param("categoryId") Integer categoryId);
 }

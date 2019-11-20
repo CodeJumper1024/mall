@@ -334,12 +334,39 @@
   <update id="deleteComment">
     update cskaoyan_mall_comment set deleted = 1 where id = #{id}
   </update>
+    <select id="queryCommentsByValueIdAndByType" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from cskaoyan_mall_comment
+      <where>
+        <if test="type != null">
+          `type` = #{type}
+        </if>
+        <if test="valueId != null">
+          and value_id = #{valueId}
+        </if>
+        <if test="showType == 1">
+          and has_picture = #{showType}
+        </if>
+        and deleted = 0
+      </where>
+    </select>
   <select id="queryCommentsByValueId" resultMap="BaseResultMap1">
       select c.add_time, c.pic_urls, c.id, c.content, u.nickname, u.avatar
       from cskaoyan_mall_comment c left join cskaoyan_mall_user u
       on c.user_id = u.id where c.value_id = #{goodsId}
+      and `deleted` = 0
   </select>
   <select id="queryCommentCountByValueId" resultType="int">
-    select count(id) from cskaoyan_mall_comment where value_id = #{goodsId}
+    select count(id) from cskaoyan_mall_comment where value_id = #{goodsId} and `deleted` = 0;
+  </select>
+  <select id="queryCommentsCount" resultType="int">
+    select count(id) from cskaoyan_mall_comment where value_id = #{valueId} and `type` = #{type}
+    and `deleted` = 0
+  </select>
+  <select id="queryCommentsHasPicCount" resultType="int">
+    select count(id) from cskaoyan_mall_comment where value_id = #{valueId} and `type` = #{type}
+    and has_picture = 1
+    and `deleted` = 0
   </select>
 </mapper>

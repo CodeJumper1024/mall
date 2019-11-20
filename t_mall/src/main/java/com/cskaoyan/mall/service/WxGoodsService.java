@@ -35,4 +35,10 @@ public interface WxGoodsService {
     List<Category> queryBrotherCategory(Integer id);
 
     Category queryParentCategory(Integer id);
+
+    List<Goods> queryGoodsByCategoryId(Integer categoryId, Integer page, Integer size);
+
+    int queryGoodsNumByCategoryId(Integer categoryId);
+
+    List<Category> queryL2Categories();
 }

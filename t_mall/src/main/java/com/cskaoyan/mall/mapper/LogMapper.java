@@ -28,4 +28,10 @@ public interface LogMapper {
     int updateByPrimaryKeySelective(Log record);
 
     int updateByPrimaryKey(Log record);
+
+    int insertLogger(@Param("log") Log log);
+
+    List<Log> selectAll();
+
+    List<Log> selectByNameLike(@Param("name") String name);
 }

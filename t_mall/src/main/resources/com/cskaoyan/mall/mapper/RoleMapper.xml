@@ -257,7 +257,7 @@
   </resultMap>
 
   <select id="selectAll" resultMap="selectMap">
-    select <include refid="Base_Column_List"/> from cskaoyan_mall_role
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_role order by id desc
   </select>
 
   <select id="selectCountId" resultType="int">
@@ -265,7 +265,7 @@
   </select>
 
   <select id="selectByNameLike" resultMap="selectMap">
-    select <include refid="Base_Column_List"/> from cskaoyan_mall_role where `name` like #{name}
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_role where `name` like #{name} order by id desc
   </select>
 
   <select id="selectCountIdByNameLike" resultType="int">
@@ -310,8 +310,6 @@
   <delete id="deleteRoleById">
     delete from cskaoyan_mall_role where id = #{id}
   </delete>
-
-
 
 </mapper>
 

@@ -406,5 +406,6 @@
       from cskaoyan_mall_user
       where username = #{username}
       and password = #{password}
+      and `deleted` = 0
     </select>
 </mapper>

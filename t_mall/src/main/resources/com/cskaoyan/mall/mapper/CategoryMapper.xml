@@ -356,30 +356,37 @@
     select <include refid="Base_Column_List"/>
     from cskaoyan_mall_category
     where level = 'L1'
+    and `deleted` = 0
   </select>
   <select id="queryCurrentCategory" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
-    from cskaoyan_mall_category where id = #{id}
+    from cskaoyan_mall_category where id = #{id} and `deleted` = 0
   </select>
   <select id="queryBrotherCategory" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
-    from cskaoyan_mall_category where pid = #{pid}
+    from cskaoyan_mall_category where pid = #{pid} and `deleted` = 0
   </select>
   <select id="queryParentCategory" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
-    from cskaoyan_mall_category where id = #{pid}
+    from cskaoyan_mall_category where id = #{pid} and `deleted` = 0
   </select>
   <select id="queryPidById" resultType="int">
-    select pid from cskaoyan_mall_category where id = #{id}
+    select pid from cskaoyan_mall_category where id = #{id} and `deleted` = 0
   </select>
   <select id="queryCategoryByLv1Id" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from cskaoyan_mall_category
     where pid = #{id}
+    and `deleted` = 0
   </select>
   <select id="queryCategoryById" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from cskaoyan_mall_category
     where id = #{id}
+    and `deleted` = 0
+  </select>
+  <select id="queryL2Categories" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_category where level = 'L2'
   </select>
 </mapper>
