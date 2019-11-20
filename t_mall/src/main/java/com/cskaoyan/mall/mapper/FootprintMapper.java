@@ -30,4 +30,6 @@ public interface FootprintMapper {
     int updateByPrimaryKeySelective(Footprint record);
 
     int updateByPrimaryKey(Footprint record);
+
+    int deleteByid(@Param("id")Integer id);
 }

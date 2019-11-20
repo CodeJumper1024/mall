@@ -2,6 +2,7 @@ package com.cskaoyan.mall.controller;
 
 import com.cskaoyan.mall.bean.*;
 import com.cskaoyan.mall.service.CategoryService;
+import com.cskaoyan.mall.service.FootprintService;
 import com.cskaoyan.mall.service.WxGoodsService;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
@@ -23,12 +24,18 @@ public class WxGoodsController {
     WxGoodsService wxGoodsService;
     @Autowired
     CategoryService categoryService;
+    @Autowired
+    FootprintService footprintService;
 
     @RequestMapping("detail")
     public BaseReqVo goodsDetail(Integer id) {
-
+        Footprint footprint=new Footprint();
+        Subject subject = SecurityUtils.getSubject();
+        User user= (User) subject.getPrincipal();
+        footprint.setUserId(user.getId());
+        footprint.setGoodsId(id);
+        footprintService.insertFoot(footprint.getUserId(),footprint.getGoodsId());
         HashMap<String, Object> dataMap = new HashMap<>();
-
         ArrayList<Map> specificationList = new ArrayList<>();
         List<String> names = wxGoodsService.querySpecNamesByGoodsId(id);
         for (String name : names) {
