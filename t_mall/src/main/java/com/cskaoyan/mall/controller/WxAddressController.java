@@ -44,4 +44,13 @@ public class WxAddressController {
         baseReqVo.setErrmsg("成功");
         return baseReqVo;
     }
+    @RequestMapping("detail")
+    public BaseReqVo detail(Integer id){
+        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+        Address address = addressService.queryAddressesById(id);
+        baseReqVo.setData(address);
+        baseReqVo.setErrno(0);
+        baseReqVo.setErrmsg("成功");
+        return baseReqVo;
+    }
 }

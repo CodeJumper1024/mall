@@ -42,4 +42,5 @@ public interface AddressMapper {
     int deleteAddressById(@Param("id") Integer id);
 
     int queryLastId();
+
 }

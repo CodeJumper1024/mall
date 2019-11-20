@@ -15,4 +15,5 @@ public interface AddressService {
 
     int queryLastId();
 
+    Address queryAddressesById(Integer id);
 }

@@ -56,4 +56,16 @@ public class AddressServiceImpl implements AddressService {
     public int queryLastId() {
         return addressMapper.queryLastId();
     }
+
+    @Override
+    public Address queryAddressesById(Integer id) {
+        Address address = addressMapper.selectByPrimaryKey(id);
+        String province = addressMapper.queryProvinceByPid(address.getProvinceId());
+        String city = addressMapper.queryCityByCid(address.getCityId());
+        String area = addressMapper.queryAreaByAid(address.getAreaId());
+        address.setProvince(province);
+        address.setCity(city);
+        address.setArea(area);
+        return address;
+    }
 }
