@@ -25,4 +25,19 @@ public class CommentServiceImpl implements CommentServive {
     public void deleteComment(Integer id) {
         commentMapper.deleteComment(id);
     }
+
+    @Override
+    public List<Comment> queryCommentsByValueIdAndByType(Integer valueId, Integer type, Integer showType) {
+        return commentMapper.queryCommentsByValueIdAndByType(valueId,type,showType);
+    }
+
+    @Override
+    public int queryCommentsCount(Integer valueId, Integer type) {
+        return commentMapper.queryCommentsCount(valueId,type);
+    }
+
+    @Override
+    public int queryCommentsHasPicCount(Integer valueId, Integer type) {
+        return commentMapper.queryCommentsHasPicCount(valueId,type);
+    }
 }

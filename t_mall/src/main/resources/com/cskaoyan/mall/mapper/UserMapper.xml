@@ -100,10 +100,10 @@
     <include refid="Base_Column_List" />
     from cskaoyan_mall_user
     <where>
-      <if test="username != '%null%'">
+      <if test="username != '%null%' and username != ''">
         username like #{username}
       </if>
-      <if test="mobile != null">
+      <if test="mobile != null and mobile != ''">
         and mobile = #{mobile}
       </if>
     </where>
@@ -400,4 +400,12 @@
     select count(id) as users, date_format(add_time, '%Y-%m-%d') as day from cskaoyan_mall_user
     GROUP BY date_format(add_time, '%Y-%m-%d')
   </select>
+    <select id="queryUserByUsernameAndPassword" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from cskaoyan_mall_user
+      where username = #{username}
+      and password = #{password}
+      and `deleted` = 0
+    </select>
 </mapper>

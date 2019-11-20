@@ -36,4 +36,6 @@ public interface BrandMapper {
     void insertBrand(@Param("brand") Brand brand);
 
     void updateBrandById(@Param("brand") Brand brand);
+
+    Brand queryBrandByGoodsId(@Param("goodsId") Integer id);
 }

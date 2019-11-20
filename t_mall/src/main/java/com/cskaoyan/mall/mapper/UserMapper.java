@@ -34,4 +34,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     List<UserStatInfo> queryUserStatInfo();
+
+    User queryUserByUsernameAndPassword(@Param("username") String username,@Param("password") String password);
 }

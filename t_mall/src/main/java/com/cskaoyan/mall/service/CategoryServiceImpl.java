@@ -83,12 +83,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public BaseReqVo updateCategory(Category category) {
         BaseReqVo baseReqVo=new BaseReqVo();
-        Category category1=categoryMapper.selectByPrimaryKey(category.getId());
+//        Category category1=categoryMapper.selectByPrimaryKey(category.getId());
         if(category.getChildren()==null||category.getChildren().isEmpty()){
-            if(category.getPid()==null&&category.getLevel().equals("L1")){
-                category.setPid(0);
-            }
-            if(((category.getPid().intValue()==category.getId().intValue())&&category.getLevel().equals("L2"))&&(category.getPid()!=null)){
+            if((category.getPid().intValue()==category.getId().intValue())&&category.getLevel().equals("L2")){
                 baseReqVo.setData(category);
                 baseReqVo.setErrno(508);
                 baseReqVo.setErrmsg("不能把自己设成二级目录并且存入自己中");
@@ -137,5 +134,20 @@ public class CategoryServiceImpl implements CategoryService {
             baseReqVo.setErrmsg("删除失败");
         }
         return baseReqVo;
+    }
+
+    @Override
+    public List<Category> queryCategoryByLv1() {
+         return categoryMapper.selectAllLeve1();
+    }
+
+    @Override
+    public List<Category> queryCategoryByLv1Id(Integer id) {
+        return categoryMapper.queryCategoryByLv1Id(id);
+    }
+
+    @Override
+    public Category queryCategoryById(Integer id) {
+        return categoryMapper.queryCategoryById(id);
     }
 }

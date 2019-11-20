@@ -245,4 +245,8 @@
     update cskaoyan_mall_issue set question = #{issue.question},answer = #{issue.answer},update_time=now()
     where id=#{issue.id}
   </update>
+    <select id="queryIssues" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+      from cskaoyan_mall_issue
+    </select>
 </mapper>

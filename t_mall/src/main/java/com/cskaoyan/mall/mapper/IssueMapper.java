@@ -34,4 +34,6 @@ public interface IssueMapper {
     Integer insertIssue(@Param("issue") Issue issue);
 
     int updateIssueById(@Param("issue")Issue issue);
+
+    List<Issue> queryIssues();
 }
