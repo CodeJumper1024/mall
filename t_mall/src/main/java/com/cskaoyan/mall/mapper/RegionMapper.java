@@ -33,4 +33,6 @@ public interface RegionMapper {
     List<Region> selectAll();
 
     List<Children>selectByPid(@Param("id") Integer id);
+
+    List<Region> selectByPid1(@Param("pid") Integer pid);
 }
