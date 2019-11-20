@@ -8,4 +8,5 @@ import java.util.List;
 public interface PermissionService {
     List<String> getPermissionsByRoleId(int roleId);
     List<Module> getSystemPermission();
+    int updatePermissions(Integer roleId, List<String> permissions);
 }
