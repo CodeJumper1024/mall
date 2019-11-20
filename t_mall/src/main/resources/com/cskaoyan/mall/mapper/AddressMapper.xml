@@ -331,19 +331,39 @@
       <if test="userId != null and userId != ''">
         and user_id = #{userId}
       </if>
+      and `deleted` = 0
     </where>
     order by add_time desc
   </select>
   <select id="queryProvinceByPid" resultType="java.lang.String">
     select r.name as province from cskaoyan_mall_region r left join cskaoyan_mall_address a
-    on a.province_id = r.id where r.id = #{provinceId}
+    on a.province_id = r.id where r.id = #{provinceId} and `deleted` = 0
   </select>
   <select id="queryCityByCid" resultType="java.lang.String">
     select r.name as city from cskaoyan_mall_region r left join cskaoyan_mall_address a
-    on a.city_id = r.id where r.id = #{cityId}
+    on a.city_id = r.id where r.id = #{cityId} and `deleted` = 0
   </select>
   <select id="queryAreaByAid" resultType="java.lang.String">
     select r.name as area from cskaoyan_mall_region r left join cskaoyan_mall_address a
-    on a.area_id = r.id where r.id = #{areaId}
+    on a.area_id = r.id where r.id = #{areaId} and `deleted` = 0
+  </select>
+    <select id="queryAddressesByUserId" resultType="com.cskaoyan.mall.bean.Address">
+      select
+      <include refid="Base_Column_List" />
+      from cskaoyan_mall_address
+      <where>
+        <if test="userId != null and userId != ''">
+          and user_id = #{userId}
+        </if>
+        and `deleted` = 0
+      </where>
+    </select>
+  <update id="deleteAddressById">
+    update cskaoyan_mall_address
+    set `deleted` = 1
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="queryLastId" resultType="int">
+    select last_insert_id from cskaoyan_mall_address
   </select>
 </mapper>

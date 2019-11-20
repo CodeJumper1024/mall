@@ -36,4 +36,10 @@ public interface AddressMapper {
     String queryCityByCid(@Param("cityId") Integer cityId);
 
     String queryAreaByAid(@Param("areaId") Integer areaId);
+
+    List<Address> queryAddressesByUserId(@Param("userId") Integer userId);
+
+    int deleteAddressById(@Param("id") Integer id);
+
+    int queryLastId();
 }

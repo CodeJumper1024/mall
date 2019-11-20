@@ -5,8 +5,6 @@ import com.cskaoyan.mall.bean.User;
 import com.cskaoyan.mall.bean.UserInfo;
 import com.cskaoyan.mall.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
