@@ -7,9 +7,11 @@ import com.cskaoyan.mall.bean.Permission;
 import com.cskaoyan.mall.bean.Role;
 import com.cskaoyan.mall.service.PermissionService;
 import com.cskaoyan.mall.service.RoleService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -18,6 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("admin/role/")
+@RequiresPermissions(value = {"admin:role"})
 public class RoleController {
 
     @Autowired
@@ -82,7 +85,7 @@ public class RoleController {
         return baseReqVo;
     }
 
-    @RequestMapping("permissions")
+    @RequestMapping(value = "permissions", method = {RequestMethod.GET})
     public BaseReqVo permission(int roleId){
         BaseReqVo baseReqVo = new BaseReqVo<>();
         //获得assignedPermissions 当前角色权限列表
@@ -95,6 +98,19 @@ public class RoleController {
         baseReqVo.setErrno(0);
         baseReqVo.setErrmsg("成功");
         baseReqVo.setData(map);
+        return baseReqVo;
+    }
+
+    @RequestMapping(value = "permissions", method = {RequestMethod.POST})
+    public BaseReqVo permission(@RequestBody Map<String,Object> map){
+        Integer roleId = (Integer) map.get("roleId");
+        List<String> permissions = (List<String>) map.get("permissions");
+        BaseReqVo baseReqVo = new BaseReqVo<>();
+        int update = permissionService.updatePermissions(roleId,permissions);
+        if(update != 0){
+            baseReqVo.setErrmsg("成功");
+            baseReqVo.setErrno(0);
+        }
         return baseReqVo;
     }
 

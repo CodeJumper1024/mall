@@ -2,12 +2,14 @@ package com.cskaoyan.mall.controller;
 
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.service.StatService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("admin/stat")
+@RequiresPermissions(value = {"admin:stat"})
 public class StatController {
 
     @Autowired

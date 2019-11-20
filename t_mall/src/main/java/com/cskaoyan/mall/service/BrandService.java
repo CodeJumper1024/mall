@@ -11,4 +11,8 @@ public interface BrandService {
     BaseReqVo updateBrand(Brand brand);
 
     BaseReqVo deleteBrand(Brand brand);
+
+    BaseReqVo listWxBrand(Integer page, Integer size);
+
+    BaseReqVo detailWxBrand(Integer id);
 }

@@ -4,6 +4,7 @@ import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.bean.Storage;
 import com.cskaoyan.mall.service.StorageService;
 import com.fasterxml.jackson.databind.ser.Serializers;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("admin/storage/")
+@RequiresPermissions(value = {"admin:storage"})
 public class StorageController {
 
     @Autowired

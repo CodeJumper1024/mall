@@ -1,9 +1,11 @@
 package com.cskaoyan.mall.controller;
 
+import com.cskaoyan.mall.aopAnnotation.Security;
 import com.cskaoyan.mall.bean.Admin;
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.service.AdminService;
 import com.fasterxml.jackson.databind.ser.Serializers;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("admin/admin/")
+@RequiresPermissions(value = {"admin:admin"})
 public class AdminController {
 
     @Autowired
@@ -28,6 +31,7 @@ public class AdminController {
         return baseReqVo;
     }
 
+    @Security
     @RequestMapping("create")
     public BaseReqVo create(@RequestBody Admin admin){
         BaseReqVo baseReqVo = new BaseReqVo();
@@ -46,6 +50,7 @@ public class AdminController {
         return baseReqVo;
     }
 
+    @Security
     @RequestMapping("delete")
     public BaseReqVo delete(@RequestBody Admin admin){
         BaseReqVo baseReqVo = new BaseReqVo();
@@ -58,6 +63,7 @@ public class AdminController {
         return baseReqVo;
     }
 
+    @Security
     @RequestMapping("update")
     public BaseReqVo update(@RequestBody Admin admin){
         BaseReqVo baseReqVo = new BaseReqVo();

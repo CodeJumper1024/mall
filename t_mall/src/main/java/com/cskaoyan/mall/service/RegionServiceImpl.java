@@ -46,4 +46,14 @@ public class RegionServiceImpl implements RegionService {
         baseReqVo.setErrno(0);
         return baseReqVo;
     }
+
+    @Override
+    public BaseReqVo listRegion(Integer pid) {
+        BaseReqVo baseReqVo = new BaseReqVo();
+        List<Region> regions=regionMapper.selectByPid1(pid);
+        baseReqVo.setData(regions);
+        baseReqVo.setErrmsg("成功");
+        baseReqVo.setErrno(0);
+        return baseReqVo;
+    }
 }

@@ -35,5 +35,7 @@ public interface UserMapper {
 
     List<UserStatInfo> queryUserStatInfo();
 
-    User queryUserByUsernameAndPassword(@Param("username") String username,@Param("password") String password);
+    User queryUserByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+
+    User selectUserByName(@Param("username") String username);
 }

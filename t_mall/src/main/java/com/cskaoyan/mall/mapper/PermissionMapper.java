@@ -5,6 +5,7 @@ import com.cskaoyan.mall.bean.Permission;
 import com.cskaoyan.mall.bean.PermissionExample;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface PermissionMapper {
@@ -35,4 +36,6 @@ public interface PermissionMapper {
     List<String> selectPermissionsByRoleId (@Param("roleId") int roleId);
 
     List<Module> selectSystemPermission();
+
+    int insertPermissionsByArray(@Param("roleId") Integer roleId, @Param("list") List<String> permissions, @Param("date")Date date);
 }

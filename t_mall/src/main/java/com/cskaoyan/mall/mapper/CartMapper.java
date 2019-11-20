@@ -28,4 +28,25 @@ public interface CartMapper {
     int updateByPrimaryKeySelective(Cart record);
 
     int updateByPrimaryKey(Cart record);
+
+    int selectSumNumber(@Param("userId") Integer userId);
+
+    int selectSumPrice(@Param("userId") Integer userId);
+
+    List<Cart> selectByUserId(@Param("userId") Integer userId);
+
+    int updateCheckById(@Param("id")Integer id, @Param("checked")Boolean checked);
+
+    int selectHasCart(@Param("goodsId") Integer goodsId, @Param("productId") Integer productId, @Param("userId") Integer userId);
+
+
+    int updateNumber(@Param("number") Integer number, @Param("id") Integer id);
+
+    Cart selectCart(@Param("goodsId") Integer goodsId, @Param("productId") Integer productId, @Param("userId") Integer userId);
+
+    Cart selectByIdAndProductId(@Param("productId")Integer productId, @Param("userId")int userId);
+
+    Integer deleteCart(@Param("productId") Integer productId, @Param("userId")int userId);
+
+    int insertAll(@Param("cart") Cart cart);
 }

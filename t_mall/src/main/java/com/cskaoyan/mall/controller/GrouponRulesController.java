@@ -3,6 +3,7 @@ package com.cskaoyan.mall.controller;
 import com.cskaoyan.mall.bean.*;
 import com.cskaoyan.mall.service.GrouponRulesService;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ public class GrouponRulesController {
     @Autowired
     GrouponRulesService grouponRulesService;
     @RequestMapping("list")
+    @RequiresPermissions(value = {"admin:groupon:list"})
     public BaseReqVo list(Integer page, Integer limit, Integer goodsId){
         List<GrouponRules> grouponRules = grouponRulesService.queryGrouponRulers(page, limit,goodsId);
         PageInfo<GrouponRules> adsPageInfo = new PageInfo<>(grouponRules);
@@ -32,6 +34,7 @@ public class GrouponRulesController {
         return mapBaseReqVo;
     }
     @PostMapping(value = "delete")
+    @RequiresPermissions(value = {"admin:groupon:delete"})
     public BaseReqVo delete(@RequestBody GrouponRules grouponRules){
         int result = grouponRulesService.deleteGroupRules(grouponRules.getId());
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
@@ -42,6 +45,7 @@ public class GrouponRulesController {
         return baseReqVo;
     }
     @PostMapping(value = "update")
+    @RequiresPermissions(value = {"admin:groupon:update"})
     public BaseReqVo update(@RequestBody GrouponRules grouponRules){
         int result = grouponRulesService.updateGrouponRules(grouponRules);
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
@@ -52,6 +56,7 @@ public class GrouponRulesController {
         return baseReqVo;
     }
     @PostMapping(value = "create")
+    @RequiresPermissions(value = {"admin:groupon:create"})
     public BaseReqVo create(@RequestBody GrouponRules grouponRules){
         int result = grouponRulesService.insertGrouponRules(grouponRules);
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
