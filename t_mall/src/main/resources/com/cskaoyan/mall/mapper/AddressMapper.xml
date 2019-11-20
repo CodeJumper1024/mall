@@ -364,6 +364,6 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="queryLastId" resultType="int">
-    select last_insert_id from cskaoyan_mall_address
+    select id from cskaoyan_mall_address order by id desc limit 1
   </select>
 </mapper>
