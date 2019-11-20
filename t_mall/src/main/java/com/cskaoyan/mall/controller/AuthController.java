@@ -24,7 +24,7 @@ public class AuthController {
     //登录
     @RequestMapping("login")
     public BaseReqVo login(@RequestBody Admin admin){
-        BaseReqVo baseReqVo = new BaseReqVo<>();
+        BaseReqVo<String> baseReqVo = new BaseReqVo<>();
         if (admin.getUsername() == null){
             baseReqVo.setErrmsg("参数不对");
             baseReqVo.setErrno(0);
@@ -39,18 +39,17 @@ public class AuthController {
             return BaseReqVo.fail();
         }
         baseReqVo = BaseReqVo.ok();
-        Serializable sessionId = subject.getSession().getId();
+        String sessionId = (String)subject.getSession().getId();
         baseReqVo.setData(sessionId);
         return baseReqVo;
     }
 
     //显示
     @RequestMapping("info")
-    @RequiresPermissions(value = {"auth:info"})
     public BaseReqVo info(String token){
         Subject subject = SecurityUtils.getSubject();
         Admin principal = (Admin)subject.getPrincipal();
-        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+            BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
         InfoData data = new InfoData();
         data.setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
         data.setName("dongdong");

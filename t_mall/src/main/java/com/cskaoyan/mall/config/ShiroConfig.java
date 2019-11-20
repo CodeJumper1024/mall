@@ -33,10 +33,12 @@ public class ShiroConfig {
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //不拦截登录，可以匿名访问
         filterChainDefinitionMap.put("/admin/auth/login", "anon");
+        filterChainDefinitionMap.put("/admin/auth/info", "anon");
+        filterChainDefinitionMap.put("/wx/auth/login", "anon");
         //设置访问此接口需要的权限
         //filterChainDefinitionMap.put("/admin/auth/info", "perms[info]");
         //设置那哪些接口需要权限
-        filterChainDefinitionMap.put("/**","authc");
+        //filterChainDefinitionMap.put("/**","authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;

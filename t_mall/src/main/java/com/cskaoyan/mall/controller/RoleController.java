@@ -7,6 +7,7 @@ import com.cskaoyan.mall.bean.Permission;
 import com.cskaoyan.mall.bean.Role;
 import com.cskaoyan.mall.service.PermissionService;
 import com.cskaoyan.mall.service.RoleService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("admin/role/")
+@RequiresPermissions(value = {"admin:role"})
 public class RoleController {
 
     @Autowired

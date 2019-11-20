@@ -4,6 +4,7 @@ import com.cskaoyan.mall.bean.Admin;
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.service.AdminService;
 import com.fasterxml.jackson.databind.ser.Serializers;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("admin/admin/")
+@RequiresPermissions(value = {"admin:admin"})
 public class AdminController {
 
     @Autowired

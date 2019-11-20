@@ -3,6 +3,7 @@ package com.cskaoyan.mall.controller;
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.bean.Express;
 import com.cskaoyan.mall.service.ConfigService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("admin/config")
+@RequiresPermissions(value = {"admin:config"})
 public class ExpressController {
     @Autowired
     ConfigService configService;

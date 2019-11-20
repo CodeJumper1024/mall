@@ -57,4 +57,6 @@ public interface AdminMapper {
     Admin selectById(Integer id);
 
     Admin selectAdminByName(@Param("username") String username);
+
+    int[] selectRoleIdsByUsername(@Param("username") String username);
 }

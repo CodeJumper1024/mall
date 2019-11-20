@@ -4,6 +4,7 @@ import com.cskaoyan.mall.bean.Address;
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.service.AddressService;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("admin")
+@RequiresPermissions(value = {"admin"})
 public class AddressController {
 
     @Autowired

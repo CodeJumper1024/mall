@@ -7,6 +7,7 @@ import com.cskaoyan.mall.bean.CouponUser;
 import com.cskaoyan.mall.service.CouponService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,9 @@ import java.util.List;
 public class CouponController {
     @Autowired
     CouponService couponService;
+
     @RequestMapping("list")
+    @RequiresPermissions(value = {"admin:coupon:list"})
     public BaseReqVo list(Integer page, Integer limit, String name, Integer type,Integer status){
         List<Coupon> coupons = couponService.queryCoupons(page, limit,name,type,status);
         PageInfo<Coupon> adsPageInfo = new PageInfo<>(coupons);
@@ -34,6 +37,7 @@ public class CouponController {
         return mapBaseReqVo;
     }
     @PostMapping(value = "create")
+    @RequiresPermissions(value = {"admin:coupon:create"})
     public BaseReqVo create(@RequestBody Coupon coupon){
         int result = couponService.insert(coupon);
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
@@ -45,6 +49,7 @@ public class CouponController {
         return baseReqVo;
     }
     @PostMapping(value = "delete")
+    @RequiresPermissions(value = {"admin:coupon:delete"})
     public BaseReqVo delete(@RequestBody Coupon coupon){
         int result = couponService.deleteCoupon(coupon.getId());
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
@@ -55,6 +60,7 @@ public class CouponController {
         return baseReqVo;
     }
     @PostMapping(value = "update")
+    @RequiresPermissions(value = {"admin:coupon:update"})
     public BaseReqVo update(@RequestBody Coupon coupon){
         int result = couponService.updateCoupon(coupon);
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
@@ -66,6 +72,7 @@ public class CouponController {
         return baseReqVo;
     }
     @RequestMapping("read")
+    @RequiresPermissions(value = {"admin:coupon:read"})
     public BaseReqVo read(Integer id){
         Coupon coupon = couponService.selectCouponsById(id);
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();

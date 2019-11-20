@@ -4,6 +4,7 @@ import com.cskaoyan.mall.bean.Ad;
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.service.AdService;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ public class AdController {
     @Autowired
     AdService adService;
     @RequestMapping(value = "list")
+    @RequiresPermissions(value = {"admin:ad:list"})
     public BaseReqVo list(Integer page, Integer limit,String name,String content){
         List<Ad> ads = adService.queryAds(page, limit,name,content);
         PageInfo<Ad> adsPageInfo = new PageInfo<>(ads);
@@ -33,6 +35,7 @@ public class AdController {
         return mapBaseReqVo;
     }
     @PostMapping(value = "delete")
+    @RequiresPermissions(value = {"admin:ad:delete"})
     public BaseReqVo delete(@RequestBody Ad ad){
         int result = adService.deleteAd(ad.getId());
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
@@ -43,6 +46,7 @@ public class AdController {
         return baseReqVo;
     }
     @PostMapping(value = "create")
+    @RequiresPermissions(value = {"admin:ad:create"})
     public BaseReqVo create(@RequestBody Ad ad){
         int result = adService.insertAd(ad);
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
@@ -53,6 +57,7 @@ public class AdController {
         return baseReqVo;
     }
     @PostMapping(value = "update")
+    @RequiresPermissions(value = {"admin:ad:update"})
     public BaseReqVo update(@RequestBody Ad ad){
         int result = adService.updateAd(ad);
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();

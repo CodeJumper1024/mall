@@ -5,6 +5,7 @@ import com.cskaoyan.mall.bean.Comment;
 import com.cskaoyan.mall.service.CommentServive;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("admin/comment")
+@RequiresPermissions(value = {"admin:comment"})
 public class CommentController {
 
     @Autowired

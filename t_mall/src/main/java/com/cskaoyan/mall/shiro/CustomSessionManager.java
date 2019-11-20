@@ -11,7 +11,13 @@ public class CustomSessionManager extends DefaultWebSessionManager {
     @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        String sessionId = httpServletRequest.getHeader("X-Litemall-Admin-Token");
+        String url = httpServletRequest.getRequestURL().toString();
+        String sessionId = null;
+        if (url.contains("wx")){
+            sessionId = httpServletRequest.getHeader("X-cskaoyanmall-Admin-Token");
+        }else {
+            sessionId = httpServletRequest.getHeader("X-Litemall-Admin-Token");
+        }
         if (sessionId != null && !"".equals(sessionId)){
             return sessionId;
         }

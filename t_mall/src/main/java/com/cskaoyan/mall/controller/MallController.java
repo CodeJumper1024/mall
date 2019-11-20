@@ -3,11 +3,13 @@ package com.cskaoyan.mall.controller;
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.bean.Mall;
 import com.cskaoyan.mall.service.ConfigService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("admin/config")
+@RequiresPermissions(value = {"admin:config"})
 public class MallController {
     @Autowired
     ConfigService configService;
