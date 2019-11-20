@@ -55,4 +55,6 @@ public interface AdminMapper {
     int updateAdminById(@Param("admin") Admin admin);
 
     Admin selectById(Integer id);
+
+    Admin selectAdminByName(@Param("username") String username);
 }

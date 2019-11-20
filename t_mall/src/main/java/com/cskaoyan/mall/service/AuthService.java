@@ -5,5 +5,5 @@ import com.cskaoyan.mall.bean.BaseReqVo;
 
 public interface AuthService {
 
-    BaseReqVo login(Admin admin);
+    /*BaseReqVo login(Admin admin);*/
 }
