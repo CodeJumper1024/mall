@@ -32,4 +32,8 @@ public interface SearchHistoryMapper {
     int updateByPrimaryKey(SearchHistory record);
 
     List<String> queryHistoryKeywords(@Param("id") Integer id);
+
+    void addToHistory(@Param("id") Integer id, @Param("keyword") String keyword, @Param("addTime") String addTime);
+
+    void clearhistory(@Param("id") Integer id);
 }

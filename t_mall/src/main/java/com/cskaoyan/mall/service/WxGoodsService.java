@@ -36,7 +36,7 @@ public interface WxGoodsService {
 
     Category queryParentCategory(Integer id);
 
-    List<Goods> queryGoods(String keyword, Integer page, Integer size, String sort, String order, Integer categoryId);
+    List<Goods> queryGoods(String keyword, Integer page, Integer size, String sort, String order, Integer categoryId, Integer id);
 
     List<Integer> queryCategoryIds(String keyword);
 }

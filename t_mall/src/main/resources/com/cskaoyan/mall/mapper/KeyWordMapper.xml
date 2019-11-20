@@ -60,6 +60,6 @@
     <select id="queryHotKeywords" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
         from cskaoyan_mall_keyword
-        where is_hot = 1 and 'deleted' = 0
+        where is_hot = 1 and deleted = 0
     </select>
 </mapper>

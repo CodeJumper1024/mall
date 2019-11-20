@@ -255,14 +255,19 @@
     order by add_time desc
   </select>
   <select id="queryCollect" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from cskaoyan_mall_collect where value_id = #{valueId}
+    select <include refid="Base_Column_List" />
+    from cskaoyan_mall_collect
+    where value_id = #{valueId} and user_id = #{id} and deleted = 0
   </select>
-  <delete id="delCollect">
-    delete from cskaoyan_mall_collect where value_id = #{valueId}
-  </delete>
-  <delete id="addCollect">
-
-  </delete>
+  <update id="delCollect">
+    update cskaoyan_mall_collect set deleted = 1
+    where value_id = #{valueId} and user_id = #{id}
+  </update>
+  <insert id="addCollect">
+    insert into cskaoyan_mall_collect (user_id, value_id, add_time)
+    values (#{id}, #{valueId}, #{addTime})
+  </insert>
+  <select id="queryGoodsIdByUserId" resultType="java.lang.Integer">
+    select value_id from cskaoyan_mall_collect where user_id = #{id}
+  </select>
 </mapper>

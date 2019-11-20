@@ -42,4 +42,9 @@ public class WxSearchServiceImpl implements WxSearchService {
         List<String> helpers = goodsMapper.queryHelpers("%" + keyword + "%");
         return helpers;
     }
+
+    @Override
+    public void clearhistory(Integer id) {
+        searchHistoryMapper.clearhistory(id);
+    }
 }

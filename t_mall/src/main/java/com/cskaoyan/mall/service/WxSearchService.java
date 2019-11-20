@@ -13,4 +13,6 @@ public interface WxSearchService {
     List<String> queryHistoryKeywords(Integer id);
 
     List<String> queryHelpers(String keyword);
+
+    void clearhistory(Integer id);
 }

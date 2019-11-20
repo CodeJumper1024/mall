@@ -4,7 +4,11 @@ import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.bean.KeyWord;
 import com.cskaoyan.mall.bean.User;
 import com.cskaoyan.mall.service.WxSearchService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +27,8 @@ public class WxSearchController {
     @RequestMapping("index")
     public BaseReqVo searchIndex() {
 
-        User user = new User();
-        user.setId(1);
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
 
         KeyWord defaultKeyword = wxSearchService.queryDefaultKeyword();
         List<KeyWord> hotKeywordList = wxSearchService.queryHotKeywords();
@@ -40,7 +44,7 @@ public class WxSearchController {
         HashMap<String, Object> dataMap = new HashMap<>();
         dataMap.put("defaultKeyword", defaultKeyword);
         dataMap.put("hotKeywordList", hotKeywordList);
-        dataMap.put("historyKeyWordList", historyKeyWordList);
+        dataMap.put("historyKeywordList", historyKeyWordList);
 
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
         baseReqVo.setErrno(0);
@@ -55,6 +59,19 @@ public class WxSearchController {
         BaseReqVo<Object> listBaseReqVo = new BaseReqVo<>();
         listBaseReqVo.setErrno(0);
         listBaseReqVo.setData(helperList);
+        listBaseReqVo.setErrmsg("成功");
+        return listBaseReqVo;
+    }
+
+    @PostMapping("clearhistory")
+    public BaseReqVo clearhistory() {
+
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+
+        wxSearchService.clearhistory(user.getId());
+        BaseReqVo<Object> listBaseReqVo = new BaseReqVo<>();
+        listBaseReqVo.setErrno(0);
         listBaseReqVo.setErrmsg("成功");
         return listBaseReqVo;
     }

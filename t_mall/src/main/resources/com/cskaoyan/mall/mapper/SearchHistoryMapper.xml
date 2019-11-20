@@ -258,4 +258,10 @@
     select keyword from cskaoyan_mall_search_history
     where user_id = #{id} and deleted = 0
   </select>
+  <insert id="addToHistory">
+      insert into cskaoyan_mall_search_history (user_id, keyword, add_time) values (#{id}, #{keyword}, #{addTime})
+  </insert>
+  <update id="clearhistory">
+    update cskaoyan_mall_search_history set deleted = 1 where user_id = #{id}
+  </update>
 </mapper>

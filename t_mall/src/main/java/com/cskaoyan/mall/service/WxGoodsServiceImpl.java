@@ -6,10 +6,8 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class WxGoodsServiceImpl implements WxGoodsService {
@@ -32,6 +30,8 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     GoodsMapper goodsMapper;
     @Autowired
     CategoryMapper categoryMapper;
+    @Autowired
+    SearchHistoryMapper searchHistoryMapper;
 
     @Override
     public List<GrouponRules> queryGrouponRules(Integer id) {
@@ -126,9 +126,13 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     }
 
     @Override
-    public List<Goods> queryGoods(String keyword, Integer page, Integer size, String sort, String order, Integer categoryId) {
+    public List<Goods> queryGoods(String keyword, Integer page, Integer size, String sort, String order, Integer categoryId, Integer id) {
         PageHelper.startPage(page, size);
         List<Goods> goodsList = goodsMapper.queryGoods("%" + keyword + "%", categoryId, sort, order);
+        Date date = new Date();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        String addTime = dateFormat.format(date);
+        searchHistoryMapper.addToHistory(id, keyword, addTime);
         return goodsList;
     }
 

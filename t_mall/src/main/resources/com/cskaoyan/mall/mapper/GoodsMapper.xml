@@ -666,4 +666,8 @@
     select name from cskaoyan_mall_goods
     where name like #{keyword} and is_hot = 1
   </select>
+  <select id="queryCollection" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_goods where id = #{goodsId}
+  </select>
 </mapper>
