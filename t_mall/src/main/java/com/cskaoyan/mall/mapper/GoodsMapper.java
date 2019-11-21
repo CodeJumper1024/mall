@@ -74,15 +74,12 @@ public interface GoodsMapper {
 
     Goods queryCollection(@Param("goodsId") Integer goodsId);
 
-<<<<<<< HEAD
     List<Groupon> queryGroupon();
 
     Goods selectByGoodsId(@Param("goodsId") Integer goodsId);
-=======
     Double selectPriceById(@Param("goodsId") Integer goodsId);
 
     int queryCategoryIdById(@Param("id") Integer id);
 
     int queryBrandIdById(@Param("id") Integer id);
->>>>>>> bf4c3506b96f782c80519cffd50dc08fe50165b5
 }
