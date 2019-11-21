@@ -18,5 +18,4 @@ public interface UserService {
     BaseReqVo reset(User user, HashMap<String, Object> wxCode);
 
     User queryUserByUserId(Integer creatorUserId);
-
 }

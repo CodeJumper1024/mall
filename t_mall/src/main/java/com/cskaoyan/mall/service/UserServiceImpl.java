@@ -145,4 +145,5 @@ public class UserServiceImpl implements UserService {
     public User queryUserByUserId(Integer creatorUserId) {
         return userMapper.selectByPrimaryKey(creatorUserId);
     }
+
 }
