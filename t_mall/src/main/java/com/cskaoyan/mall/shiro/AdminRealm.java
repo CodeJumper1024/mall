@@ -27,9 +27,7 @@ public class AdminRealm extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         String username = token.getUsername();
         Admin admin = adminMapper.selectAdminByName(username);
-        String passwordFromDb = "admin123";
-        //String passwordFromDb = "mall123";
-        //String passwordFromDb = admin.getPassword();
+        String passwordFromDb = admin.getPassword();
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(admin, passwordFromDb, getName());
         return authenticationInfo;
     }
@@ -38,7 +36,6 @@ public class AdminRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         Admin primaryPrincipal = (Admin) principalCollection.getPrimaryPrincipal();
-        String username = primaryPrincipal.getUsername();
         //查表获取当前用户的权限
         int[] roleIds = primaryPrincipal.getRoleIds();
         List<String> permissions = new ArrayList<>();

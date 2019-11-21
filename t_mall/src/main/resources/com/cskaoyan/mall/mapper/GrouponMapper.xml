@@ -309,4 +309,7 @@
   <select id="selectCountByGrouponId" resultType="int">
     select count(user_id) from cskaoyan_mall_groupon where groupon_id = #{grouponId} group by groupon_id
   </select>
+  <select id="selectGrouponOrNotByOrderId" resultType="int">
+    select count(id) from cskaoyan_mall_groupon where order_id = #{orderId}
+  </select>
 </mapper>

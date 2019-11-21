@@ -32,4 +32,7 @@ public interface GrouponMapper {
     int selectGrouponMemberByRuleId(@Param("ruleId") Integer RuleId);
 
     Integer selectCountByGrouponId(@Param("grouponId") Integer grouponId);
+
+    int selectGrouponOrNotByOrderId(@Param("orderId") Integer orderId);
+
 }

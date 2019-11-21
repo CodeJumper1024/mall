@@ -1,9 +1,7 @@
 package com.cskaoyan.mall.service;
 
 import com.cskaoyan.mall.bean.*;
-import com.cskaoyan.mall.mapper.CartMapper;
-import com.cskaoyan.mall.mapper.GoodsMapper;
-import com.cskaoyan.mall.mapper.GoodsProductMapper;
+import com.cskaoyan.mall.mapper.*;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -14,9 +12,10 @@ import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
 import java.lang.System;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -26,6 +25,14 @@ public class CartServiceImpl implements CartService {
     GoodsProductMapper productMapper;
     @Autowired
     CartMapper cartMapper;
+    @Autowired
+    GrouponRulesMapper grouponRulesMapper;
+    @Autowired
+    AddressMapper addressMapper;
+    @Autowired
+    CouponUserMapper couponUserMapper;
+    @Autowired
+    CouponMapper couponMapper;
     @Override
     public BaseReqVo addCart(Cart cart) {
         BaseReqVo baseReqVo=new BaseReqVo();
@@ -180,6 +187,114 @@ public class CartServiceImpl implements CartService {
             baseReqVo.setErrno(1001);
             baseReqVo.setErrmsg("失败");
         }
+        return baseReqVo;
+    }
+
+    @Override
+    public BaseReqVo checkoutCart(CheckOut checkOut) {
+        Subject subject = SecurityUtils.getSubject();
+        User user= (User) subject.getPrincipal();
+        List<Cart> checkedGoodsList=new ArrayList<>();
+        int number=0;
+        int price=0;
+        int goodsTotalPrice=0;
+        Date date=new Date();
+        if(checkOut.getCartId()==0){
+            CartExample cartExample = new CartExample();
+            cartExample.createCriteria().andCheckedEqualTo(true).andDeletedEqualTo(false).andUserIdEqualTo(user.getId());
+            List<Cart> carts = cartMapper.selectByExample(cartExample);
+            for (Cart cart : carts) {
+                number = cart.getNumber();
+                price = cart.getPrice().intValue();
+                checkedGoodsList.add(cart);
+                goodsTotalPrice= number*price+goodsTotalPrice;
+            }
+        }else {
+            Cart cart = cartMapper.selectByPrimaryKey(checkOut.getCartId());
+            number = cart.getNumber();
+            price = cart.getPrice().intValue();
+            date = cart.getAddTime();
+            checkedGoodsList.add(cart);
+            goodsTotalPrice= number*price;
+        }
+        Map<String,Object> checkoutMap=new HashMap<>();
+        if(checkOut.getGrouponRulesId()==0){
+            checkoutMap.put("grouponPrice",0);
+            checkoutMap.put("grouponRulesId",0);
+        }else{
+            GrouponRules grouponRules = grouponRulesMapper.selectByPrimaryKey(checkOut.getGrouponRulesId());
+            checkoutMap.put("grouponPrice",grouponRules.getDiscount());
+            checkoutMap.put("grouponRulesId",grouponRules.getId());
+        }
+        checkoutMap.put("goodsTotalPrice",goodsTotalPrice);
+        if(checkOut.getAddressId()==0){
+            Address address=addressMapper.selecetByUserIdAndDefault(user.getId(),1);
+            checkoutMap.put("checkedAddress",address);
+            checkoutMap.put("addressId",address.getId());
+        }else{
+            Address address=addressMapper.selectByPrimaryKey(checkOut.getAddressId());
+            checkoutMap.put("checkedAddress",address);
+            checkoutMap.put("addressId",address.getId());
+        }
+        CouponUserExample couponUserExample = new CouponUserExample();
+        couponUserExample.createCriteria().andUserIdEqualTo(user.getId()).andStatusEqualTo((short)0).andDeletedEqualTo(false).andStartTimeLessThanOrEqualTo(date).andEndTimeGreaterThanOrEqualTo(date);
+        List<CouponUser> couponUsers = couponUserMapper.selectByExample(couponUserExample);
+        int actualPrice=0;
+        if(checkOut.getCouponId()==0){
+            actualPrice=0;
+            int couponPrice=0;
+            int availableCouponLength=0;
+            int couponId=0;
+            for (CouponUser couponUser : couponUsers) {
+                Coupon coupon=couponMapper.selectALL(couponUser.getCouponId());
+                if(coupon.getMin().intValue()<goodsTotalPrice){
+                    availableCouponLength++;
+                }
+                if(coupon.getDiscount().intValue()>couponPrice){
+                    couponPrice=coupon.getDiscount().intValue();
+                    couponId=coupon.getId();
+                }
+            }
+            if(availableCouponLength==0){
+                couponPrice=0;
+            }
+            actualPrice=goodsTotalPrice-couponPrice;
+            checkoutMap.put("couponPrice",couponPrice);
+            checkoutMap.put("couponId",couponId);
+            checkoutMap.put("availableCouponLength",availableCouponLength);
+        }else{
+            int availableCouponLength=0;
+            Coupon coupon=couponMapper.selectALL(checkOut.getCouponId());
+            actualPrice=goodsTotalPrice-coupon.getDiscount().intValue();
+            checkoutMap.put("couponId",coupon.getId());
+            CouponExample couponExample = new CouponExample();
+            for (CouponUser couponUser : couponUsers) {
+                Coupon coupon1 = couponMapper.selectALL(couponUser.getCouponId());
+                if (coupon1.getMin().intValue() < goodsTotalPrice) {
+                    availableCouponLength++;
+                }
+            }
+            if(availableCouponLength==0){
+                coupon.setDiscount(new BigDecimal(0));
+            }
+            checkoutMap.put("couponPrice",coupon.getDiscount());
+            checkoutMap.put("availableCouponLength",availableCouponLength);
+            checkoutMap.put("actualPrice",actualPrice);
+            checkoutMap.put("orderTotalPrice",actualPrice);
+        }
+        int freightPrice=21;
+        if(goodsTotalPrice>60){
+            freightPrice=0;
+        }
+        actualPrice=actualPrice+freightPrice;
+        checkoutMap.put("actualPrice",actualPrice);
+        checkoutMap.put("orderTotalPrice",actualPrice);
+        checkoutMap.put("freightPrice",freightPrice);
+        checkoutMap.put("checkedGoodsList",checkedGoodsList);
+        BaseReqVo baseReqVo=new BaseReqVo();
+        baseReqVo.setErrmsg("成功");
+        baseReqVo.setErrno(0);
+        baseReqVo.setData(checkoutMap);
         return baseReqVo;
     }
 }

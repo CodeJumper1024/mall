@@ -1,32 +1,37 @@
 package com.cskaoyan.mall.controller;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.cskaoyan.mall.aopAnnotation.Security;
 import com.cskaoyan.mall.bean.Admin;
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.bean.InfoData;
+import com.cskaoyan.mall.bean.Role;
+import com.cskaoyan.mall.mapper.ActionMapper;
+import com.cskaoyan.mall.mapper.PermissionMapper;
+import com.cskaoyan.mall.mapper.RoleMapper;
 import com.cskaoyan.mall.service.AuthService;
 import com.cskaoyan.mall.shiro.CustomToken;
+import com.cskaoyan.mall.utils.Md5Utils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("admin/auth/")
 public class AuthController {
     @Autowired
     AuthService authService;
+    @Autowired
+    PermissionMapper permissionMapper;
+    @Autowired
+    RoleMapper roleMapper;
+    @Autowired
+    ActionMapper actionMapper;
 
     //登录
     @Security
@@ -39,7 +44,8 @@ public class AuthController {
             return baseReqVo;
         }
         Subject subject = SecurityUtils.getSubject();
-        CustomToken token = new CustomToken(admin.getUsername(), admin.getPassword(), "admin");
+        String password = Md5Utils.getMd5(admin.getPassword());
+        CustomToken token = new CustomToken(admin.getUsername(), password, "admin");
         try {
             subject.login(token);
         } catch (Exception e) {
@@ -56,16 +62,22 @@ public class AuthController {
     @RequestMapping("info")
     public BaseReqVo info(String token){
         Subject subject = SecurityUtils.getSubject();
-        Admin principal = (Admin)subject.getPrincipal();
-            BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+        Admin admin = (Admin)subject.getPrincipal();
+        //获取该用户所有的权限及该用户所有的角色名字
+        int[] roleIds = admin.getRoleIds();
+        List<String> perms = new ArrayList<>();
+        List<String> roles = new ArrayList<>();
+        for (int roleId : roleIds) {
+            Role role = roleMapper.selectById(roleId);
+            roles.add(role.getName());
+            List<String> apis = actionMapper.selectApiByRoleId(roleId);
+            perms.addAll(apis);
+        }
+        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
         InfoData data = new InfoData();
-        data.setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
-        data.setName("dongdong");
-        ArrayList<String> perms = new ArrayList<>();
-        perms.add("*");
+        data.setAvatar(admin.getAvatar());
+        data.setName(admin.getUsername());
         data.setPerms(perms);
-        ArrayList<String> roles = new ArrayList<>();
-        roles.add("超级管理员");
         data.setRoles(roles);
         baseReqVo.setData(data);
         baseReqVo.setErrmsg("成功");

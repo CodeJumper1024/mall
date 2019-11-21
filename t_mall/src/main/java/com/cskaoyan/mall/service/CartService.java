@@ -2,6 +2,7 @@ package com.cskaoyan.mall.service;
 
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.bean.Cart;
+import com.cskaoyan.mall.bean.CheckOut;
 import com.cskaoyan.mall.bean.WxCart;
 
 public interface CartService {
@@ -18,4 +19,6 @@ public interface CartService {
     BaseReqVo deleteCart(WxCart cart);
 
     BaseReqVo fastAddCart(Cart cart);
+
+    BaseReqVo checkoutCart(CheckOut checkOut);
 }

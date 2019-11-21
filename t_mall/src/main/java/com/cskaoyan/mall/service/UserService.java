@@ -13,4 +13,6 @@ public interface UserService {
     BaseReqVo login(User user);
 
     User queryUserByUserId(Integer creatorUserId);
+
+    BaseReqVo register(User user);
 }
