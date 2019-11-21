@@ -7,14 +7,12 @@ import com.cskaoyan.mall.service.SmsService;
 import com.cskaoyan.mall.service.UserService;
 import lombok.Data;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("wx/auth/")
