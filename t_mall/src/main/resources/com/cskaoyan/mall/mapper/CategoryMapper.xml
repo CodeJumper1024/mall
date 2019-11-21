@@ -408,4 +408,13 @@
   <select id="queryLevelById" resultType="java.lang.String">
     select level from cskaoyan_mall_category where id = #{id}
   </select>
+  <select id="selectAllLeve2" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_category
+    where level = 'L2'
+    and `deleted` = 0
+  </select>
+  <select id="selectLevel2ByPid" resultType="int">
+    select id from cskaoyan_mall_category where pid = #{pid}
+  </select>
 </mapper>

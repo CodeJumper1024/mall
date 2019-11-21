@@ -27,7 +27,8 @@ public class WxHomeServiceImpl implements WxHomeService{
     CategoryMapper categoryMapper;
     @Autowired
     CouponMapper couponMapper;
-
+    @Autowired
+    TopicMapper topicMapper;
 
     @Override
     public BaseReqVo index() {
@@ -35,6 +36,7 @@ public class WxHomeServiceImpl implements WxHomeService{
         HashMap<String, Object> dataMap = new HashMap<>();
         List<Goods> newGoodsList = goodsMapper.selectNewGoods();
         List<Goods> hotGoodsList = goodsMapper.selectHotGoods();
+        List<Topic> topicList = topicMapper.selectAll();
         List<Coupon> couponList = couponMapper.selectAll();
         List<Brand> brandList = brandMapper.selectAllBrandNoParm();
         List<Ad> banner = adMapper.selectAllAd();
@@ -58,7 +60,14 @@ public class WxHomeServiceImpl implements WxHomeService{
             HashMap<String, Object> mapForFloorGoodsList = new HashMap<>();
             String name = category.getName();
             Integer id = category.getId();
-            List<Goods> goodsList = goodsMapper.selectByCategoryId(category.getId());
+            Integer[] level2Ids = categoryMapper.selectLevel2ByPid(category.getId());
+            List<Goods> goodsList = null;
+            for (Integer level2Id : level2Ids) {
+                goodsList = goodsMapper.selectByCategoryId(level2Id);
+                if (goodsList != null){
+                    break;
+                }
+            }
             mapForFloorGoodsList.put("name", name);
             mapForFloorGoodsList.put("id", id);
             mapForFloorGoodsList.put("goodsList", goodsList);
@@ -71,6 +80,7 @@ public class WxHomeServiceImpl implements WxHomeService{
         dataMap.put("banner", banner);
         dataMap.put("brandList", brandList);
         dataMap.put("hotGoodsList", hotGoodsList);
+        dataMap.put("topicList", topicList);
         dataMap.put("floorGoodsList", floorGoodsList);
         baseReqVo.setErrno(0);
         baseReqVo.setErrmsg("成功");

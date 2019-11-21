@@ -1,6 +1,7 @@
 package com.cskaoyan.mall.service;
 
 import com.cskaoyan.mall.bean.*;
+import com.cskaoyan.mall.bean.System;
 import com.cskaoyan.mall.mapper.*;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.apache.shiro.SecurityUtils;
@@ -11,7 +12,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
-import java.lang.System;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,6 +33,8 @@ public class CartServiceImpl implements CartService {
     CouponUserMapper couponUserMapper;
     @Autowired
     CouponMapper couponMapper;
+    @Autowired
+    SystemMapper systemMapper;
     @Override
     public BaseReqVo addCart(Cart cart) {
         BaseReqVo baseReqVo=new BaseReqVo();
@@ -279,11 +281,12 @@ public class CartServiceImpl implements CartService {
             }
             checkoutMap.put("couponPrice",coupon.getDiscount());
             checkoutMap.put("availableCouponLength",availableCouponLength);
-            checkoutMap.put("actualPrice",actualPrice);
-            checkoutMap.put("orderTotalPrice",actualPrice);
+
         }
-        int freightPrice=21;
-        if(goodsTotalPrice>60){
+        int freight_min=0;
+        freight_min=systemMapper.selectByName("cskaoyan_mall_express_freight_min");
+        int freightPrice=systemMapper.selectByName("cskaoyan_mall_express_freight_value");
+        if(goodsTotalPrice>freight_min){
             freightPrice=0;
         }
         actualPrice=actualPrice+freightPrice;

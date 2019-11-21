@@ -42,4 +42,7 @@ public interface TopicMapper {
     List<Topic> queryTopicsByPageAndLimit();
 
     List<Topic> queryTopicsByRelatedId();
+
+    List<Topic> selectAll();
+
 }
