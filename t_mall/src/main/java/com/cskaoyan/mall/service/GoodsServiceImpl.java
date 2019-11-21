@@ -7,11 +7,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.text.SimpleDateFormat;
-
 import java.util.*;
-import java.util.logging.Level;
 
 @Service
 public class GoodsServiceImpl implements GoodsService {
@@ -192,5 +189,10 @@ public class GoodsServiceImpl implements GoodsService {
         baseReqVo.setErrmsg("成功");
         baseReqVo.setErrno(0);
         return baseReqVo;
+    }
+
+    @Override
+    public Goods queryGoods(Integer id) {
+        return goodsMapper.selectByPrimaryKey(id);
     }
 }

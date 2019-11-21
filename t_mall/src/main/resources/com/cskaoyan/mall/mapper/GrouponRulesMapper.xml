@@ -316,5 +316,8 @@
     from cskaoyan_mall_groupon_rules
     where goods_id = #{goodsId}
   </select>
+  <select id="queryGrouponRulersList" resultMap="BaseResultMap">
+    select id,goods_id,discount from cskaoyan_mall_groupon_rules
+  </select>
 </mapper>
 

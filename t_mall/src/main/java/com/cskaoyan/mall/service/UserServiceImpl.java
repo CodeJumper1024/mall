@@ -30,11 +30,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User queryUserByUsernameAndPassword(String username, String password) {
-        return userMapper.queryUserByUsernameAndPassword(username,password);
-    }
-
-    @Override
     public int update(User user) {
         Date date = new Date();
         user.setLastLoginTime(date);
@@ -81,7 +76,6 @@ public class UserServiceImpl implements UserService {
         return baseReqVo;
     }
 
-    @Override
     public BaseReqVo register(User user) {
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
         if (user.getUsername() == null){
@@ -118,5 +112,9 @@ public class UserServiceImpl implements UserService {
         baseReqVo.setErrno(0);
         baseReqVo.setErrmsg("成功");
         return baseReqVo;
+    }
+    @Override
+    public User queryUserByUserId(Integer creatorUserId) {
+        return userMapper.selectByPrimaryKey(creatorUserId);
     }
 }

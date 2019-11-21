@@ -12,4 +12,8 @@ public interface GrouponRulesService {
     int updateGrouponRules(GrouponRules grouponRules);
 
     int insertGrouponRules(GrouponRules grouponRules);
+
+    List<GrouponRules> queryGrouponsRulesList(Integer page, Integer size);
+
+    GrouponRules selectRulesById(Integer rulesId);
 }
