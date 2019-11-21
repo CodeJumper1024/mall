@@ -568,6 +568,7 @@
       </if>
       and deleted = 0
     </where>
+    order by id desc
   </select>
   <select id="queryOrderStatInfo" resultType="com.cskaoyan.mall.bean.OrderStatInfo">
     select goods_price as amount, count(id) as orders, count(user_id) as customers,
@@ -602,4 +603,46 @@
     select LAST_INSERT_ID()
   </select>
 
+  <update id="prepay">
+    update cskaoyan_mall_order set
+    order_status = #{order.orderStatus},
+    pay_id = #{order.payId},
+    pay_time = #{order.payTime},
+    update_time = #{order.updateTime}
+    where id = #{order.id}
+  </update>
+
+  <update id="cancelOrder">
+    update cskaoyan_mall_order set
+    order_status = #{order.orderStatus},
+    update_time = #{order.updateTime},
+    end_time = #{order.endTime}
+    where id = #{order.id}
+  </update>
+
+  <update id="confirm">
+    update cskaoyan_mall_order set
+    order_status = #{order.orderStatus},
+    update_time = #{order.updateTime},
+    confirm_time = #{order.confirmTime}
+    where id = #{order.id}
+  </update>
+
+  <update id="delete">
+    update cskaoyan_mall_order set
+    update_time = #{order.updateTime},
+    end_time = #{order.endTime},
+    deleted = 1
+    where id = #{order.id}
+  </update>
+
+  <update id="ship">
+    update cskaoyan_mall_order set
+    order_status = #{order.orderStatus},
+    ship_channel = #{order.shipChannel},
+    ship_sn = #{order.shipSn},
+    update_time = #{order.updateTime},
+    ship_time = #{order.shipTime}
+    where id = #{order.id}
+  </update>
 </mapper>
