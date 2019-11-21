@@ -33,6 +33,8 @@ public class WxGrouponController {
     OrderGoodsService orderGoodsService;
     @Autowired
     OrderStatusService orderStatusService;
+    @Autowired
+    GoodsSpecificationService goodsSpecificationService;
 
     @RequestMapping("list")
     public BaseReqVo list(Integer page,Integer size){
@@ -181,6 +183,123 @@ public class WxGrouponController {
         map.put("count",count);
 
         baseReqVo.setData(map);
+        baseReqVo.setErrmsg("成功");
+        baseReqVo.setErrno(0);
+        return baseReqVo;
+    }
+
+    @RequestMapping("detail")
+    public BaseReqVo list(Integer id){
+        HashMap<String, Object> dataMap = new HashMap<>();
+
+        //获取creator信息
+        HashMap<String, Object> creatorMap = new HashMap<>();
+        Groupon groupon = grouponService.selectGrouponById(id);
+        Integer userId = groupon.getCreatorUserId();
+        User user = userService.queryUserByUserId(userId);
+        creatorMap.put("avatar",user.getAvatar());
+        creatorMap.put("nickname",user.getNickname());
+
+        //获取joiners信息
+        List<Groupon> grouponList = grouponService.selectGrouponByGrouponId(groupon.getGrouponId());
+        List<Map> userlist = new ArrayList<>();
+        HashMap<String, Object> userMap = null;
+        for(Groupon groupon1 : grouponList){
+            userMap = new HashMap<>();
+            Integer userId1 = groupon1.getUserId();
+            User user1 = userService.queryUserByUserId(userId1);
+            userMap.put("avatar",user1.getAvatar());
+            userMap.put("nickname",user.getNickname());
+            userlist.add(userMap);
+        }
+
+        //获取orderGoods信息
+        List<OrderGoods> orderGoodsList =
+                orderGoodsService.selectOrderGoodsByOrderId(groupon.getOrderId());
+        ArrayList<Map> list = new ArrayList<>();
+        HashMap<String, Object> orderGoodsMap = null;
+        for(OrderGoods orderGoods : orderGoodsList){
+            orderGoodsMap = new HashMap<>();
+            orderGoodsMap.put("goodsId",orderGoods.getGoodsId());
+            orderGoodsMap.put("goodsName",orderGoods.getGoodsName());
+            orderGoodsMap.put("id",orderGoods.getId());
+            orderGoodsMap.put("number",orderGoods.getOrderId());
+            orderGoodsMap.put("picUrl",orderGoods.getPicUrl());
+            //添加商品规格
+            List<GoodsSpecification> goodsSpecificationList =
+                    goodsSpecificationService.selectGoodsSpecificationByGoodsId(orderGoods.getGoodsId());
+            List<String> valueList = new ArrayList<>();
+            for(GoodsSpecification goodsSpecification : goodsSpecificationList){
+                valueList.add(goodsSpecification.getValue());
+            }
+            orderGoodsMap.put("goodsSpecificationValues",valueList);
+            //添加商品价格
+            Goods goods = goodsService.queryGoods(orderGoods.getGoodsId());
+            orderGoodsMap.put("retailPrice",goods.getRetailPrice());
+            list.add(orderGoodsMap);
+        }
+
+        //获取orderInfo信息
+        Order order = orderService.selectOrderByOrderId(groupon.getOrderId());
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setActualPrice(order.getActualPrice());
+        orderInfo.setAddTime(order.getAddTime());
+        orderInfo.setAddress(order.getAddress());
+        orderInfo.setConsignee(order.getConsignee());
+        orderInfo.setConsignee(order.getConsignee());
+        orderInfo.setFreightPrice(order.getFreightPrice());
+        orderInfo.setGoodsPrice(order.getGoodsPrice());
+        orderInfo.setId(order.getId());
+        orderInfo.setMobile(order.getMobile());
+        orderInfo.setOrderSn(order.getOrderSn());
+
+        //订单状态信息
+        Short status = order.getOrderStatus();
+        String statusName = orderStatusService.selectStatusByStatusId(status);
+        orderInfo.setOrderStatusText(statusName);
+        //封装handleOption
+        HashMap<String,Boolean> handleMap = new HashMap<>();
+        handleMap.put("cancel",false);
+        handleMap.put("comment",false);
+        handleMap.put("confirm",false);
+        handleMap.put("delete",false);
+        handleMap.put("pay",false);
+        handleMap.put("rebuy",false);
+        handleMap.put("refund",false);
+        if(status == 101){
+            handleMap.replace("cancel",false,true);
+            handleMap.replace("pay",false,true);
+        }else if(status == 102 || status == 103){
+            handleMap.replace("delete",false,true);
+        }else if(status == 201){
+            handleMap.replace("cancel",false,true);
+            handleMap.replace("refund",false,true);
+        }else if(status == 202){
+            handleMap.replace("cancel",false,true);
+        }else if(status == 203){
+            handleMap.replace("delete",false,true);
+            handleMap.replace("rebuy",false,true);
+        }else if(status == 301){
+            handleMap.replace("confirm",false,true);
+        }else if(status == 401 || status == 402){
+            handleMap.replace("comment",false,true);
+            handleMap.replace("delete",false,true);
+            handleMap.replace("rebuy",false,true);
+        }
+        orderInfo.setHandleOption(handleMap);
+
+        //获取rules信息
+        GrouponRules grouponRules = grouponRulesService.selectRulesById(groupon.getRulesId());
+
+        dataMap.put("linkGrouponId",groupon.getGrouponId());
+        dataMap.put("rules",grouponRules);
+        dataMap.put("orderInfo",orderInfo);
+        dataMap.put("orderGoods",list);
+        dataMap.put("joiners",userlist);
+        dataMap.put("groupon",groupon);
+        dataMap.put("creator",creatorMap);
+        BaseReqVo baseReqVo = new BaseReqVo();
+        baseReqVo.setData(dataMap);
         baseReqVo.setErrmsg("成功");
         baseReqVo.setErrno(0);
         return baseReqVo;
