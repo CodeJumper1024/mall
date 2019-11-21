@@ -2,6 +2,7 @@ package com.cskaoyan.mall.mapper;
 
 import com.cskaoyan.mall.bean.Address;
 import com.cskaoyan.mall.bean.AddressExample;
+import com.cskaoyan.mall.bean.Cart;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

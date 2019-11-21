@@ -1,8 +1,10 @@
 package com.cskaoyan.mall.controller;
 
 import com.cskaoyan.mall.bean.BaseReqVo;
+import com.cskaoyan.mall.bean.OrderSubmitCondition;
 import com.cskaoyan.mall.service.WxOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +35,21 @@ public class WxOrderController {
         baseReqVo.setData(map);
         baseReqVo.setErrno(0);
         baseReqVo.setErrmsg("成功");
+        return baseReqVo;
+    }
+
+    @RequestMapping("submit")
+    public BaseReqVo submit(@RequestBody OrderSubmitCondition orderSubmitCondition){
+        BaseReqVo baseReqVo = new BaseReqVo<>();
+        //提交订单,返回新创建的订单id
+        Integer orderId = wxOrderService.submit(orderSubmitCondition);
+        if(orderId != null){
+            HashMap<String, Integer> map = new HashMap<>();
+            map.put("orderId",orderId);
+            baseReqVo.setData(map);
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("成功");
+        }
         return baseReqVo;
     }
 
