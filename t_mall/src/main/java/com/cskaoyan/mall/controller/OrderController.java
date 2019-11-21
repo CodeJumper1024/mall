@@ -21,7 +21,7 @@ public class OrderController {
         return baseReqVo;
     }
     @RequestMapping("detail")
-    @RequiresPermissions(value = {"admin:order:detail"})
+    @RequiresPermissions(value = {"admin:order:read"})
     public BaseReqVo detailOrder(Integer id){
 
         BaseReqVo baseReqVo = orderService.detailOrder(id);
