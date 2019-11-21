@@ -9,4 +9,7 @@ public interface OrderService {
     BaseReqVo detailOrder(Integer id);
 
     Order selectOrderByOrderId(Integer orderId);
+
+    int ship(Integer orderId, String shipChannel, String shipSn);
+
 }

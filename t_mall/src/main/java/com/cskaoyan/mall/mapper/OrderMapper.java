@@ -37,5 +37,15 @@ public interface OrderMapper {
     int submitOrder(@Param("order") Order order);
 
     int selectLastId();
+
+    int prepay(@Param("order") Order order);
+
+    int cancelOrder(@Param("order") Order order);
+
+    int confirm(@Param("order") Order order);
+
+    int delete(@Param("order") Order order);
+
+    int ship(@Param("order") Order order);
 }
 

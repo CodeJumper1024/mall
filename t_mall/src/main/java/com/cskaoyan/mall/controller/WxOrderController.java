@@ -1,6 +1,7 @@
 package com.cskaoyan.mall.controller;
 
 import com.cskaoyan.mall.bean.BaseReqVo;
+import com.cskaoyan.mall.bean.Order;
 import com.cskaoyan.mall.bean.OrderSubmitCondition;
 import com.cskaoyan.mall.service.WxOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,4 +54,67 @@ public class WxOrderController {
         return baseReqVo;
     }
 
+    @RequestMapping("prepay")
+    public BaseReqVo prepay(@RequestBody Map<String,String> map){
+        BaseReqVo baseReqVo = new BaseReqVo<>();
+        String orderId = map.get("orderId");
+        int update = wxOrderService.prepay(orderId);
+        if(update != 0){
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("土豪任性，免密支付成功");
+        }
+        return baseReqVo;
+    }
+
+    @RequestMapping("refund")
+    public BaseReqVo refund(@RequestBody Map<String,String> map){
+        //退款取消订单(待发货阶段)
+        BaseReqVo baseReqVo = new BaseReqVo<>();
+        String orderId = map.get("orderId");
+        int update = wxOrderService.refund(orderId);
+        if(update != 0){
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("退款成功");
+        }
+        return baseReqVo;
+    }
+
+    @RequestMapping("cancel")
+    public BaseReqVo cancel(@RequestBody Map<String,String> map){
+        //退款取消订单(待付款阶段)
+        BaseReqVo baseReqVo = new BaseReqVo<>();
+        String orderId = map.get("orderId");
+        int update = wxOrderService.cancel(orderId);
+        if(update != 0){
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("取消订单成功");
+        }
+        return baseReqVo;
+    }
+
+    @RequestMapping("confirm")
+    public BaseReqVo confirm(@RequestBody Map<String,String> map){
+        //退款取消订单(待付款阶段)
+        BaseReqVo baseReqVo = new BaseReqVo<>();
+        String orderId = map.get("orderId");
+        int update = wxOrderService.confirm(orderId);
+        if(update != 0){
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("确认收货成功");
+        }
+        return baseReqVo;
+    }
+
+    @RequestMapping("delete")
+    public BaseReqVo delete(@RequestBody Map<String,String> map){
+        //删除订单(全部订单页面已取消订单，或者待评论页面)
+        BaseReqVo baseReqVo = new BaseReqVo<>();
+        String orderId = map.get("orderId");
+        int update = wxOrderService.delete(orderId);
+        if(update != 0){
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("删除订单成功");
+        }
+        return baseReqVo;
+    }
 }
