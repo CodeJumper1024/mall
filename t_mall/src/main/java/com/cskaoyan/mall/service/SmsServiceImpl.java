@@ -21,7 +21,6 @@ public class SmsServiceImpl implements SmsService {
         request.putQueryParameter("TemplateParam","{\"code\": \""+code+"\"}");
         try {
             CommonResponse response = client.getCommonResponse(request);
-            System.out.println(response.getData());
         } catch (ServerException e) {
             e.printStackTrace();
         } catch (ClientException e) {

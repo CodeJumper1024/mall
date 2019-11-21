@@ -1,6 +1,7 @@
 package com.cskaoyan.mall.controller;
 
 import com.cskaoyan.mall.bean.*;
+import com.cskaoyan.mall.service.GoodsService;
 import com.cskaoyan.mall.service.GrouponRulesService;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,6 +20,8 @@ import java.util.List;
 public class GrouponRulesController {
     @Autowired
     GrouponRulesService grouponRulesService;
+    @Autowired
+    GoodsService goodsService;
     @RequestMapping("list")
     @RequiresPermissions(value = {"admin:groupon:list"})
     public BaseReqVo list(Integer page, Integer limit, Integer goodsId){
@@ -69,18 +73,30 @@ public class GrouponRulesController {
         }
         return baseReqVo;
     }
-//    @RequestMapping("listRecord")
-//    public BaseReqVo listRecord(Integer page, Integer limit){
-//        List<Groupon> groupon = grouponRulesService.queryGroupon(page, limit);
-//        PageInfo<GrouponRules> adsPageInfo = new PageInfo<>(groupon);
-//        long total = adsPageInfo.getTotal();
-//        BaseReqVo<HashMap<String,Object>> mapBaseReqVo = new BaseReqVo<>();
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("items",groupon);
-//        map.put("total",total);
-//        mapBaseReqVo.setData(map);
-//        mapBaseReqVo.setErrmsg("成功");
-//        mapBaseReqVo.setErrno(0);
-//        return mapBaseReqVo;
-//    }
+    @RequestMapping("listRecord")
+    public BaseReqVo listRecord(Integer page, Integer limit,Integer goodsId){
+        List<Groupon> groupons = grouponRulesService.queryGroupon(page, limit,goodsId);
+        PageInfo<Groupon> adsPageInfo = new PageInfo<>(groupons);
+        long total = adsPageInfo.getTotal();
+        BaseReqVo<HashMap<String,Object>> mapBaseReqVo = new BaseReqVo<>();
+        HashMap<String, Object> map = new HashMap<>();
+        List<Object> items = new ArrayList<>();
+        for (Groupon groupon : groupons) {
+            HashMap<String, Object> datamap = new HashMap<>();
+            List<Groupon> subGroupons = new ArrayList();
+            GrouponRules rules = grouponRulesService.queryGrouponRulesById(groupon.getRulesId());
+            Goods goods = goodsService.queryGoodsByGoodsId(rules.getGoodsId());
+            datamap.put("groupon", groupon);
+            datamap.put("goods", goods);
+            datamap.put("rules", rules);
+            datamap.put("subGroupons", subGroupons);
+            items.add(datamap);
+        }
+        map.put("items",items);
+        map.put("total",total);
+        mapBaseReqVo.setData(map);
+        mapBaseReqVo.setErrmsg("成功");
+        mapBaseReqVo.setErrno(0);
+        return mapBaseReqVo;
+    }
 }

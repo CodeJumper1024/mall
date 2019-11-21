@@ -35,4 +35,5 @@ public interface GrouponMapper {
 
     int selectGrouponOrNotByOrderId(@Param("orderId") Integer orderId);
 
+    List<Groupon> queryGroupon();
 }

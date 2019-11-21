@@ -1,9 +1,10 @@
 package com.cskaoyan.mall.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 import java.util.Date;
-
+@Data
 public class User {
     private Integer id;
 

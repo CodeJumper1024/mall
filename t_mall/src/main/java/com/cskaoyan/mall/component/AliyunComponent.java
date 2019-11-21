@@ -34,7 +34,7 @@ public class AliyunComponent {
         request.putQueryParameter("RegionId", sms.getRegionId());
         request.putQueryParameter("SignName",sms.getSignName());
         request.putQueryParameter("TemplateCode", sms.getTemplateCode());
-        request.putQueryParameter("TemplateParam", "{\"code\": \"65536\"}");
+//        request.putQueryParameter("TemplateParam", "{\"code\": \"65536\"}");
         return request;
     }
 
