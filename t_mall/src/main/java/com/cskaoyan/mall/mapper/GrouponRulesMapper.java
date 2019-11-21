@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface GrouponRulesMapper {
+    GrouponRules queryGrouponRulesById(@Param("rulesId") Integer rulesId);
+
     long countByExample(GrouponRulesExample example);
 
     int deleteByExample(GrouponRulesExample example);

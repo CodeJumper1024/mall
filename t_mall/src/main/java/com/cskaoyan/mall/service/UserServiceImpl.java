@@ -82,13 +82,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public BaseReqVo register(User user) {
+    public BaseReqVo register(User user, HashMap<String, Object> wxCode) {
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
-        if (user.getUsername() == null){
-            baseReqVo.setErrmsg("参数不对");
-            baseReqVo.setErrno(0);
+        User user1 = userMapper.selectUserByName(user.getUsername());
+        if(user1 != null){
+            baseReqVo.setErrno(1);
             return baseReqVo;
         }
+        String code = (String) wxCode.get(user.getMobile());
+        if(!user.getCode().equals(wxCode)){
+            baseReqVo.setErrno(703);
+            baseReqVo.setErrmsg("验证码错误 ");
+        }
+        user.setAddTime(new Date());
+        user.setNickname(user.getUsername());
+        user.setDeleted(false);
+        int insert = userMapper.insert(user);
         Subject subject = SecurityUtils.getSubject();
         CustomToken token = new CustomToken(user.getUsername(), user.getPassword(), "wx");
         try {
@@ -117,6 +126,20 @@ public class UserServiceImpl implements UserService {
         baseReqVo.setData(dataMap);
         baseReqVo.setErrno(0);
         baseReqVo.setErrmsg("成功");
+        return baseReqVo;
+    }
+
+    @Override
+    public BaseReqVo reset(User user, HashMap<String, Object> wxCode) {
+        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+        String code = (String) wxCode.get(user.getMobile());
+        if(!user.getCode().equals(code)){
+            baseReqVo.setErrno(1);
+        }else {
+            user.setUpdateTime(new Date());
+            int i = userMapper.updateByMobile(user);
+            baseReqVo.setErrno(0);
+        }
         return baseReqVo;
     }
 }

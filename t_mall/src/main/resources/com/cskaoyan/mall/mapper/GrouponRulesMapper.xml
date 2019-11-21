@@ -315,6 +315,14 @@
     <include refid="Base_Column_List" />
     from cskaoyan_mall_groupon_rules
     where goods_id = #{goodsId}
+    and deleted = 0
   </select>
+    <select id="queryGrouponRulesById" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from cskaoyan_mall_groupon_rules
+      where id = #{rulesId}
+      and deleted = 0
+    </select>
 </mapper>
 

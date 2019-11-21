@@ -670,4 +670,14 @@
     select <include refid="Base_Column_List"/>
     from cskaoyan_mall_goods where id = #{goodsId}
   </select>
+    <select id="queryGroupon" resultType="com.cskaoyan.mall.bean.Groupon">
+      select <include refid="Base_Column_List"/>
+      from cskaoyan_mall_goods where deleted = 0
+    </select>
+  <select id="selectByGoodsId" resultType="com.cskaoyan.mall.bean.Goods" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_goods
+    where id = #{goodsId}
+    and deleted = 0
+  </select>
 </mapper>

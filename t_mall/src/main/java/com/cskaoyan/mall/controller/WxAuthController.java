@@ -5,25 +5,26 @@ import com.cskaoyan.mall.bean.User;
 import com.cskaoyan.mall.bean.UserInfo;
 import com.cskaoyan.mall.service.SmsService;
 import com.cskaoyan.mall.service.UserService;
+import lombok.Data;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-
+import java.util.Iterator;
+import java.util.Map;
 
 @RestController
 @RequestMapping("wx/auth/")
+@Data
 public class WxAuthController {
     @Autowired
     UserService userService;
     @Autowired
     SmsService smsService;
+    HashMap<String ,Object> wxCode = new HashMap<>();
     //登录
     @RequestMapping(value = "login",method = RequestMethod.POST)
     public BaseReqVo login(@RequestBody User user) {
@@ -48,37 +49,24 @@ public class WxAuthController {
         String mobile = user.getMobile();
         int randomNo = (int) (Math.random()*1000000);
         String code = String.valueOf(randomNo);
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        session.setAttribute("regCaptcha",code);
         if(mobile != null){
+            wxCode.put(mobile,code);
             smsService.sendRegCaptcha(mobile,code);
         }
         baseReqVo.setErrno(0);
         baseReqVo.setErrmsg("成功");
         return baseReqVo;
     }
+    // 注册
     @PostMapping("register")
     public BaseReqVo register(@RequestBody User user){
-//        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
-//        HashMap<String, Object> map = new HashMap<>();
-//        UserInfo userInfo = new UserInfo();
-//        userInfo.setNickname(user.getUsername());
-//        userInfo.setAvatarUrl(user.getAvatar());
-//        map.put("token",123);
-//        Calendar instance = Calendar.getInstance();
-//        Date date = new Date();
-//        instance.setTime(date);
-//        instance.add(Calendar.HOUR_OF_DAY, 12);
-//        Date time = instance.getTime();
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        String tokenExpire = format.format(time);
-//        map.put("tokenExpire", tokenExpire);
-//        map.put("userInfo",userInfo);
-//        baseReqVo.setData(map);
-//        baseReqVo.setErrno(0);
-//        baseReqVo.setErrmsg("成功");
-        BaseReqVo baseReqVo = userService.register(user);
+        BaseReqVo baseReqVo = userService.register(user,wxCode);
+        return baseReqVo;
+    }
+    // 修改密码
+    @PostMapping("reset")
+    public BaseReqVo reset(@RequestBody User user){
+        BaseReqVo baseReqVo = userService.reset(user,wxCode);
         return baseReqVo;
     }
 }

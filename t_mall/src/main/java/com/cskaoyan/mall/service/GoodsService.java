@@ -1,6 +1,7 @@
 package com.cskaoyan.mall.service;
 
 import com.cskaoyan.mall.bean.BaseReqVo;
+import com.cskaoyan.mall.bean.Goods;
 
 import java.util.Map;
 
@@ -16,4 +17,6 @@ public interface GoodsService {
     BaseReqVo delete(Map<String, Object> info);
 
     BaseReqVo create(Map<String, Object> info);
+
+    Goods queryGoodsByGoodsId(Integer goodsId);
 }
