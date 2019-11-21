@@ -29,9 +29,15 @@ public interface CouponMapper {
 
     int updateByPrimaryKey(Coupon record);
 
-    List<Coupon> queryAdsByNameAndTypeAndStatus(@Param("name") String name,@Param("type") Integer type, @Param("status") Integer status);
+    List<Coupon> queryAdsByNameAndTypeAndStatus(@Param("name") String name, @Param("type") Integer type, @Param("status") Integer status);
 
     int delete(Integer id);
 
     int update(Coupon coupon);
+
+    List<Coupon> selectByStatusAndUserId(@Param("status") int status, @Param("userId") Integer userId);
+
+    List<Coupon> selectAll();
+
+    Coupon selectByCode(@Param("code") String code);
 }

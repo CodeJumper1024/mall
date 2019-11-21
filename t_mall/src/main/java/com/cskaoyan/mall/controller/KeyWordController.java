@@ -25,17 +25,20 @@ public class KeyWordController {
         return baseReqVo;
     }
     @RequestMapping("create")
+    @RequiresPermissions(value = {"admin:keyword:create"})
     public BaseReqVo createKeyWord(@RequestBody KeyWord keyWord){
         System.out.println(keyWord);
         BaseReqVo baseReqVo=keyWordService.createKeyWord(keyWord);
         return baseReqVo;
     }
     @RequestMapping("update")
+    @RequiresPermissions(value = {"admin:keyword:update"})
     public BaseReqVo updateKeyWord(@RequestBody KeyWord keyWord){
         BaseReqVo baseReqVo=keyWordService.updateKeyWord(keyWord);
         return baseReqVo;
     }
     @RequestMapping("delete")
+    @RequiresPermissions(value = {"admin:keyword:delete"})
     public BaseReqVo deleteKeyWord(@RequestBody KeyWord keyWord){
         BaseReqVo baseReqVo=keyWordService.deleteKeyWord(keyWord);
         return baseReqVo;

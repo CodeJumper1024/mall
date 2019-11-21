@@ -1,8 +1,12 @@
 package com.cskaoyan.mall.controller;
 
 import com.cskaoyan.mall.bean.*;
+import com.cskaoyan.mall.service.CategoryService;
+import com.cskaoyan.mall.service.FootprintService;
 import com.cskaoyan.mall.service.WxGoodsService;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,12 +22,20 @@ public class WxGoodsController {
 
     @Autowired
     WxGoodsService wxGoodsService;
+    @Autowired
+    CategoryService categoryService;
+    @Autowired
+    FootprintService footprintService;
 
     @RequestMapping("detail")
     public BaseReqVo goodsDetail(Integer id) {
-
+        Footprint footprint=new Footprint();
+        Subject subject = SecurityUtils.getSubject();
+        User user= (User) subject.getPrincipal();
+        footprint.setUserId(user.getId());
+        footprint.setGoodsId(id);
+        footprintService.insertFoot(footprint.getUserId(),footprint.getGoodsId());
         HashMap<String, Object> dataMap = new HashMap<>();
-
         ArrayList<Map> specificationList = new ArrayList<>();
         List<String> names = wxGoodsService.querySpecNamesByGoodsId(id);
         for (String name : names) {
@@ -118,15 +130,24 @@ public class WxGoodsController {
     }
 
     @RequestMapping("list")
-    public BaseReqVo goodsList(Integer categoryId, Integer page, Integer size) {
+    public BaseReqVo goodsList(String keyword, Integer page, Integer size, String sort, String order, Integer categoryId) {
 
-        List<Goods> goodsList = wxGoodsService.queryGoodsByCategoryId(categoryId, page, size);
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+
+        List<Goods> goodsList = wxGoodsService.queryGoods(keyword, page, size, sort, order, categoryId, user.getId());
 
         PageInfo<Goods> goodsPageInfo = new PageInfo<>(goodsList);
         long total = goodsPageInfo.getTotal();
 
-        int count = wxGoodsService.queryGoodsNumByCategoryId(categoryId);
-        List<Category> filterCategoryList = wxGoodsService.queryL2Categories();
+        int count = (int) total;
+
+        List<Category> filterCategoryList = new ArrayList<>();
+        List<Integer> cidList = wxGoodsService.queryCategoryIds(keyword);
+        for (Integer cid : cidList) {
+            Category category = categoryService.queryCategoriesByCid(cid);
+            filterCategoryList.add(category);
+        }
 
         HashMap<String, Object> dataMap = new HashMap<>();
         dataMap.put("goodsList", goodsList);
