@@ -29,12 +29,14 @@ public class WxGoodsController {
 
     @RequestMapping("detail")
     public BaseReqVo goodsDetail(Integer id) {
-        Footprint footprint=new Footprint();
         Subject subject = SecurityUtils.getSubject();
         User user= (User) subject.getPrincipal();
-        footprint.setUserId(user.getId());
-        footprint.setGoodsId(id);
-        footprintService.insertFoot(footprint.getUserId(),footprint.getGoodsId());
+        if(user!=null) {
+            Footprint footprint = new Footprint();
+            footprint.setUserId(user.getId());
+            footprint.setGoodsId(id);
+            footprintService.insertFoot(footprint.getUserId(),footprint.getGoodsId());
+        }
         HashMap<String, Object> dataMap = new HashMap<>();
         ArrayList<Map> specificationList = new ArrayList<>();
         List<String> names = wxGoodsService.querySpecNamesByGoodsId(id);
@@ -131,12 +133,12 @@ public class WxGoodsController {
 
     @RequestMapping("list")
     public BaseReqVo goodsList(String keyword, Integer page, Integer size, String sort, String order,
-                               Integer categoryId, Boolean isNew, Boolean isHot) {
+                               Integer categoryId, Boolean isNew, Boolean isHot, Integer brandId) {
 
         Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getPrincipal();
 
-        List<Goods> goodsList = wxGoodsService.queryGoods(keyword, page, size, sort, order, categoryId, user.getId(), isNew, isHot);
+        List<Goods> goodsList = wxGoodsService.queryGoods(keyword, page, size, sort, order, categoryId, user.getId(), isNew, isHot, brandId);
 
         PageInfo<Goods> goodsPageInfo = new PageInfo<>(goodsList);
         long total = goodsPageInfo.getTotal();

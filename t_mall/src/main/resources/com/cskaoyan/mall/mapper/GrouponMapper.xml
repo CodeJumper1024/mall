@@ -312,4 +312,8 @@
   <select id="selectGrouponOrNotByOrderId" resultType="int">
     select count(id) from cskaoyan_mall_groupon where order_id = #{orderId}
   </select>
+    <select id="queryGroupon" resultType="com.cskaoyan.mall.bean.Groupon" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from cskaoyan_mall_groupon where deleted = 0
+    </select>
 </mapper>

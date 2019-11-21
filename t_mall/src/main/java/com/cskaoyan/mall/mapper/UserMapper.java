@@ -38,4 +38,6 @@ public interface UserMapper {
     User queryUserByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 
     User selectUserByName(@Param("username") String username);
+
+    int updateByMobile(User user);
 }

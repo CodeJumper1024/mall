@@ -396,6 +396,12 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateByMobile" parameterType="com.cskaoyan.mall.bean.User">
+    update cskaoyan_mall_user
+    set password = #{password},
+    update_time = #{updateTime}
+    where mobile = #{mobile}
+  </update>
   <select id="queryUserStatInfo" resultType="com.cskaoyan.mall.bean.UserStatInfo">
     select count(id) as users, date_format(add_time, '%Y-%m-%d') as day from cskaoyan_mall_user
     GROUP BY date_format(add_time, '%Y-%m-%d')

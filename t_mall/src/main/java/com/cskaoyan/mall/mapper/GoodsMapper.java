@@ -3,6 +3,7 @@ package com.cskaoyan.mall.mapper;
 import com.cskaoyan.mall.bean.Collect;
 import com.cskaoyan.mall.bean.Goods;
 import com.cskaoyan.mall.bean.GoodsExample;
+import com.cskaoyan.mall.bean.Groupon;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -66,15 +67,22 @@ public interface GoodsMapper {
 
     List<Goods> queryGoods(@Param("keyword") String keyword, @Param("categoryId") Integer categoryId,
                            @Param("sort") String sort, @Param("order") String order,
-                           @Param("isNew") Boolean isNew, @Param("isHot") Boolean isHot);
+                           @Param("isNew") Boolean isNew, @Param("isHot") Boolean isHot,
+                           @Param("brandId") Integer brandId);
 
     List<String> queryHelpers(@Param("keyword") String keyword);
 
     Goods queryCollection(@Param("goodsId") Integer goodsId);
 
+<<<<<<< HEAD
+    List<Groupon> queryGroupon();
+
+    Goods selectByGoodsId(@Param("goodsId") Integer goodsId);
+=======
     Double selectPriceById(@Param("goodsId") Integer goodsId);
 
     int queryCategoryIdById(@Param("id") Integer id);
 
     int queryBrandIdById(@Param("id") Integer id);
+>>>>>>> bf4c3506b96f782c80519cffd50dc08fe50165b5
 }

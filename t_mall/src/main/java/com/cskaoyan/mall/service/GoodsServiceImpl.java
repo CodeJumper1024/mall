@@ -4,6 +4,7 @@ import com.cskaoyan.mall.bean.*;
 import com.cskaoyan.mall.mapper.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -192,7 +193,12 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+<<<<<<< HEAD
+    public Goods queryGoodsByGoodsId(Integer goodsId) {
+        return goodsMapper.selectByGoodsId(goodsId);
+=======
     public Goods queryGoods(Integer id) {
         return goodsMapper.selectByPrimaryKey(id);
+>>>>>>> bf4c3506b96f782c80519cffd50dc08fe50165b5
     }
 }
