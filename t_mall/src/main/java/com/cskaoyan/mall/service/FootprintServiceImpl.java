@@ -42,16 +42,16 @@ public class FootprintServiceImpl implements FootprintService {
         List<Footprint> footprints = footprintMapper.selectByExample(footprintExample);
         List<FootPrintList> footprintList =new ArrayList<>();
         for (Footprint footprint : footprints) {
-            FootPrintList footPrintList=new FootPrintList();
+            FootPrintList footPrintList1=new FootPrintList();
             Goods goods=goodsMapper.selectByPrimaryKey(footprint.getGoodsId());
-            footPrintList.setId(footprint.getId());
-            footPrintList.setAddTime(footprint.getAddTime());
-            footPrintList.setGoodsId(goods.getId());
-            footPrintList.setBrief(goods.getBrief());
-            footPrintList.setPicUrl(goods.getPicUrl());
-            footPrintList.setRetailPrice(goods.getRetailPrice());
-            footPrintList.setName(goods.getName());
-            footprintList.add(footPrintList);
+            footPrintList1.setId(footprint.getId());
+            footPrintList1.setAddTime(footprint.getAddTime());
+            footPrintList1.setGoodsId(goods.getId());
+            footPrintList1.setBrief(goods.getBrief());
+            footPrintList1.setPicUrl(goods.getPicUrl());
+            footPrintList1.setRetailPrice(goods.getRetailPrice());
+            footPrintList1.setName(goods.getName());
+            footprintList.add(footPrintList1);
         }
         PageInfo<Footprint> footprintPageInfo=new PageInfo<>(footprints);
         long total = footprintPageInfo.getTotal();

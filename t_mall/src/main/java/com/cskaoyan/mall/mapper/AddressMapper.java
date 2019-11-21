@@ -43,4 +43,5 @@ public interface AddressMapper {
 
     int queryLastId();
 
+    Address selecetByUserIdAndDefault(@Param("userId")Integer userId, @Param("isDefault")int i);
 }

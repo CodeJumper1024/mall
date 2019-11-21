@@ -34,4 +34,6 @@ public interface CouponMapper {
     int delete(Integer id);
 
     int update(Coupon coupon);
+
+    Coupon selectALL(@Param("id") Integer couponId);
 }
