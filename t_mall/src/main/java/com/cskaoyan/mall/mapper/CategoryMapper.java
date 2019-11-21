@@ -67,4 +67,8 @@ public interface CategoryMapper {
     Category queryCategoriesByCid(@Param("cid") Integer cid);
 
     String queryLevelById(@Param("id") Integer id);
+
+    List<Category> selectAllLeve2();
+
+    Integer[] selectLevel2ByPid(@Param("pid") Integer pid);
 }

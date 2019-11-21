@@ -76,7 +76,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, title, subtitle, price, read_count, pic_url, sort_order, goods, add_time, update_time, 
+    id, title, subtitle, price, read_count, pic_url, sort_order, goods, add_time, update_time,
     deleted,content
   </sql>
   <sql id="Blob_Column_List">
@@ -113,7 +113,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -132,13 +132,13 @@
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.mall.bean.Topic">
     insert into cskaoyan_mall_topic (title, subtitle,
-      price, read_count, pic_url, 
-      sort_order, goods, add_time, 
+      price, read_count, pic_url,
+      sort_order, goods, add_time,
       update_time, deleted, content
       )
     values (#{title,jdbcType=VARCHAR}, #{subtitle,jdbcType=VARCHAR},
-      #{price,jdbcType=DECIMAL}, #{readCount,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER}, #{goods,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{price,jdbcType=DECIMAL}, #{readCount,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR},
+      #{sortOrder,jdbcType=INTEGER}, #{goods,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
@@ -399,4 +399,8 @@
     select id,title,subtitle,price,read_count,pic_url,sort_order,goods,add_time,update_time,
     deleted from cskaoyan_mall_topic
   </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+      from cskaoyan_mall_topic
+    </select>
 </mapper>

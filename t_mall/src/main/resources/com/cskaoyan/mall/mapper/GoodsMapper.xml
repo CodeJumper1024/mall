@@ -623,6 +623,7 @@
     select <include refid="Base_Column_List"/>
     from cskaoyan_mall_goods
     where category_id = #{catagoryId}
+    limit 10
   </select>
   <select id="queryRelatedGoods" resultMap="BaseResultMap">
     <!--select <include refid="Base_Column_List"/>
