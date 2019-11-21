@@ -15,4 +15,8 @@ public interface KeyWordMapper {
     void updateKeyWordById(@Param("keyWord") KeyWord keyWord);
 
     int deleteById(@Param("id") Integer id);
+
+    KeyWord queryDefaultKeyword();
+
+    List<KeyWord> queryHotKeywords();
 }

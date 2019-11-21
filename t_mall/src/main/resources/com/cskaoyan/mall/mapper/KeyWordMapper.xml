@@ -51,4 +51,15 @@
         delete from cskaoyan_mall_keyword
     where id = #{id,jdbcType=INTEGER}
     </delete>
+    <select id="queryDefaultKeyword" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from cskaoyan_mall_keyword
+        where is_default = 1 and deleted = 0
+        order by sort_order limit 1
+    </select>
+    <select id="queryHotKeywords" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from cskaoyan_mall_keyword
+        where is_hot = 1 and deleted = 0
+    </select>
 </mapper>

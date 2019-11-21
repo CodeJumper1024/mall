@@ -32,4 +32,6 @@ public interface GrouponMapper {
 
     int selectGrouponMemberByRuleId(@Param("ruleId") Integer RuleId);
 
+    int selectGrouponOrNotByOrderId(@Param("orderId") Integer orderId);
+
 }

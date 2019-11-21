@@ -57,4 +57,6 @@ public interface CategoryMapper {
     Category queryCategoryById(Integer id);
 
     List<Category> queryL2Categories();
+
+    Category queryCategoriesByCid(@Param("cid") Integer cid);
 }

@@ -1,11 +1,14 @@
 package com.cskaoyan.mall.controller;
 
+import com.cskaoyan.mall.aopAnnotation.Security;
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.bean.Cart;
 import com.cskaoyan.mall.bean.User;
 import com.cskaoyan.mall.bean.WxCart;
 import com.cskaoyan.mall.service.BrandService;
 import com.cskaoyan.mall.service.CartService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
@@ -24,7 +27,15 @@ public class WxCartController {
     CartService cartService;
     @RequestMapping("add")
     public BaseReqVo addCart(@RequestBody Cart cart){
+        Subject subject = SecurityUtils.getSubject();
+        User user= (User) subject.getPrincipal();;
+        cart.setUserId(user.getId());
         BaseReqVo baseReqVo=cartService.addCart(cart);
+        return baseReqVo;
+    }
+    @RequestMapping("fastadd")
+    public BaseReqVo fastAddCart(@RequestBody Cart cart){
+        BaseReqVo baseReqVo=cartService.fastAddCart(cart);
         return baseReqVo;
     }
     @RequestMapping("goodscount")

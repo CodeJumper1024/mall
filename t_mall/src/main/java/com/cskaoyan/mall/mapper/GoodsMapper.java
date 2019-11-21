@@ -1,5 +1,6 @@
 package com.cskaoyan.mall.mapper;
 
+import com.cskaoyan.mall.bean.Collect;
 import com.cskaoyan.mall.bean.Goods;
 import com.cskaoyan.mall.bean.GoodsExample;
 import org.apache.ibatis.annotations.Param;
@@ -60,4 +61,13 @@ public interface GoodsMapper {
     List<Goods> queryGoodsByCategoryId(@Param("categoryId") Integer categoryId);
 
     int queryGoodsNumByCategoryId(@Param("categoryId") Integer categoryId);
+
+    List<Integer> queryCategoryIds(@Param("keyword") String keyword);
+
+    List<Goods> queryGoods(@Param("keyword") String keyword, @Param("categoryId") Integer categoryId,
+                           @Param("sort") String sort, @Param("order") String order);
+
+    List<String> queryHelpers(@Param("keyword") String keyword);
+
+    Goods queryCollection(@Param("goodsId") Integer goodsId);
 }

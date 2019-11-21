@@ -6,7 +6,8 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class WxGoodsServiceImpl implements WxGoodsService {
@@ -29,6 +30,8 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     GoodsMapper goodsMapper;
     @Autowired
     CategoryMapper categoryMapper;
+    @Autowired
+    SearchHistoryMapper searchHistoryMapper;
 
     @Override
     public List<GrouponRules> queryGrouponRules(Integer id) {
@@ -123,21 +126,23 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     }
 
     @Override
-    public List<Goods> queryGoodsByCategoryId(Integer categoryId, Integer page, Integer size) {
+    public List<Goods> queryGoods(String keyword, Integer page, Integer size, String sort, String order, Integer categoryId, Integer id) {
         PageHelper.startPage(page, size);
-        List<Goods> goodsList = goodsMapper.queryGoodsByCategoryId(categoryId);
+        List<Goods> goodsList = goodsMapper.queryGoods("%" + keyword + "%", categoryId, sort, order);
+        Date date = new Date();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        String addTime = dateFormat.format(date);
+        searchHistoryMapper.addToHistory(id, keyword, addTime);
         return goodsList;
     }
 
     @Override
-    public int queryGoodsNumByCategoryId(Integer categoryId) {
-        int count = goodsMapper.queryGoodsNumByCategoryId(categoryId);
-        return count;
-    }
-
-    @Override
-    public List<Category> queryL2Categories() {
-        List<Category> l2Categories = categoryMapper.queryL2Categories();
-        return l2Categories;
+    public List<Integer> queryCategoryIds(String keyword) {
+        List<Integer> cidList = goodsMapper.queryCategoryIds("%" + keyword + "%");
+        Set set = new HashSet();
+        List list = new ArrayList();
+        set.addAll(cidList);
+        list.addAll(set);
+        return list;
     }
 }

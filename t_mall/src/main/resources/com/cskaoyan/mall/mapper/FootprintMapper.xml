@@ -85,10 +85,10 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_footprint
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and deleted = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from cskaoyan_mall_footprint
@@ -101,11 +101,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.mall.bean.Footprint">
-    insert into cskaoyan_mall_footprint (id, user_id, goods_id, 
+    insert into cskaoyan_mall_footprint (id, user_id, goods_id,
       add_time, update_time, deleted
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, 
-      #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER},
+        now(),now(),false
       )
   </insert>
   <insert id="insertSelective" parameterType="com.cskaoyan.mall.bean.Footprint">
@@ -239,4 +239,9 @@
     </where>
     order by add_time desc
   </select>
+  <update id="deleteByid">
+      update cskaoyan_mall_footprint
+      set deleted =true,update_time =now()
+      where id = #{id}
+  </update>
 </mapper>

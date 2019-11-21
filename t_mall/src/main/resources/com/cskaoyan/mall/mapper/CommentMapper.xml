@@ -86,7 +86,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, value_id, type, content, user_id, has_picture, pic_urls, star, add_time, update_time, 
+    id, value_id, type, content, user_id, has_picture, pic_urls, star, add_time, update_time,
     deleted
   </sql>
   <select id="selectByExample" parameterType="com.cskaoyan.mall.bean.CommentExample" resultMap="BaseResultMap">
@@ -104,7 +104,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_comment
     where id = #{id,jdbcType=INTEGER}
@@ -120,13 +120,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.mall.bean.Comment">
-    insert into cskaoyan_mall_comment (id, value_id, type, 
-      content, user_id, has_picture, 
-      pic_urls, star, add_time, 
+    insert into cskaoyan_mall_comment (id, value_id, type,
+      content, user_id, has_picture,
+      pic_urls, star, add_time,
       update_time, deleted)
-    values (#{id,jdbcType=INTEGER}, #{valueId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
-      #{content,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{hasPicture,jdbcType=BIT}, 
-      #{picUrls,jdbcType=VARCHAR}, #{star,jdbcType=SMALLINT}, #{addTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{valueId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT},
+      #{content,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{hasPicture,jdbcType=BIT},
+      #{picUrls,jdbcType=VARCHAR}, #{star,jdbcType=SMALLINT}, #{addTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.cskaoyan.mall.bean.Comment">
@@ -355,18 +355,18 @@
       select c.add_time, c.pic_urls, c.id, c.content, u.nickname, u.avatar
       from cskaoyan_mall_comment c left join cskaoyan_mall_user u
       on c.user_id = u.id where c.value_id = #{goodsId}
-      and `deleted` = 0
+      and c.deleted = 0 and u.deleted = 0
   </select>
   <select id="queryCommentCountByValueId" resultType="int">
-    select count(id) from cskaoyan_mall_comment where value_id = #{goodsId} and `deleted` = 0;
+    select count(id) from cskaoyan_mall_comment where value_id = #{goodsId} and deleted = 0;
   </select>
   <select id="queryCommentsCount" resultType="int">
     select count(id) from cskaoyan_mall_comment where value_id = #{valueId} and `type` = #{type}
-    and `deleted` = 0
+    and deleted = 0
   </select>
   <select id="queryCommentsHasPicCount" resultType="int">
     select count(id) from cskaoyan_mall_comment where value_id = #{valueId} and `type` = #{type}
     and has_picture = 1
-    and `deleted` = 0
+    and deleted = 0
   </select>
 </mapper>

@@ -389,4 +389,8 @@
     select <include refid="Base_Column_List"/>
     from cskaoyan_mall_category where level = 'L2'
   </select>
+  <select id="queryCategoriesByCid" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_category where id = #{cid}
+  </select>
 </mapper>

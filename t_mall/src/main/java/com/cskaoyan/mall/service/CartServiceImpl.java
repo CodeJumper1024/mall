@@ -5,6 +5,8 @@ import com.cskaoyan.mall.mapper.CartMapper;
 import com.cskaoyan.mall.mapper.GoodsMapper;
 import com.cskaoyan.mall.mapper.GoodsProductMapper;
 import com.sun.org.apache.bcel.internal.generic.NEW;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.omg.CORBA.OBJ_ADAPTER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -29,7 +31,6 @@ public class CartServiceImpl implements CartService {
         BaseReqVo baseReqVo=new BaseReqVo();
         Goods goods = goodsMapper.selectByPrimaryKey(cart.getGoodsId());
         GoodsProduct product = productMapper.selectByPrimaryKey(cart.getProductId());
-        cart.setUserId(1);
         cart.setChecked(false);
         cart.setGoodsSn(goods.getGoodsSn());
         cart.setGoodsName(goods.getName());
@@ -71,7 +72,14 @@ public class CartServiceImpl implements CartService {
     @Override
     public BaseReqVo countCart() {
         BaseReqVo baseReqVo = new BaseReqVo();
-        int sum = cartMapper.selectSumNumber(1);
+        Subject subject = SecurityUtils.getSubject();
+        User user= (User) subject.getPrincipal();
+        List<Cart> cartList=null;
+        cartList= cartMapper.selectByUserId(user.getId());
+        int sum=0;
+        if(!cartList.isEmpty()){
+            sum = cartMapper.selectSumNumber(user.getId());
+        }
         baseReqVo.setErrmsg("成功");
         baseReqVo.setErrno(0);
         baseReqVo.setData(sum);
@@ -81,12 +89,14 @@ public class CartServiceImpl implements CartService {
     @Override
     public BaseReqVo indexCart() {
         BaseReqVo baseReqVo = new BaseReqVo();
-        List<Cart> cartList= cartMapper.selectByUserId(1);
+        Subject subject = SecurityUtils.getSubject();
+        User user= (User) subject.getPrincipal();
+        List<Cart> cartList= cartMapper.selectByUserId(user.getId());
         int goodsCount=0;
         int goodsAmount =0;
         if(!cartList.isEmpty()){
-            goodsCount = cartMapper.selectSumNumber(1);
-            goodsAmount =cartMapper.selectSumPrice(1);
+            goodsCount = cartMapper.selectSumNumber(user.getId());
+            goodsAmount =cartMapper.selectSumPrice(user.getId());
         }
         Map<String,Object> cartTotal=new HashMap<>();
         cartTotal.put("goodsCount",goodsCount);
@@ -106,8 +116,10 @@ public class CartServiceImpl implements CartService {
     public BaseReqVo checkedCart(WxCart cart) {
         BaseReqVo baseReqVo = new BaseReqVo();
         Integer[] productIds=cart.getProductIds();
+        Subject subject = SecurityUtils.getSubject();
+        User user= (User) subject.getPrincipal();
         for (Integer productId : productIds) {
-            Cart cart1 = cartMapper.selectByIdAndProductId(productId,1);
+            Cart cart1 = cartMapper.selectByIdAndProductId(productId,user.getId());
             cart1.setChecked(cart.getIsChecked());
             cartMapper.updateCheckById(cart1.getId(),cart1.getChecked());
         }
@@ -133,11 +145,41 @@ public class CartServiceImpl implements CartService {
     @Override
     public BaseReqVo deleteCart(WxCart cart) {
         BaseReqVo baseReqVo = new BaseReqVo();
+        Subject subject = SecurityUtils.getSubject();
+        User user= (User) subject.getPrincipal();
         Integer[] productIds=cart.getProductIds();
         for (Integer productId : productIds) {
-            cartMapper.deleteCart(productId,1);
+            cartMapper.deleteCart(productId,user.getId());
         }
         baseReqVo=indexCart();
+        return baseReqVo;
+    }
+
+    @Override
+    public BaseReqVo fastAddCart(Cart cart) {
+        BaseReqVo baseReqVo=new BaseReqVo();
+        Goods goods = goodsMapper.selectByPrimaryKey(cart.getGoodsId());
+        GoodsProduct product = productMapper.selectByPrimaryKey(cart.getProductId());
+        Subject subject = SecurityUtils.getSubject();
+        User user= (User) subject.getPrincipal();;
+        cart.setUserId(user.getId());
+        cart.setChecked(true);
+        cart.setGoodsSn(goods.getGoodsSn());
+        cart.setGoodsName(goods.getName());
+        cart.setPrice(product.getPrice());
+        cart.setSpecifications(product.getSpecifications());
+        cart.setPicUrl(goods.getPicUrl());
+        int result = cartMapper.insertAll(cart);
+        if (result > 0) {
+            int id = cart.getId();
+            baseReqVo.setErrmsg("成功");
+            baseReqVo.setErrno(0);
+            baseReqVo.setData(id);
+        } else {
+            baseReqVo.setData(123);
+            baseReqVo.setErrno(1001);
+            baseReqVo.setErrmsg("失败");
+        }
         return baseReqVo;
     }
 }
