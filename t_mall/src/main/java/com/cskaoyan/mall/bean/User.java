@@ -13,7 +13,7 @@ public class User {
 
     private Byte gender;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date birthday;
 
     private Date lastLoginTime;
@@ -32,7 +32,7 @@ public class User {
 
     private Byte status;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date addTime;
 
     private Date updateTime;

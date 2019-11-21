@@ -39,5 +39,5 @@ public interface BrandMapper {
 
     List<Brand> selectAll();
 
-    Brand queryBrandByGoodsId(@Param("goodsId") Integer id);
+    Brand queryBrandById(@Param("brandId") Integer brandId);
 }

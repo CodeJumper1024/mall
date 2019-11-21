@@ -51,7 +51,7 @@ public class StatServiceImpl implements StatService {
     public BaseReqVo userStat() {
         BaseReqVo<Map> userBaseReqVo = new BaseReqVo<>();
         HashMap<String, Object> data = new HashMap<>();
-        String[] columns = {"days", "users"};
+        String[] columns = {"day", "users"};
         data.put("columns", columns);
         List<UserStatInfo> infos = userMapper.queryUserStatInfo();
         ArrayList<Map> rows = new ArrayList<>();
