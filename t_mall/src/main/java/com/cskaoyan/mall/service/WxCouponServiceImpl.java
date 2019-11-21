@@ -1,11 +1,10 @@
 package com.cskaoyan.mall.service;
 
-import com.cskaoyan.mall.bean.BaseReqVo;
-import com.cskaoyan.mall.bean.Coupon;
-import com.cskaoyan.mall.bean.CouponUser;
-import com.cskaoyan.mall.bean.User;
+import com.cskaoyan.mall.bean.*;
+import com.cskaoyan.mall.mapper.CartMapper;
 import com.cskaoyan.mall.mapper.CouponMapper;
 import com.cskaoyan.mall.mapper.CouponUserMapper;
+import com.cskaoyan.mall.mapper.GoodsMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
@@ -14,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class WxCouponServiceImpl implements WxCouponService{
@@ -26,6 +22,11 @@ public class WxCouponServiceImpl implements WxCouponService{
     CouponMapper couponMapper;
     @Autowired
     CouponUserMapper couponUserMapper;
+    @Autowired
+    CartMapper cartMapper;
+    @Autowired
+    GoodsMapper goodsMapper;
+
     //我的优惠券
     @Override
     public BaseReqVo mylist(int status, int page, int size) {
@@ -104,5 +105,55 @@ public class WxCouponServiceImpl implements WxCouponService{
             baseReqVo.setErrno(0);
         }
         return baseReqVo;
+    }
+
+    @Override
+    public BaseReqVo selectList(int cartId, int grouponRulesId) {
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        ArrayList<Coupon> coupons = new ArrayList<>();
+        List<Coupon> zeroCoupons = couponMapper.selectCouponOfStatusZero();
+        coupons.addAll(zeroCoupons);
+        ArrayList<Integer> cartIds = new ArrayList<>();
+        if (cartId == 0){
+            CartExample cartExample = new CartExample();
+            cartExample.createCriteria().andCheckedEqualTo(true).andDeletedEqualTo(false).andUserIdEqualTo(user.getId());
+            List<Cart> carts = cartMapper.selectByExample(cartExample);
+            for (Cart cart : carts) {
+                cartIds.add(cart.getId());
+            }
+        }else {
+            cartIds.add(cartId);
+        }
+        ArrayList<Integer> goodsIds = new ArrayList<>();
+        for (Integer id : cartIds) {
+            List<Integer> goodsId = cartMapper.selectGoodsIdById(cartId);
+            goodsIds.addAll(goodsId);
+        }
+        List<Coupon> allCoupon = couponMapper.selectAll();
+        for (Integer goodsId : goodsIds) {
+            Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
+            for (Coupon coupon : allCoupon) {
+                String[] goodsValue = coupon.getGoodsValue();
+                for (String s : goodsValue) {
+                    if (coupon.getStatus() == 1 && Integer.parseInt(s) == goods.getBrandId()){
+                        //符合商品类目的优惠券
+                        coupons.add(coupon);
+                    }else if (coupon.getStatus() == 2 && Integer.parseInt(s) == goods.getId()){
+                        //符合商品id的优惠券
+                        coupons.add(coupon);
+                    }
+                }
+            }
+        }
+        ArrayList<Coupon> couponOfUser = new ArrayList<>();
+        Integer[] couponIds = couponUserMapper.selectCouponIdsByUserId(user.getId());
+        for (Coupon coupon : coupons) {
+            for (Integer couponId : couponIds) {
+                if (coupon.getId() == couponId){
+                    couponOfUser.add(coupon);
+                }
+            }
+        }
+        return BaseReqVo.ok(couponOfUser);
     }
 }

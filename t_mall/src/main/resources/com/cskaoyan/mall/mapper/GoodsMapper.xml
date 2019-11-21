@@ -661,6 +661,9 @@
       <if test="isHot != null">
         and is_hot = 1
       </if>
+      <if test="brandId != null">
+        and brand_id = #{brandId}
+      </if>
       and deleted = 0
     </where>
     <if test="sort != null">

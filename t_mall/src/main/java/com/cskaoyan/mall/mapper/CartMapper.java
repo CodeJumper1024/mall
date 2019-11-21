@@ -35,7 +35,7 @@ public interface CartMapper {
 
     List<Cart> selectByUserId(@Param("userId") Integer userId);
 
-    int updateCheckById(@Param("id")Integer id, @Param("checked")Boolean checked);
+    int updateCheckById(@Param("id") Integer id, @Param("checked") Boolean checked);
 
     int selectHasCart(@Param("goodsId") Integer goodsId, @Param("productId") Integer productId, @Param("userId") Integer userId);
 
@@ -44,9 +44,9 @@ public interface CartMapper {
 
     Cart selectCart(@Param("goodsId") Integer goodsId, @Param("productId") Integer productId, @Param("userId") Integer userId);
 
-    Cart selectByIdAndProductId(@Param("productId")Integer productId, @Param("userId")int userId);
+    Cart selectByIdAndProductId(@Param("productId") Integer productId, @Param("userId") int userId);
 
-    Integer deleteCart(@Param("productId") Integer productId, @Param("userId")int userId);
+    Integer deleteCart(@Param("productId") Integer productId, @Param("userId") int userId);
 
     int insertAll(@Param("cart") Cart cart);
 
@@ -54,4 +54,5 @@ public interface CartMapper {
 
     int deleteGoodsSubmitted();
 
+    List<Integer> selectGoodsIdById(@Param("cartId") int cartId);
 }

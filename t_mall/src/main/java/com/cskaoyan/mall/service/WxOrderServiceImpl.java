@@ -58,7 +58,7 @@ public class WxOrderServiceImpl implements WxOrderService {
             //查找全部订单信息
         }else if(showType == 1){
             //待付款
-            orderStatusArray = new Integer[]{101,102,103};
+            orderStatusArray = new Integer[]{101};
         }else if(showType == 2){
             //待发货
             orderStatusArray = new Integer[]{201,202,203};
@@ -377,4 +377,75 @@ public class WxOrderServiceImpl implements WxOrderService {
         //返回新创建的订单id
         return orderId;
     }
+
+    @Override
+    public int prepay(String orderId) {
+        Order order = new Order();
+        int id = Integer.parseInt(orderId);
+        order.setId(id);
+        Date date = new Date();
+        //修改 订单更新时间，订单支付时间,订单状态码，订单支付方式
+        order.setUpdateTime(date);
+        order.setPayTime(date);
+        order.setOrderStatus((short)201);
+        order.setPayId("1");
+        int update = orderMapper.prepay(order);
+        return update;
+    }
+
+    @Override
+    public int refund(String orderId) {
+        Order order = new Order();
+        int id = Integer.parseInt(orderId);
+        order.setId(id);
+        Date date = new Date();
+        //修改 订单更新时间，订单结束时间,订单状态码
+        order.setUpdateTime(date);
+        order.setEndTime(date);
+        order.setOrderStatus((short)102);
+        int update = orderMapper.cancelOrder(order);
+        return update;
+    }
+
+    @Override
+    public int cancel(String orderId) {
+        Order order = new Order();
+        int id = Integer.parseInt(orderId);
+        order.setId(id);
+        Date date = new Date();
+        //修改 订单更新时间，订单结束时间,订单状态码
+        order.setUpdateTime(date);
+        order.setEndTime(date);
+        order.setOrderStatus((short)102);
+        int update = orderMapper.cancelOrder(order);
+        return update;
+    }
+
+    @Override
+    public int confirm(String orderId) {
+        Order order = new Order();
+        int id = Integer.parseInt(orderId);
+        order.setId(id);
+        Date date = new Date();
+        //修改 订单更新时间，确认收货时间,订单状态码
+        order.setUpdateTime(date);
+        order.setConfirmTime(date);
+        order.setOrderStatus((short)401);
+        int update = orderMapper.confirm(order);
+        return update;
+    }
+
+    @Override
+    public int delete(String orderId) {
+        Order order = new Order();
+        int id = Integer.parseInt(orderId);
+        order.setId(id);
+        Date date = new Date();
+        //修改 订单更新时间，订单结束时间
+        order.setEndTime(date);
+        order.setUpdateTime(date);
+        int delete = orderMapper.delete(order);
+        return delete;
+    }
+
 }

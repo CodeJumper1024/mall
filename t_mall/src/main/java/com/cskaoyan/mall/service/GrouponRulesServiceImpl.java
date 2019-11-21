@@ -58,7 +58,10 @@ public class GrouponRulesServiceImpl implements GrouponRulesService{
     }
 
     @Override
+<<<<<<< HEAD
 
+=======
+>>>>>>> c7acded77025fd733deab1b2f6a2bd3799df03bb
     public List<Groupon> queryGroupon(Integer page, Integer limit, Integer goodsId) {
         PageHelper.startPage(page,limit);
         List<Groupon> groupons = grouponMapper.queryGroupon();
@@ -78,7 +81,10 @@ public class GrouponRulesServiceImpl implements GrouponRulesService{
         return grouponRulesMapper.queryGrouponRulesById(rulesId);
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c7acded77025fd733deab1b2f6a2bd3799df03bb
     public List<GrouponRules> queryGrouponsRulesList(Integer page, Integer size) {
         PageHelper.startPage(page,size);
         return grouponRulesMapper.queryGrouponRulersList();
@@ -88,5 +94,8 @@ public class GrouponRulesServiceImpl implements GrouponRulesService{
     public GrouponRules selectRulesById(Integer rulesId) {
         return grouponRulesMapper.selectByPrimaryKey(rulesId);
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> c7acded77025fd733deab1b2f6a2bd3799df03bb
 }

@@ -530,4 +530,9 @@
     from cskaoyan_mall_coupon
     where code = #{code}
   </select>
+  <select id="selectCouponOfStatusZero" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_coupon
+    where goods_type = 0
+  </select>
 </mapper>

@@ -242,7 +242,7 @@ public class CartServiceImpl implements CartService {
         couponUserExample.createCriteria().andUserIdEqualTo(user.getId()).andStatusEqualTo((short)0).andDeletedEqualTo(false).andStartTimeLessThanOrEqualTo(date).andEndTimeGreaterThanOrEqualTo(date);
         List<CouponUser> couponUsers = couponUserMapper.selectByExample(couponUserExample);
         int actualPrice=0;
-        if(checkOut.getCouponId()==0){
+        if(checkOut.getCouponId()==0||checkOut.getCouponId()==-1){
             actualPrice=0;
             int couponPrice=0;
             int availableCouponLength=0;

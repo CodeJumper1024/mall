@@ -12,6 +12,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +62,21 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order selectOrderByOrderId(Integer orderId) {
         return orderMapper.selectByPrimaryKey(orderId);
+    }
+
+    @Override
+    public int ship(Integer orderId, String shipChannel, String shipSn) {
+
+        Order order = new Order();
+        order.setId(orderId);
+        order.setOrderStatus((short)301);
+        order.setShipChannel(shipChannel);
+        order.setShipSn(shipSn);
+        Date date = new Date();
+        order.setShipTime(date);
+        order.setUpdateTime(date);
+        int update = orderMapper.ship(order);
+        return update;
     }
 
 }

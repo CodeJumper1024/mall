@@ -67,7 +67,8 @@ public interface GoodsMapper {
 
     List<Goods> queryGoods(@Param("keyword") String keyword, @Param("categoryId") Integer categoryId,
                            @Param("sort") String sort, @Param("order") String order,
-                           @Param("isNew") Boolean isNew, @Param("isHot") Boolean isHot);
+                           @Param("isNew") Boolean isNew, @Param("isHot") Boolean isHot,
+                           @Param("brandId") Integer brandId);
 
     List<String> queryHelpers(@Param("keyword") String keyword);
 
@@ -76,7 +77,10 @@ public interface GoodsMapper {
     List<Groupon> queryGroupon();
 
     Goods selectByGoodsId(@Param("goodsId") Integer goodsId);
+<<<<<<< HEAD
 
+=======
+>>>>>>> c7acded77025fd733deab1b2f6a2bd3799df03bb
     Double selectPriceById(@Param("goodsId") Integer goodsId);
 
     int queryCategoryIdById(@Param("id") Integer id);

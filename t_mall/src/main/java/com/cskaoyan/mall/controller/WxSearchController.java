@@ -34,11 +34,13 @@ public class WxSearchController {
         List<KeyWord> hotKeywordList = wxSearchService.queryHotKeywords();
 
         ArrayList<Map> historyKeyWordList = new ArrayList<>();
-        List<String> historyKeywords = wxSearchService.queryHistoryKeywords(user.getId());
-        for (String historyKeyword : historyKeywords) {
-            HashMap<String, Object> keywordMap = new HashMap<>();
-            keywordMap.put("keyword", historyKeyword);
-            historyKeyWordList.add(keywordMap);
+        if (user != null) {
+            List<String> historyKeywords = wxSearchService.queryHistoryKeywords(user.getId());
+            for (String historyKeyword : historyKeywords) {
+                HashMap<String, Object> keywordMap = new HashMap<>();
+                keywordMap.put("keyword", historyKeyword);
+                historyKeyWordList.add(keywordMap);
+            }
         }
 
         HashMap<String, Object> dataMap = new HashMap<>();

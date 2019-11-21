@@ -18,7 +18,10 @@ public interface GoodsService {
 
     BaseReqVo create(Map<String, Object> info);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c7acded77025fd733deab1b2f6a2bd3799df03bb
     Goods queryGoodsByGoodsId(Integer goodsId);
 
     Goods queryGoods(Integer id);
