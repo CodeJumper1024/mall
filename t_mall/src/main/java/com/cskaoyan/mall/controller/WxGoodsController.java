@@ -29,12 +29,14 @@ public class WxGoodsController {
 
     @RequestMapping("detail")
     public BaseReqVo goodsDetail(Integer id) {
-        Footprint footprint=new Footprint();
         Subject subject = SecurityUtils.getSubject();
         User user= (User) subject.getPrincipal();
-        footprint.setUserId(user.getId());
-        footprint.setGoodsId(id);
-        footprintService.insertFoot(footprint.getUserId(),footprint.getGoodsId());
+        if(user!=null) {
+            Footprint footprint = new Footprint();
+            footprint.setUserId(user.getId());
+            footprint.setGoodsId(id);
+            footprintService.insertFoot(footprint.getUserId(),footprint.getGoodsId());
+        }
         HashMap<String, Object> dataMap = new HashMap<>();
         ArrayList<Map> specificationList = new ArrayList<>();
         List<String> names = wxGoodsService.querySpecNamesByGoodsId(id);
