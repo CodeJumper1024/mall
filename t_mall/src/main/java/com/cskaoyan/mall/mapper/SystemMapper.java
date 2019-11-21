@@ -29,4 +29,5 @@ public interface SystemMapper {
 
     int updateByPrimaryKey(System record);
 
+    int selectByName(@Param("key_name") String key_name);
 }
