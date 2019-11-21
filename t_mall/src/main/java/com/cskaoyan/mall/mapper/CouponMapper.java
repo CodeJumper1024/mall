@@ -41,4 +41,6 @@ public interface CouponMapper {
     List<Coupon> selectAll();
 
     Coupon selectByCode(@Param("code") String code);
+
+    List<Coupon> selectCouponOfStatusZero();
 }

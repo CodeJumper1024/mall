@@ -404,5 +404,8 @@
   <update id="deleteGoodsSubmitted">
     update cskaoyan_mall_cart set deleted = 1 where checked = 1
   </update>
+    <select id="selectGoodsIdById" resultType="java.lang.Integer">
+      select goods_id from cskaoyan_mall_cart where id = #{cartId}
+    </select>
 
 </mapper>

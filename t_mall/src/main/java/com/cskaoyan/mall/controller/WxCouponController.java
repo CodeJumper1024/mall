@@ -41,4 +41,10 @@ public class WxCouponController {
         BaseReqVo baseReqVo = wxCouponService.exchange(code);
         return baseReqVo;
     }
+
+    @RequestMapping("selectlist")
+    public BaseReqVo selectList(int cartId, int grouponRulesId){
+        BaseReqVo baseReqVo = wxCouponService.selectList(cartId, grouponRulesId);
+        return baseReqVo;
+    }
 }

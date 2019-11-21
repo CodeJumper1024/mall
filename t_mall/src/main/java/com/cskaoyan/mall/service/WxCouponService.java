@@ -10,4 +10,7 @@ public interface WxCouponService {
     BaseReqVo receive(int couponId);
 
     BaseReqVo exchange(String code);
+
+    BaseReqVo selectList(int cartId, int grouponRulesId);
+
 }
