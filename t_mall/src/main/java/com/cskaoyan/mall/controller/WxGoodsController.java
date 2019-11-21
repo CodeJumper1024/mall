@@ -1,6 +1,7 @@
 package com.cskaoyan.mall.controller;
 
 import com.cskaoyan.mall.bean.*;
+import com.cskaoyan.mall.service.CategoryService;
 import com.cskaoyan.mall.service.FootprintService;
 import com.cskaoyan.mall.service.WxGoodsService;
 import com.github.pagehelper.PageInfo;
@@ -21,6 +22,8 @@ public class WxGoodsController {
 
     @Autowired
     WxGoodsService wxGoodsService;
+    @Autowired
+    CategoryService categoryService;
     @Autowired
     FootprintService footprintService;
 
@@ -127,15 +130,24 @@ public class WxGoodsController {
     }
 
     @RequestMapping("list")
-    public BaseReqVo goodsList(Integer categoryId, Integer page, Integer size) {
+    public BaseReqVo goodsList(String keyword, Integer page, Integer size, String sort, String order, Integer categoryId) {
 
-        List<Goods> goodsList = wxGoodsService.queryGoodsByCategoryId(categoryId, page, size);
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+
+        List<Goods> goodsList = wxGoodsService.queryGoods(keyword, page, size, sort, order, categoryId, user.getId());
 
         PageInfo<Goods> goodsPageInfo = new PageInfo<>(goodsList);
         long total = goodsPageInfo.getTotal();
 
-        int count = wxGoodsService.queryGoodsNumByCategoryId(categoryId);
-        List<Category> filterCategoryList = wxGoodsService.queryL2Categories();
+        int count = (int) total;
+
+        List<Category> filterCategoryList = new ArrayList<>();
+        List<Integer> cidList = wxGoodsService.queryCategoryIds(keyword);
+        for (Integer cid : cidList) {
+            Category category = categoryService.queryCategoriesByCid(cid);
+            filterCategoryList.add(category);
+        }
 
         HashMap<String, Object> dataMap = new HashMap<>();
         dataMap.put("goodsList", goodsList);

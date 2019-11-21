@@ -150,4 +150,9 @@ public class CategoryServiceImpl implements CategoryService {
     public Category queryCategoryById(Integer id) {
         return categoryMapper.queryCategoryById(id);
     }
+
+    @Override
+    public Category queryCategoriesByCid(Integer cid) {
+        return categoryMapper.queryCategoriesByCid(cid);
+    }
 }

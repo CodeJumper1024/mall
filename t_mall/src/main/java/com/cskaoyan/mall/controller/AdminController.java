@@ -4,6 +4,7 @@ import com.cskaoyan.mall.aopAnnotation.Security;
 import com.cskaoyan.mall.bean.Admin;
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.service.AdminService;
+import com.cskaoyan.mall.utils.Md5Utils;
 import com.fasterxml.jackson.databind.ser.Serializers;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class AdminController {
     public BaseReqVo create(@RequestBody Admin admin){
         BaseReqVo baseReqVo = new BaseReqVo();
         //创建管理员
+        admin.setPassword(Md5Utils.getMd5(admin.getPassword()));
         Admin resultAdmin = adminService.create(admin);
         if(resultAdmin != null){
             //创建管理员成功

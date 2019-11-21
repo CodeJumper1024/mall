@@ -30,4 +30,12 @@ public interface CollectMapper {
     int updateByPrimaryKeySelective(Collect record);
 
     int updateByPrimaryKey(Collect record);
+
+    Collect queryCollect(@Param("valueId") Integer valueId, @Param("id") Integer id);
+
+    void delCollect(@Param("valueId") Integer valueId, @Param("id") Integer id);
+
+    void addCollect(@Param("valueId") Integer valueId, @Param("id") Integer id, @Param("addTime") String addTime);
+
+    List<Integer> queryGoodsIdByUserId(@Param("id") Integer id);
 }
