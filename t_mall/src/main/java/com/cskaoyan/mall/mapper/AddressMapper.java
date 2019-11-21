@@ -21,7 +21,7 @@ public interface AddressMapper {
 
     List<Address> queryAddresses(@Param("userId") Integer userId, @Param("name") String name);
 
-    Address selectByPrimaryKey(Integer id);
+    Address selectByPrimaryKey(@Param("id") Integer id);
 
     int updateByExampleSelective(@Param("record") Address record, @Param("example") AddressExample example);
 
@@ -44,4 +44,6 @@ public interface AddressMapper {
     int queryLastId();
 
     Address selecetByUserIdAndDefault(@Param("userId")Integer userId, @Param("isDefault")int i);
-}
+
+    void updateIsDefault(@Param("userId") Integer userId);
+
