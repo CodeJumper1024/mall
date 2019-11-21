@@ -76,7 +76,7 @@ public class ShiroConfig {
         CustomSessionManager customSessionManager = new CustomSessionManager();
         //删除无效session
         customSessionManager.setDeleteInvalidSessions(true);
-        //customSessionManager.setGlobalSessionTimeout(6000);
+        //customSessionManager.setGlobalSessionTimeout(6000000);
         return customSessionManager;
     }
 

@@ -360,8 +360,45 @@
     from cskaoyan_mall_order_goods
     group by date_format(add_time, '%Y-%m-%d')
   </select>
-  <select id="selectByOrderId" resultMap="BaseResultMap">
+
+
+  <resultMap id="selectMap" type="com.cskaoyan.mall.bean.OrderGoods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_id"  property="orderId" />
+    <result column="goods_id"  property="goodsId" />
+    <result column="goods_name"  property="goodsName" />
+    <result column="goods_sn"  property="goodsSn" />
+    <result column="product_id"  property="productId" />
+    <result column="number"  property="number" />
+    <result column="price"  property="price" />
+    <!--字符串转换数组-->
+    <result column="specifications"  property="specifications" typeHandler="com.cskaoyan.mall.handler.String2ArrayTypeHandler"/>
+    <result column="pic_url"  property="picUrl" />
+    <result column="comment"  property="comment" />
+    <result column="add_time"  property="addTime" />
+    <result column="update_time"  property="updateTime" />
+    <result column="deleted"  property="deleted" />
+  </resultMap>
+  <select id="selectByOrderId" resultMap="selectMap">
     select <include refid="Base_Column_List"/> from cskaoyan_mall_order_goods
     where order_id=#{orderId}
   </select>
+
+  <insert id="submitOrderGoods">
+    insert into cskaoyan_mall_order_goods (order_id,goods_id,goods_name,goods_sn,product_id,`number`,price,specifications,pic_url,add_time,update_time,deleted) values
+    (
+    #{orderGoods.orderId},
+    #{orderGoods.goodsId},
+    #{orderGoods.goodsName},
+    #{orderGoods.goodsSn},
+    #{orderGoods.productId},
+    #{orderGoods.number},
+    #{orderGoods.price},
+    #{orderGoods.specifications,typeHandler=com.cskaoyan.mall.handler.String2ArrayTypeHandler},
+    #{orderGoods.picUrl},
+    #{orderGoods.addTime},
+    #{orderGoods.updateTime},
+    #{orderGoods.deleted}
+    )
+  </insert>
 </mapper>

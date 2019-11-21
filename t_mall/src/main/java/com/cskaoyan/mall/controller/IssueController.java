@@ -23,16 +23,19 @@ public class IssueController {
 
     }
     @RequestMapping("create")
+    @RequiresPermissions(value = {"admin:issue:create"})
     public BaseReqVo createIssue(@RequestBody Issue issue){
         BaseReqVo baseReqVo=issueService.createIssue(issue);
         return baseReqVo;
     }
     @RequestMapping("update")
+    @RequiresPermissions(value = {"admin:issue:update"})
     public BaseReqVo updateIssue(@RequestBody Issue issue){
         BaseReqVo baseReqVo=issueService.updateIssue(issue);
         return baseReqVo;
     }
     @RequestMapping("delete")
+    @RequiresPermissions(value = {"admin:issue:delete"})
     public BaseReqVo deleteIssue(@RequestBody Issue issue){
         BaseReqVo baseReqVo=issueService.deleteIssue(issue);
         return baseReqVo;

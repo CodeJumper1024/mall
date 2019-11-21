@@ -74,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, user_id, province_id, city_id, area_id, address, mobile, is_default, add_time, 
+    id, name, user_id, province_id, city_id, area_id, address, mobile, is_default, add_time,
     update_time, deleted
   </sql>
   <select id="selectByExample" parameterType="com.cskaoyan.mall.bean.AddressExample" resultMap="BaseResultMap">
@@ -92,10 +92,10 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_address
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and deleted =0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from cskaoyan_mall_address
@@ -108,21 +108,21 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.mall.bean.Address">
-    insert into cskaoyan_mall_address (id, name, user_id, 
-      province_id, city_id, area_id, 
-      address, mobile, is_default, 
+    insert into cskaoyan_mall_address (id, name, user_id,
+      province_id, city_id, area_id,
+      address, mobile, is_default,
       add_time, update_time, deleted
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
-      #{provinceId,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, #{areaId,jdbcType=INTEGER}, 
-      #{address,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{isDefault,jdbcType=BIT}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},
+      #{provinceId,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, #{areaId,jdbcType=INTEGER},
+      #{address,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{isDefault,jdbcType=BIT},
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.cskaoyan.mall.bean.Address">
     insert into cskaoyan_mall_address
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+      <if test="id != 0">
         id,
       </if>
       <if test="name != null">
@@ -155,12 +155,12 @@
       <if test="updateTime != null">
         update_time,
       </if>
-      <if test="deleted != null">
+      <if test="deleted == null">
         deleted,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+      <if test="id != 0">
         #{id,jdbcType=INTEGER},
       </if>
       <if test="name != null">
@@ -193,8 +193,8 @@
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="deleted != null">
-        #{deleted,jdbcType=BIT},
+      <if test="deleted == null">
+        0,
       </if>
     </trim>
   </insert>
@@ -336,18 +336,21 @@
     order by add_time desc
   </select>
   <select id="queryProvinceByPid" resultType="java.lang.String">
-    select r.name as province from cskaoyan_mall_region r left join cskaoyan_mall_address a
-    on a.province_id = r.id where r.id = #{provinceId} and `deleted` = 0
+    <!--select r.name as province from cskaoyan_mall_region r left join cskaoyan_mall_address a-->
+    <!--on a.province_id = r.id where r.id = #{provinceId} and a.deleted = 0-->
+    select `name` from cskaoyan_mall_region where id = #{provinceId}
   </select>
   <select id="queryCityByCid" resultType="java.lang.String">
-    select r.name as city from cskaoyan_mall_region r left join cskaoyan_mall_address a
-    on a.city_id = r.id where r.id = #{cityId} and `deleted` = 0
+    <!--select r.name as city from cskaoyan_mall_region r left join cskaoyan_mall_address a-->
+    <!--on a.city_id = r.id where r.id = #{cityId} and a.deleted = 0-->
+    select `name` from cskaoyan_mall_region where id = #{cityId}
   </select>
   <select id="queryAreaByAid" resultType="java.lang.String">
-    select r.name as area from cskaoyan_mall_region r left join cskaoyan_mall_address a
-    on a.area_id = r.id where r.id = #{areaId} and `deleted` = 0
+    <!--select r.name as area from cskaoyan_mall_region r left join cskaoyan_mall_address a-->
+    <!--on a.area_id = r.id where r.id = #{areaId} and a.deleted = 0-->
+    select `name` from cskaoyan_mall_region where id = #{areaId}
   </select>
-    <select id="queryAddressesByUserId" resultType="com.cskaoyan.mall.bean.Address">
+    <select id="queryAddressesByUserId" resultMap="BaseResultMap">
       select
       <include refid="Base_Column_List" />
       from cskaoyan_mall_address
@@ -366,4 +369,12 @@
   <select id="queryLastId" resultType="int">
     select id from cskaoyan_mall_address order by id desc limit 1
   </select>
+  <select id="selecetByUserIdAndDefault" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_address where user_id = #{userId} and is_default=#{isDefault} and deleted =0
+  </select>
+  <update id="updateIsDefault">
+    update cskaoyan_mall_address
+    set is_default = 0
+    where user_id = #{userId}
+  </update>
 </mapper>

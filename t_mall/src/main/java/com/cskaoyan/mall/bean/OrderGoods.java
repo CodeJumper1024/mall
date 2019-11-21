@@ -22,15 +22,16 @@ public class OrderGoods {
 
     private BigDecimal price;
 
-    private String specifications;
+    private String[] specifications;
 
     private String picUrl;
 
     private Integer comment;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT + 8")
     private Date addTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT + 8")
     private Date updateTime;
 
     private Boolean deleted;
@@ -99,12 +100,12 @@ public class OrderGoods {
         this.price = price;
     }
 
-    public String getSpecifications() {
+    public String[] getSpecifications() {
         return specifications;
     }
 
-    public void setSpecifications(String specifications) {
-        this.specifications = specifications == null ? null : specifications.trim();
+    public void setSpecifications(String[] specifications) {
+        this.specifications = specifications;
     }
 
     public String getPicUrl() {

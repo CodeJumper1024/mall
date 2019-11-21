@@ -2,6 +2,7 @@ package com.cskaoyan.mall.mapper;
 
 import com.cskaoyan.mall.bean.Address;
 import com.cskaoyan.mall.bean.AddressExample;
+import com.cskaoyan.mall.bean.Cart;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface AddressMapper {
 
     List<Address> queryAddresses(@Param("userId") Integer userId, @Param("name") String name);
 
-    Address selectByPrimaryKey(Integer id);
+    Address selectByPrimaryKey(@Param("id") Integer id);
 
     int updateByExampleSelective(@Param("record") Address record, @Param("example") AddressExample example);
 
@@ -43,4 +44,10 @@ public interface AddressMapper {
 
     int queryLastId();
 
+    Address selecetByUserIdAndDefault(@Param("userId") Integer userId, @Param("isDefault") int i);
+
+    void updateIsDefault(@Param("userId") Integer userId);
+
 }
+
+
