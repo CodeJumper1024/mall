@@ -122,7 +122,7 @@
   <insert id="insertSelective" parameterType="com.cskaoyan.mall.bean.Address">
     insert into cskaoyan_mall_address
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+      <if test="id != 0">
         id,
       </if>
       <if test="name != null">
@@ -155,12 +155,12 @@
       <if test="updateTime != null">
         update_time,
       </if>
-      <if test="deleted != null">
+      <if test="deleted == null">
         deleted,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+      <if test="id != 0">
         #{id,jdbcType=INTEGER},
       </if>
       <if test="name != null">
@@ -193,8 +193,8 @@
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="deleted != null">
-        #{deleted,jdbcType=BIT},
+      <if test="deleted == null">
+        0,
       </if>
     </trim>
   </insert>
@@ -371,7 +371,7 @@
   </select>
   <update id="updateIsDefault">
     update cskaoyan_mall_address
-    set is_default = 1
-    where user_id = #{user_id}
+    set is_default = 0
+    where user_id = #{userId}
   </update>
 </mapper>

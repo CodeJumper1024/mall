@@ -13,4 +13,6 @@ public interface UserService {
     int update(User user);
 
     BaseReqVo login(User user);
+
+    BaseReqVo register(User user);
 }

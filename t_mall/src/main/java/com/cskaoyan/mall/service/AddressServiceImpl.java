@@ -53,14 +53,18 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public int insertAddress(Address address) {
         Date date = new Date();
-        address.setAddTime(date);
-        if(address.getId() == null) {
+        if(address.getId() == 0) {
+            address.setAddTime(date);
             address.setDeleted(false);
             if(address.getIsDefault() == true){
-                addressMapper.updateIsDefault();
+                addressMapper.updateIsDefault(address.getUserId());
             }
             return addressMapper.insertSelective(address);
         }else{
+            address.setUpdateTime(date);
+            if(address.getIsDefault() == true){
+                addressMapper.updateIsDefault(address.getUserId());
+            }
             return addressMapper.updateByPrimaryKey(address);
         }
     }

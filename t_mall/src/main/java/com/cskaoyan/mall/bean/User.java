@@ -34,10 +34,14 @@ public class User {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date addTime;
-
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updateTime;
 
     private Boolean deleted;
+
+    private String code;
+
+    private String wxCode;
 
     public Integer getId() {
         return id;
