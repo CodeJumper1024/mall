@@ -358,18 +358,30 @@
     where level = 'L1'
     and `deleted` = 0
   </select>
-  <select id="queryCurrentCategory" resultMap="BaseResultMap">
+  <select id="queryCurrentCategoryL1" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_category where pid = #{id} and `deleted` = 0 limit 1
+  </select>
+  <select id="queryBrotherCategoryL1" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_category where pid = #{id} and `deleted` = 0
+  </select>
+  <select id="queryParentCategoryL1" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from cskaoyan_mall_category where id = #{id} and `deleted` = 0
   </select>
-  <select id="queryBrotherCategory" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/>
-    from cskaoyan_mall_category where pid = #{pid} and `deleted` = 0
-  </select>
-  <select id="queryParentCategory" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/>
-    from cskaoyan_mall_category where id = #{pid} and `deleted` = 0
-  </select>
+  <select id="queryCurrentCategoryL2" resultMap="BaseResultMap">
+   select <include refid="Base_Column_List"/>
+   from cskaoyan_mall_category where id = #{id} and `deleted` = 0
+ </select>
+ <select id="queryBrotherCategoryL2" resultMap="BaseResultMap">
+   select <include refid="Base_Column_List"/>
+   from cskaoyan_mall_category where pid = #{pid} and `deleted` = 0
+ </select>
+ <select id="queryParentCategoryL2" resultMap="BaseResultMap">
+   select <include refid="Base_Column_List"/>
+   from cskaoyan_mall_category where id = #{pid} and `deleted` = 0
+ </select>
   <select id="queryPidById" resultType="int">
     select pid from cskaoyan_mall_category where id = #{id} and `deleted` = 0
   </select>
@@ -392,5 +404,17 @@
   <select id="queryCategoriesByCid" resultMap="BaseResultMap">
       select <include refid="Base_Column_List"/>
     from cskaoyan_mall_category where id = #{cid}
+  </select>
+  <select id="queryLevelById" resultType="java.lang.String">
+    select level from cskaoyan_mall_category where id = #{id}
+  </select>
+  <select id="selectAllLeve2" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cskaoyan_mall_category
+    where level = 'L2'
+    and `deleted` = 0
+  </select>
+  <select id="selectLevel2ByPid" resultType="int">
+    select id from cskaoyan_mall_category where pid = #{pid}
   </select>
 </mapper>

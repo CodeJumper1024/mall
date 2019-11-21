@@ -1,6 +1,5 @@
 package com.cskaoyan.mall.mapper;
 
-import com.cskaoyan.mall.bean.Goods;
 import com.cskaoyan.mall.bean.Groupon;
 import com.cskaoyan.mall.bean.GrouponExample;
 import org.apache.ibatis.annotations.Param;
@@ -31,6 +30,8 @@ public interface GrouponMapper {
     int updateByPrimaryKey(Groupon record);
 
     int selectGrouponMemberByRuleId(@Param("ruleId") Integer RuleId);
+
+    Integer selectCountByGrouponId(@Param("grouponId") Integer grouponId);
 
     int selectGrouponOrNotByOrderId(@Param("orderId") Integer orderId);
 

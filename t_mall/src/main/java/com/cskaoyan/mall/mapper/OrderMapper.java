@@ -33,5 +33,9 @@ public interface OrderMapper {
     List<OrderStatInfo> queryOrderStatInfo();
 
     List<Order> listByExample(@Param("orderStatusArray") Integer[] orderStatusArray, @Param("userId") Integer userId, @Param("orderSn") String orderSn);
+
+    int submitOrder(@Param("order") Order order);
+
+    int selectLastId();
 }
 

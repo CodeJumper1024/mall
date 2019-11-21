@@ -489,6 +489,9 @@
       deleted = #{deleted}
       where id = #{id}
   </update>
+  <select id="selectALL" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_coupon where id=#{id} and status = 0 and deleted =0
+  </select>
   <resultMap id="LBaseResultMap" type="com.cskaoyan.mall.bean.Coupon">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />

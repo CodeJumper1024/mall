@@ -1,10 +1,14 @@
 package com.cskaoyan.mall.aop;
 
+import com.cskaoyan.mall.aopAnnotation.Security;
 import com.cskaoyan.mall.bean.Admin;
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.bean.Log;
+import com.cskaoyan.mall.bean.User;
 import com.cskaoyan.mall.mapper.LogMapper;
 import com.cskaoyan.mall.utils.AopUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -80,8 +84,6 @@ public class SecurityAspect {
         String uri = request.getRequestURI().toString();
         //action可能为null
         action = urlToAction(uri);
-        admin = (String) session.getAttribute("username");
-        System.out.println(admin);
 
 /*        System.out.println("ip地址:" + ipAddress);
         System.out.println("URI:" + uri);
@@ -89,6 +91,12 @@ public class SecurityAspect {
         System.out.println("管理员:" + admin);*/
 
         Object proceed = joinPoint.proceed();
+
+        Subject subject = SecurityUtils.getSubject();
+        Admin principal = (Admin) subject.getPrincipal();
+        admin = principal.getUsername();
+        //System.out.println(admin);
+
         return proceed;
     }
 

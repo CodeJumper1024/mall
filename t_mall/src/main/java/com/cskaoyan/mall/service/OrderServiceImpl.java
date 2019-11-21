@@ -1,6 +1,9 @@
 package com.cskaoyan.mall.service;
 
-import com.cskaoyan.mall.bean.*;
+import com.cskaoyan.mall.bean.BaseReqVo;
+import com.cskaoyan.mall.bean.Order;
+import com.cskaoyan.mall.bean.OrderGoods;
+import com.cskaoyan.mall.bean.User;
 import com.cskaoyan.mall.mapper.OrderGoodsMapper;
 import com.cskaoyan.mall.mapper.OrderMapper;
 import com.cskaoyan.mall.mapper.UserMapper;
@@ -9,11 +12,6 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.System;
-import java.text.ParseException;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,4 +57,10 @@ public class OrderServiceImpl implements OrderService {
         baseReqVo.setErrno(0);
         return baseReqVo;
     }
+
+    @Override
+    public Order selectOrderByOrderId(Integer orderId) {
+        return orderMapper.selectByPrimaryKey(orderId);
+    }
+
 }

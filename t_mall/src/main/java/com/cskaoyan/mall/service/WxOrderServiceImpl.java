@@ -1,19 +1,19 @@
 package com.cskaoyan.mall.service;
 
-import com.cskaoyan.mall.bean.Order;
-import com.cskaoyan.mall.bean.OrderGoods;
-import com.cskaoyan.mall.bean.OrderInfo;
-import com.cskaoyan.mall.mapper.GrouponMapper;
-import com.cskaoyan.mall.mapper.OrderGoodsMapper;
-import com.cskaoyan.mall.mapper.OrderMapper;
+import com.cskaoyan.mall.bean.*;
+import com.cskaoyan.mall.mapper.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import javafx.scene.input.DataFormat;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Hash;
+import org.apache.shiro.subject.Subject;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -26,7 +26,19 @@ public class WxOrderServiceImpl implements WxOrderService {
     OrderMapper orderMapper;
 
     @Autowired
+    GrouponRulesMapper grouponRulesMapper;
+
+    @Autowired
     GrouponMapper grouponMapper;
+
+    @Autowired
+    CouponMapper couponMapper;
+
+    @Autowired
+    AddressMapper addressMapper;
+
+    @Autowired
+    CartMapper cartMapper;
 
     @Override
     public Map<String, Object> orderList(Integer showType, int page, int size) {
@@ -60,8 +72,12 @@ public class WxOrderServiceImpl implements WxOrderService {
 
         ArrayList<Object> dataList = new ArrayList<>();
 
-        //根据orderStatus去查找对应订单的信息 获得当前用户id的接口还没写好 写死为1
-        List<Order> orders = orderMapper.listByExample(orderStatusArray, 1, null);
+        //获取当前登录的用户信息
+        Subject subject = SecurityUtils.getSubject();
+        User principal = (User) subject.getPrincipal();
+        Integer userId = principal.getId();
+
+        List<Order> orders = orderMapper.listByExample(orderStatusArray, userId, null);
 
         PageInfo<Order> orderPageInfo=new PageInfo<>(orders);
         int totalPages = orderPageInfo.getPages();
@@ -208,7 +224,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         //用javabean OrderInfo封装订单信息
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setConsignee(consignee);
-        orderInfo.setAddres(address);
+        orderInfo.setAddress(address);
         orderInfo.setAddTime(addTime);
         orderInfo.setOrderSn(orderSn);
         orderInfo.setActualPrice(actualPrice);
@@ -227,5 +243,138 @@ public class WxOrderServiceImpl implements WxOrderService {
         dataMap.put("orderInfo",orderInfo);
         dataMap.put("orderGoods",orderGoods);
         return dataMap;
+    }
+
+    @Override
+    public Integer submit(OrderSubmitCondition orderSubmitCondition) {
+
+        Integer addressId = orderSubmitCondition.getAddressId();
+        Integer couponId = orderSubmitCondition.getCouponId();
+        Integer grouponRulesId = orderSubmitCondition.getGrouponRulesId();
+        String message = orderSubmitCondition.getMessage();
+
+        //获取当前登录的用户信息
+        Subject subject = SecurityUtils.getSubject();
+        User principal = (User) subject.getPrincipal();
+        Integer userId = principal.getId();
+
+        //根据addressId获得收货人、地址、电话的等信息(cskaoyan_mall_address)往订单(cskaoyan_mall_order)写入获得的发货人、地址、电话的等信息
+        Address ad = addressMapper.selectByPrimaryKey(addressId);
+        String consignee = ad.getName();
+        String address = ad.getAddress();
+        String mobile = ad.getMobile();
+        //把留言信息message写入订单(cskaoyan_mall_order)
+
+        //根据当前用户id获得购物车中checked = 1的信息(cskaoyan_mall_cart) 获得提交到订单的商品信息
+        List<Cart> carts = cartMapper.selectByUserIdAndChecked(userId);
+
+        //逻辑删除购物车表中checked = 1的商品(逻辑删除已经提交到订单的商品)
+        cartMapper.deleteGoodsSubmitted();
+
+        //把商品总价计算出来  price * number 把商品总价写入订单(cskaoyan_mall_order)
+        BigDecimal goodsPrice = new BigDecimal(0);
+        for (Cart cart : carts) {
+            BigDecimal price = cart.getPrice();
+            BigDecimal number = new BigDecimal(cart.getNumber().toString());
+            goodsPrice = goodsPrice.add(price.multiply(number));
+        }
+
+        //快递包邮！
+        BigDecimal freightPrice = new BigDecimal(0);
+
+        //根据couponId查找优惠信息discount(cskaoyan_mall_coupon) 写入订单(cskaoyan_mall_order)
+        Coupon coupon = null;
+        BigDecimal couponPrice = new BigDecimal(0);
+        if(couponId != 0 && couponId != -1){
+            //有优惠券
+            coupon = couponMapper.selectByPrimaryKey(couponId);
+            couponPrice = coupon.getDiscount();
+        }
+
+        //积分不搞
+        BigDecimal integralPrice =  new BigDecimal(0);
+
+        //根据grouponRulesId查找团购信息discount(cskaoyan_mall_groupon_rules) 写入订单(cskaoyan_mall_order)
+        GrouponRules grouponRules = null;
+        BigDecimal grouponPrice = new BigDecimal(0);
+        if(grouponRulesId != 0){
+            //有团购活动
+            grouponRules = grouponRulesMapper.selectByPrimaryKey(grouponRulesId);
+            grouponPrice = grouponRules.getDiscount();
+        }
+
+        //计算订单费用和实际费用写入订单 (cskaoyan_mall_order)
+        // 订单费用 = goods_price + freight_price - coupon_price
+        // 实付费用 = order_price - integral_price
+
+        BigDecimal orderPrice = goodsPrice.add(freightPrice).subtract(couponPrice);
+        BigDecimal actualPrice = orderPrice.subtract(integralPrice);
+
+        //创建时间和更新时间
+        Date date = new Date();
+
+        //初创订单状态为101
+        Short orderStatus = 101;
+
+        //自动生成订单编码
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String orderSn = sdf.format(date);
+        orderSn.replaceAll("-","").replaceAll(":","");
+
+        //用javabean封装订单信息
+        Order order = new Order();
+        order.setUserId(userId);
+        order.setOrderSn(orderSn);
+        order.setOrderStatus(orderStatus);
+        order.setConsignee(consignee);
+        order.setMobile(mobile);
+        order.setAddress(address);
+        order.setMessage(message);
+        order.setGoodsPrice(goodsPrice);
+        order.setFreightPrice(freightPrice);
+        order.setCouponPrice(couponPrice);
+        order.setIntegralPrice(integralPrice);
+        order.setGrouponPrice(grouponPrice);
+        order.setOrderPrice(orderPrice);
+        order.setActualPrice(actualPrice);
+        order.setAddTime(date);
+        order.setUpdateTime(date);
+        order.setDeleted(false);
+
+        //提交订单(cskaoyan_mall_order)
+        orderMapper.submitOrder(order);
+
+        //获得新创建的订单ID
+        int orderId = orderMapper.selectLastId();
+        for (Cart cart : carts) {
+            //把购物车中提取出来的商品信息插入到订单商品表中(cskaoyan_mall_order_good)
+            Integer goodsId = cart.getGoodsId();
+            String goodsSn = cart.getGoodsSn();
+            String goodsName = cart.getGoodsName();
+            Integer productId = cart.getProductId();
+            BigDecimal price = cart.getPrice();
+            Integer number = cart.getNumber();
+            String[] specifications = cart.getSpecifications();
+            String picUrl = cart.getPicUrl();
+
+            OrderGoods orderGoods = new OrderGoods();
+            //订单id为上面创建的订单id
+            orderGoods.setOrderId(orderId);
+            orderGoods.setGoodsId(goodsId);
+            orderGoods.setGoodsName(goodsName);
+            orderGoods.setGoodsSn(goodsSn);
+            orderGoods.setProductId(productId);
+            orderGoods.setPrice(price);
+            orderGoods.setNumber(number.shortValue());
+            orderGoods.setSpecifications(specifications);
+            orderGoods.setPicUrl(picUrl);
+            orderGoods.setAddTime(date);
+            orderGoods.setUpdateTime(date);
+            orderGoods.setDeleted(false);
+            orderGoodsMapper.submitOrderGoods(orderGoods);
+        }
+
+        //返回新创建的订单id
+        return orderId;
     }
 }

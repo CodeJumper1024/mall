@@ -65,7 +65,8 @@ public class WxGoodsServiceImpl implements WxGoodsService {
 
     @Override
     public Brand queryBrandByGoodsId(Integer id) {
-        Brand brand = brandMapper.queryBrandByGoodsId(id);
+        int brandId = goodsMapper.queryBrandIdById(id);
+        Brand brand = brandMapper.queryBrandById(brandId);
         return brand;
     }
 
@@ -95,7 +96,8 @@ public class WxGoodsServiceImpl implements WxGoodsService {
 
     @Override
     public List<Goods> queryRelatedGoods(Integer id) {
-        List<Goods> relatedGoods = goodsMapper.queryRelatedGoods(id);
+        int categoryId = goodsMapper.queryCategoryIdById(id);
+        List<Goods> relatedGoods = goodsMapper.queryRelatedGoods(categoryId);
         return relatedGoods;
     }
 
@@ -107,32 +109,52 @@ public class WxGoodsServiceImpl implements WxGoodsService {
 
     @Override
     public Category queryCurrentCategory(Integer id) {
-        Category currentCategory = categoryMapper.queryCurrentCategory(id);
-        return currentCategory;
+        String level = categoryMapper.queryLevelById(id);
+        if ("L1".equals(level)) {
+            Category currentCategory = categoryMapper.queryCurrentCategoryL1(id);
+            return currentCategory;
+        } else {
+            Category currentCategory = categoryMapper.queryCurrentCategoryL2(id);
+            return currentCategory;
+        }
     }
 
     @Override
     public List<Category> queryBrotherCategory(Integer id) {
-        int pid = categoryMapper.queryPidById(id);
-        List<Category> brotherCategory = categoryMapper.queryBrotherCategory(pid);
-        return brotherCategory;
+        String level = categoryMapper.queryLevelById(id);
+        if ("L1".equals(level)) {
+            List<Category> brotherCategory = categoryMapper.queryBrotherCategoryL1(id);
+            return brotherCategory;
+        } else {
+            int pid = categoryMapper.queryPidById(id);
+            List<Category> brotherCategory = categoryMapper.queryBrotherCategoryL2(pid);
+            return brotherCategory;
+        }
     }
 
     @Override
     public Category queryParentCategory(Integer id) {
-        int pid = categoryMapper.queryPidById(id);
-        Category parentCategory = categoryMapper.queryParentCategory(pid);
-        return parentCategory;
+        String level = categoryMapper.queryLevelById(id);
+        if ("L1".equals(level)) {
+            Category parentCategory = categoryMapper.queryParentCategoryL1(id);
+            return parentCategory;
+        } else {
+            int pid = categoryMapper.queryPidById(id);
+            Category parentCategory = categoryMapper.queryParentCategoryL2(pid);
+            return parentCategory;
+        }
     }
 
     @Override
-    public List<Goods> queryGoods(String keyword, Integer page, Integer size, String sort, String order, Integer categoryId, Integer id) {
+    public List<Goods> queryGoods(String keyword, Integer page, Integer size, String sort, String order, Integer categoryId, Integer id, Boolean isNew, Boolean isHot) {
         PageHelper.startPage(page, size);
-        List<Goods> goodsList = goodsMapper.queryGoods("%" + keyword + "%", categoryId, sort, order);
-        Date date = new Date();
-        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
-        String addTime = dateFormat.format(date);
-        searchHistoryMapper.addToHistory(id, keyword, addTime);
+        List<Goods> goodsList = goodsMapper.queryGoods("%" + keyword + "%", categoryId, sort, order, isNew, isHot);
+        if (keyword != null) {
+            Date date = new Date();
+            SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+            String addTime = dateFormat.format(date);
+            searchHistoryMapper.addToHistory(id, keyword, addTime);
+        }
         return goodsList;
     }
 

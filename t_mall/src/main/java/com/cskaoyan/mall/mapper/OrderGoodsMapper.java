@@ -36,4 +36,6 @@ public interface OrderGoodsMapper {
 
     List<OrderGoods> selectByOrderId(@Param("orderId")Integer orderId);
     List<GoodsStatInfo> queryGoodsStatInfo();
+
+    int submitOrderGoods(@Param("orderGoods") OrderGoods orderGoods);
 }

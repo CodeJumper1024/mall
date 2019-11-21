@@ -255,7 +255,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="queryHistoryKeywords" resultType="java.lang.String">
-    select keyword from cskaoyan_mall_search_history
+    select distinct keyword from cskaoyan_mall_search_history
     where user_id = #{id} and deleted = 0
   </select>
   <insert id="addToHistory">

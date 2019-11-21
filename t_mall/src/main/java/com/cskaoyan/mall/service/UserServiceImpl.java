@@ -30,11 +30,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User queryUserByUsernameAndPassword(String username, String password) {
-        return userMapper.queryUserByUsernameAndPassword(username,password);
-    }
-
-    @Override
     public int update(User user) {
         Date date = new Date();
         user.setLastLoginTime(date);
@@ -81,8 +76,12 @@ public class UserServiceImpl implements UserService {
         return baseReqVo;
     }
 
+<<<<<<< HEAD
     @Override
     public BaseReqVo register(User user, HashMap<String, Object> wxCode) {
+=======
+    public BaseReqVo register(User user) {
+>>>>>>> bf4c3506b96f782c80519cffd50dc08fe50165b5
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
         User user1 = userMapper.selectUserByName(user.getUsername());
         if(user1 != null){
@@ -128,6 +127,7 @@ public class UserServiceImpl implements UserService {
         baseReqVo.setErrmsg("成功");
         return baseReqVo;
     }
+<<<<<<< HEAD
 
     @Override
     public BaseReqVo reset(User user, HashMap<String, Object> wxCode) {
@@ -141,5 +141,10 @@ public class UserServiceImpl implements UserService {
             baseReqVo.setErrno(0);
         }
         return baseReqVo;
+=======
+    @Override
+    public User queryUserByUserId(Integer creatorUserId) {
+        return userMapper.selectByPrimaryKey(creatorUserId);
+>>>>>>> bf4c3506b96f782c80519cffd50dc08fe50165b5
     }
 }

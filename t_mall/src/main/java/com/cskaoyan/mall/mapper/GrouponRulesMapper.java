@@ -40,5 +40,8 @@ public interface GrouponRulesMapper {
     List<GrouponRules> selectAllRule();
 
     int selectDiscountById(Integer id);
+
+    List<GrouponRules> queryGrouponRulersList();
+
 }
 

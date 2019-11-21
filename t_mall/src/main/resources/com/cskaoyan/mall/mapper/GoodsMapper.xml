@@ -623,12 +623,14 @@
     select <include refid="Base_Column_List"/>
     from cskaoyan_mall_goods
     where category_id = #{catagoryId}
+    limit 10
   </select>
   <select id="queryRelatedGoods" resultMap="BaseResultMap">
     <!--select <include refid="Base_Column_List"/>
     from cskaoyan_mall_goods order by rand() limit 6-->
     select <include refid="Base_Column_List"/>
-    from cskaoyan_mall_goods where id between #{id} - 10 and #{id} + 10
+    from cskaoyan_mall_goods where category_id = #{categoryId}
+    order by sort_order desc limit 6
   </select>
   <select id="queryGoodsNum" resultType="int">
     select count(id) from cskaoyan_mall_goods
@@ -653,13 +655,19 @@
       <if test="categoryId != null and categoryId != 0">
         and category_id = #{categoryId}
       </if>
+      <if test="isNew != null">
+        and is_new = 1
+      </if>
+      <if test="isHot != null">
+        and is_hot = 1
+      </if>
+      and deleted = 0
     </where>
-    and deleted = 0
     <if test="sort != null">
-      order by #{sort}
+      order by ${sort}
     </if>
     <if test="order != null">
-      #{order}
+    ${order}
     </if>
   </select>
   <select id="queryHelpers" resultType="java.lang.String">
@@ -670,6 +678,7 @@
     select <include refid="Base_Column_List"/>
     from cskaoyan_mall_goods where id = #{goodsId}
   </select>
+<<<<<<< HEAD
     <select id="queryGroupon" resultType="com.cskaoyan.mall.bean.Groupon">
       select <include refid="Base_Column_List"/>
       from cskaoyan_mall_goods where deleted = 0
@@ -679,5 +688,15 @@
     from cskaoyan_mall_goods
     where id = #{goodsId}
     and deleted = 0
+=======
+    <select id="selectPriceById" resultType="double">
+      select retail_price from cskaoyan_mall_goods where id = #{goodsId}
+    </select>
+  <select id="queryCategoryIdById" resultType="int">
+    select category_id from cskaoyan_mall_goods where id = #{id}
+  </select>
+  <select id="queryBrandIdById" resultType="int">
+    select brand_id from cskaoyan_mall_goods where id = #{id}
+>>>>>>> bf4c3506b96f782c80519cffd50dc08fe50165b5
   </select>
 </mapper>

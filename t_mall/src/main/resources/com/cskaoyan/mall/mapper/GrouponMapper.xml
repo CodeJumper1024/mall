@@ -306,7 +306,9 @@
     <select id="selectGrouponMemberByRuleId" resultType="int">
       select sum(user_id) from cskaoyan_mall_groupon where rules_id = #{ruleId} group by rules_id
     </select>
-
+  <select id="selectCountByGrouponId" resultType="int">
+    select count(user_id) from cskaoyan_mall_groupon where groupon_id = #{grouponId} group by groupon_id
+  </select>
   <select id="selectGrouponOrNotByOrderId" resultType="int">
     select count(id) from cskaoyan_mall_groupon where order_id = #{orderId}
   </select>

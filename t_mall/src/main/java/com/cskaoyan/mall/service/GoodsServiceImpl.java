@@ -8,11 +8,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.text.SimpleDateFormat;
-
 import java.util.*;
-import java.util.logging.Level;
 
 @Service
 public class GoodsServiceImpl implements GoodsService {
@@ -196,7 +193,12 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+<<<<<<< HEAD
     public Goods queryGoodsByGoodsId(Integer goodsId) {
         return goodsMapper.selectByGoodsId(goodsId);
+=======
+    public Goods queryGoods(Integer id) {
+        return goodsMapper.selectByPrimaryKey(id);
+>>>>>>> bf4c3506b96f782c80519cffd50dc08fe50165b5
     }
 }
