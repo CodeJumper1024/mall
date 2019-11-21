@@ -2,11 +2,8 @@ package com.cskaoyan.mall.service;
 
 import com.cskaoyan.mall.bean.Goods;
 import com.cskaoyan.mall.bean.GrouponRules;
-import com.cskaoyan.mall.bean.Topic;
 import com.cskaoyan.mall.mapper.GoodsMapper;
-import com.cskaoyan.mall.mapper.GrouponMapper;
 import com.cskaoyan.mall.mapper.GrouponRulesMapper;
-import com.cskaoyan.mall.mapper.TopicMapper;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,5 +50,16 @@ public class GrouponRulesServiceImpl implements GrouponRulesService{
         String format = simpleDateFormat.format(new Date());
         grouponRules.setAddTime(format);
         return grouponRulesMapper.insert(grouponRules);
+    }
+
+    @Override
+    public List<GrouponRules> queryGrouponsRulesList(Integer page, Integer size) {
+        PageHelper.startPage(page,size);
+        return grouponRulesMapper.queryGrouponRulersList();
+    }
+
+    @Override
+    public GrouponRules selectRulesById(Integer rulesId) {
+        return grouponRulesMapper.selectByPrimaryKey(rulesId);
     }
 }
