@@ -41,4 +41,17 @@ public class GrouponServiceImpl implements GrouponService{
     public Integer selectCountByGrouponId(Integer grouponId) {
         return grouponMapper.selectCountByGrouponId(grouponId);
     }
+
+    @Override
+    public Groupon selectGrouponById(Integer id) {
+        return grouponMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<Groupon> selectGrouponByGrouponId(Integer grouponId) {
+        GrouponExample grouponExample = new GrouponExample();
+        grouponExample.createCriteria().andGrouponIdEqualTo(grouponId);
+        return grouponMapper.selectByExample(grouponExample);
+    }
+
 }

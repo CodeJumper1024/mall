@@ -78,6 +78,7 @@ public class UserServiceImpl implements UserService {
         baseReqVo.setErrmsg("成功");
         return baseReqVo;
     }
+
     @Override
     public BaseReqVo register(User user, HashMap<String, Object> wxCode) {
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();

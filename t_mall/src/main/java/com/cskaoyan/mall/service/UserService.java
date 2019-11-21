@@ -19,7 +19,4 @@ public interface UserService {
 
     User queryUserByUserId(Integer creatorUserId);
 
-
-    BaseReqVo register(User user);
-
 }
