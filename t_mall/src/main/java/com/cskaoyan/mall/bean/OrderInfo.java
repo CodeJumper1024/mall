@@ -12,7 +12,7 @@ public class OrderInfo {
 
     private String consignee;
 
-    private String addres;
+    private String address;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date addTime;

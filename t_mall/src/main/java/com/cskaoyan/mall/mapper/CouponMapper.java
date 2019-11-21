@@ -35,6 +35,7 @@ public interface CouponMapper {
 
     int update(Coupon coupon);
 
+    Coupon selectALL(@Param("id") Integer couponId);
     List<Coupon> selectByStatusAndUserId(@Param("status") int status, @Param("userId") Integer userId);
 
     List<Coupon> selectAll();
