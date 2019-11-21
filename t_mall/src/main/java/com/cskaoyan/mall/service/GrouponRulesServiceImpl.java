@@ -4,6 +4,7 @@ import com.cskaoyan.mall.bean.Goods;
 import com.cskaoyan.mall.bean.Groupon;
 import com.cskaoyan.mall.bean.GrouponRules;
 import com.cskaoyan.mall.mapper.GoodsMapper;
+import com.cskaoyan.mall.mapper.GrouponMapper;
 import com.cskaoyan.mall.mapper.GrouponRulesMapper;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,6 @@ public class GrouponRulesServiceImpl implements GrouponRulesService{
     }
 
     @Override
-<<<<<<< HEAD
     public List<Groupon> queryGroupon(Integer page, Integer limit, Integer goodsId) {
         PageHelper.startPage(page,limit);
         List<Groupon> groupons = grouponMapper.queryGroupon();
@@ -77,7 +77,6 @@ public class GrouponRulesServiceImpl implements GrouponRulesService{
         return grouponRulesMapper.queryGrouponRulesById(rulesId);
     }
 
-=======
     public List<GrouponRules> queryGrouponsRulesList(Integer page, Integer size) {
         PageHelper.startPage(page,size);
         return grouponRulesMapper.queryGrouponRulersList();
@@ -87,5 +86,4 @@ public class GrouponRulesServiceImpl implements GrouponRulesService{
     public GrouponRules selectRulesById(Integer rulesId) {
         return grouponRulesMapper.selectByPrimaryKey(rulesId);
     }
->>>>>>> bf4c3506b96f782c80519cffd50dc08fe50165b5
 }

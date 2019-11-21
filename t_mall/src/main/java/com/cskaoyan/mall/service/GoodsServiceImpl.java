@@ -193,12 +193,12 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-<<<<<<< HEAD
     public Goods queryGoodsByGoodsId(Integer goodsId) {
         return goodsMapper.selectByGoodsId(goodsId);
-=======
+    }
+
     public Goods queryGoods(Integer id) {
         return goodsMapper.selectByPrimaryKey(id);
->>>>>>> bf4c3506b96f782c80519cffd50dc08fe50165b5
     }
+
 }
