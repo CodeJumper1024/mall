@@ -81,11 +81,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public BaseReqVo updateCategory(Category category) {
+    public BaseReqVo updateCategory(Category category){
         BaseReqVo baseReqVo=new BaseReqVo();
-//        Category category1=categoryMapper.selectByPrimaryKey(category.getId());
+        Category category1=categoryMapper.selectByPrimaryKey(category.getId());
         if(category.getChildren()==null||category.getChildren().isEmpty()){
-            if((category.getPid().intValue()==category.getId().intValue())&&category.getLevel().equals("L2")){
+            if(category.getPid()==null&&category.getLevel().equals("L1")){
+                category.setPid(0);
+            }
+            if(((category.getPid().intValue()==category.getId().intValue())&&category.getLevel().equals("L2"))&&(category.getPid()!=null)){
                 baseReqVo.setData(category);
                 baseReqVo.setErrno(508);
                 baseReqVo.setErrmsg("不能把自己设成二级目录并且存入自己中");
@@ -97,17 +100,44 @@ public class CategoryServiceImpl implements CategoryService {
                     baseReqVo.setData(category);
                     baseReqVo.setErrno(0);
                     baseReqVo.setErrmsg("成功");
-                } else {
+                }
+                else {
                     baseReqVo.setData(category);
                     baseReqVo.setErrno(1002);
                     baseReqVo.setErrmsg("很失败");
                 }
             }
-        }else if((category.getPid().intValue()==category.getId().intValue())&&category.getLevel().equals("L2")){
-            baseReqVo.setData(category);
-            baseReqVo.setErrno(508);
-            baseReqVo.setErrmsg("不能把自己设成二级目录并且存入自己中");
-        } else{
+        } else if (category.getChildren() != null) {
+            if(category.getLevel().equals("L2")){
+                baseReqVo.setData(category);
+                baseReqVo.setErrno(507);
+                baseReqVo.setErrmsg("失败");
+                return baseReqVo;
+            }
+            if(category.getPid()==null&&category.getLevel().equals("L1")){
+                category.setPid(0);
+            }
+            if(((category.getPid().intValue()==category.getId().intValue())&&category.getLevel().equals("L2"))&&(category.getPid()!=null)){
+                baseReqVo.setData(category);
+                baseReqVo.setErrno(508);
+                baseReqVo.setErrmsg("不能把自己设成二级目录并且存入自己中");
+            }else {
+                int i = categoryMapper.updateCategoryById(category);
+                if (i > 0) {
+                    int id = category.getId();
+                    category = categoryMapper.selectByPrimaryKey(id);
+                    baseReqVo.setData(category);
+                    baseReqVo.setErrno(0);
+                    baseReqVo.setErrmsg("成功");
+                }
+                else {
+                    baseReqVo.setData(category);
+                    baseReqVo.setErrno(1002);
+                    baseReqVo.setErrmsg("很失败");
+                }
+            }
+
+        } else {
             baseReqVo.setData(category);
             baseReqVo.setErrno(507);
             baseReqVo.setErrmsg("失败");

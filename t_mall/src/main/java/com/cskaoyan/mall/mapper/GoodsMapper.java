@@ -70,4 +70,6 @@ public interface GoodsMapper {
     List<String> queryHelpers(@Param("keyword") String keyword);
 
     Goods queryCollection(@Param("goodsId") Integer goodsId);
+
+    Double selectPriceById(@Param("goodsId") Integer goodsId);
 }

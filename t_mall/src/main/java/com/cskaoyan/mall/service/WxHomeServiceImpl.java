@@ -42,7 +42,9 @@ public class WxHomeServiceImpl implements WxHomeService{
         List<GrouponRules> rules = grouponRulesMapper.selectAllRule();
         for (GrouponRules rule : rules) {
             HashMap<String, Object> mapForGrouponList = new HashMap<>();
-            int groupon_price = -grouponRulesMapper.selectDiscountById(rule.getId());
+            //商品真实售价
+            Double retailPrice = goodsMapper.selectPriceById(rule.getGoodsId());
+            Double groupon_price = retailPrice - grouponRulesMapper.selectDiscountById(rule.getId());
             Goods goods = goodsMapper.selectByPrimaryKey(rule.getGoodsId());
             int groupon_member = grouponMapper.selectGrouponMemberByRuleId(rule.getId());
             mapForGrouponList.put("groupon_price", groupon_price);

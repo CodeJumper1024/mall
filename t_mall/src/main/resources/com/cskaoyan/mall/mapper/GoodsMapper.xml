@@ -670,4 +670,7 @@
     select <include refid="Base_Column_List"/>
     from cskaoyan_mall_goods where id = #{goodsId}
   </select>
+    <select id="selectPriceById" resultType="double">
+      select retail_price from cskaoyan_mall_goods where id = #{goodsId}
+    </select>
 </mapper>
