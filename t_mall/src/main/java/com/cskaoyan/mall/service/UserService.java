@@ -16,13 +16,10 @@ public interface UserService {
     BaseReqVo register(User user, HashMap<String, Object> wxCode);
 
     BaseReqVo reset(User user, HashMap<String, Object> wxCode);
-<<<<<<< HEAD
 
     User queryUserByUserId(Integer creatorUserId);
 
-=======
-    User queryUserByUserId(Integer creatorUserId);
 
     BaseReqVo register(User user);
->>>>>>> c7acded77025fd733deab1b2f6a2bd3799df03bb
+
 }
