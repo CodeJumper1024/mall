@@ -27,8 +27,8 @@ public class AdminRealm extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         String username = token.getUsername();
         Admin admin = adminMapper.selectAdminByName(username);
-        String passwordFromDb = "admin123";
-        //String passwordFromDb = "mall123";
+        //String passwordFromDb = "admin123";
+        String passwordFromDb = "mall123";
         //String passwordFromDb = admin.getPassword();
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(admin, passwordFromDb, getName());
         return authenticationInfo;

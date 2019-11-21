@@ -25,6 +25,8 @@ public class WxHomeServiceImpl implements WxHomeService{
     GrouponMapper grouponMapper;
     @Autowired
     CategoryMapper categoryMapper;
+    @Autowired
+    CouponMapper couponMapper;
 
 
     @Override
@@ -33,6 +35,7 @@ public class WxHomeServiceImpl implements WxHomeService{
         HashMap<String, Object> dataMap = new HashMap<>();
         List<Goods> newGoodsList = goodsMapper.selectNewGoods();
         List<Goods> hotGoodsList = goodsMapper.selectHotGoods();
+        List<Coupon> couponList = couponMapper.selectAll();
         List<Brand> brandList = brandMapper.selectAllBrandNoParm();
         List<Ad> banner = adMapper.selectAllAd();
         ArrayList<Map> grouponList = new ArrayList<>();
@@ -60,6 +63,7 @@ public class WxHomeServiceImpl implements WxHomeService{
             floorGoodsList.add(mapForFloorGoodsList);
         }
         dataMap.put("newGoodsList",newGoodsList);
+        dataMap.put("couponList", couponList);
         dataMap.put("channel", channel);
         dataMap.put("grouponList", grouponList);
         dataMap.put("banner", banner);
