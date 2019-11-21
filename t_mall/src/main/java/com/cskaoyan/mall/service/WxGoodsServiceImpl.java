@@ -146,9 +146,9 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     }
 
     @Override
-    public List<Goods> queryGoods(String keyword, Integer page, Integer size, String sort, String order, Integer categoryId, Integer id, Boolean isNew, Boolean isHot) {
+    public List<Goods> queryGoods(String keyword, Integer page, Integer size, String sort, String order, Integer categoryId, Integer id, Boolean isNew, Boolean isHot, Integer brandId) {
         PageHelper.startPage(page, size);
-        List<Goods> goodsList = goodsMapper.queryGoods("%" + keyword + "%", categoryId, sort, order, isNew, isHot);
+        List<Goods> goodsList = goodsMapper.queryGoods("%" + keyword + "%", categoryId, sort, order, isNew, isHot, brandId);
         if (keyword != null) {
             Date date = new Date();
             SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");

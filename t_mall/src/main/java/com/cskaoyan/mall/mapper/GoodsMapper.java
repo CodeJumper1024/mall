@@ -66,7 +66,8 @@ public interface GoodsMapper {
 
     List<Goods> queryGoods(@Param("keyword") String keyword, @Param("categoryId") Integer categoryId,
                            @Param("sort") String sort, @Param("order") String order,
-                           @Param("isNew") Boolean isNew, @Param("isHot") Boolean isHot);
+                           @Param("isNew") Boolean isNew, @Param("isHot") Boolean isHot,
+                           @Param("brandId") Integer brandId);
 
     List<String> queryHelpers(@Param("keyword") String keyword);
 
