@@ -385,7 +385,9 @@
         <if test="subtitle != null and subtitle != ''">
           and subtitle like "%"#{subtitle}"%"
         </if>
-          `deleted` = 0
+        <if test="1==1">
+          and `deleted` = 0
+        </if>
       </where>
       order by id desc
     </select>

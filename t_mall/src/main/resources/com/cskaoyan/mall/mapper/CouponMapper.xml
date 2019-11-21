@@ -453,13 +453,14 @@
           and `name` like "%"#{name}"%"
         </if>
         <if test="type != null and type != ''">
-          <bind name="pattern1" value="'%' + type + '%'"/>
-          and `type` like #{pattern1}
+          and `type` = #{type}
         </if>
         <if test="status != null and status != ''">
-          and status like "%"#{status}"%"
+          and status = #{status}
         </if>
-          `deleted` = 0
+        <if test="1 ==1">
+          and `deleted` = 0
+        </if>
       </where>
     </select>
   <update id="delete">
