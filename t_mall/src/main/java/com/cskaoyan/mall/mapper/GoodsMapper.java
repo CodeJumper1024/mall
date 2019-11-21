@@ -54,7 +54,7 @@ public interface GoodsMapper {
 
     List<Goods> selectByCategoryId(@Param("catagoryId") Integer catagoryId);
 
-    List<Goods> queryRelatedGoods(@Param("id") Integer id);
+    List<Goods> queryRelatedGoods(@Param("categoryId") Integer categoryId);
 
     int queryGoodsNum();
 
@@ -65,9 +65,14 @@ public interface GoodsMapper {
     List<Integer> queryCategoryIds(@Param("keyword") String keyword);
 
     List<Goods> queryGoods(@Param("keyword") String keyword, @Param("categoryId") Integer categoryId,
-                           @Param("sort") String sort, @Param("order") String order);
+                           @Param("sort") String sort, @Param("order") String order,
+                           @Param("isNew") Boolean isNew, @Param("isHot") Boolean isHot);
 
     List<String> queryHelpers(@Param("keyword") String keyword);
 
     Goods queryCollection(@Param("goodsId") Integer goodsId);
+
+    int queryCategoryIdById(@Param("id") Integer id);
+
+    int queryBrandIdById(@Param("id") Integer id);
 }

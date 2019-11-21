@@ -335,11 +335,11 @@
     </resultMap>
 
   <select id="selectAll" resultMap="selectMap">
-    select <include refid="Base_Column_List"/> from cskaoyan_mall_log
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_log order by id desc
   </select>
 
   <select id="selectByNameLike" resultMap="selectMap">
-    select <include refid="Base_Column_List"/> from cskaoyan_mall_log where `admin` like #{name}
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_log where `admin` like #{name} order by id desc
   </select>
 
 </mapper>

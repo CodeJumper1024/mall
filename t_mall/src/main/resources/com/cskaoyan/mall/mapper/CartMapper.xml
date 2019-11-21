@@ -396,4 +396,13 @@
       true, #{cart.picUrl}, now(),
       now(),1)
   </insert>
+
+  <select id="selectByUserIdAndChecked" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_cart where user_id= #{userId} and deleted=0 and checked=1
+  </select>
+
+  <update id="deleteGoodsSubmitted">
+    update cskaoyan_mall_cart set deleted = 1 where checked = 1
+  </update>
+
 </mapper>

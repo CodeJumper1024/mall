@@ -529,6 +529,5 @@
     <include refid="Base_Column_List" />
     from cskaoyan_mall_coupon
     where code = #{code}
->>>>>>> 4a579789031d713b11292e4e190d5f58e0ca6891
   </select>
 </mapper>

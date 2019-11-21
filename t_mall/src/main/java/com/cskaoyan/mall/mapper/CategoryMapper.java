@@ -44,11 +44,17 @@ public interface CategoryMapper {
 
     List<Category> selectAllLeve1();
 
-    Category queryCurrentCategory(@Param("id") Integer id);
+    Category queryCurrentCategoryL1(@Param("id") Integer id);
 
-    List<Category> queryBrotherCategory(@Param("pid") Integer pid);
+    List<Category> queryBrotherCategoryL1(@Param("id") Integer id);
 
-    Category queryParentCategory(@Param("pid") Integer pid);
+    Category queryParentCategoryL1(@Param("id") Integer id);
+
+    Category queryCurrentCategoryL2(@Param("id") Integer id);
+
+    List<Category> queryBrotherCategoryL2(@Param("pid") Integer pid);
+
+    Category queryParentCategoryL2(@Param("pid") Integer pid);
 
     int queryPidById(@Param("id") Integer id);
 
@@ -59,4 +65,6 @@ public interface CategoryMapper {
     List<Category> queryL2Categories();
 
     Category queryCategoriesByCid(@Param("cid") Integer cid);
+
+    String queryLevelById(@Param("id") Integer id);
 }

@@ -130,12 +130,13 @@ public class WxGoodsController {
     }
 
     @RequestMapping("list")
-    public BaseReqVo goodsList(String keyword, Integer page, Integer size, String sort, String order, Integer categoryId) {
+    public BaseReqVo goodsList(String keyword, Integer page, Integer size, String sort, String order,
+                               Integer categoryId, Boolean isNew, Boolean isHot) {
 
         Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getPrincipal();
 
-        List<Goods> goodsList = wxGoodsService.queryGoods(keyword, page, size, sort, order, categoryId, user.getId());
+        List<Goods> goodsList = wxGoodsService.queryGoods(keyword, page, size, sort, order, categoryId, user.getId(), isNew, isHot);
 
         PageInfo<Goods> goodsPageInfo = new PageInfo<>(goodsList);
         long total = goodsPageInfo.getTotal();
