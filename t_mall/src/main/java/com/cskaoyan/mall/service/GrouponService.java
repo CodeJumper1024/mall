@@ -18,4 +18,8 @@ public interface GrouponService {
 
     //获取参团人数
     Integer selectCountByGrouponId(Integer grouponId);
+
+    Groupon selectGrouponById(Integer id);
+
+    List<Groupon> selectGrouponByGrouponId(Integer grouponId);
 }
