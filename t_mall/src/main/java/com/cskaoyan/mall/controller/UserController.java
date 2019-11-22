@@ -2,9 +2,8 @@ package com.cskaoyan.mall.controller;
 
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.bean.User;
-import com.cskaoyan.mall.service.UserService;
 
-import com.github.pagehelper.PageHelper;
+import com.cskaoyan.mall.service.UserService;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +39,6 @@ public class UserController {
         listBaseReqVo.setData(dataMap);
         listBaseReqVo.setErrmsg("成功");
         return listBaseReqVo;
+
     }
 }

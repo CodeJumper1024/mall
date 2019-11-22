@@ -77,6 +77,7 @@ public class GrouponRulesServiceImpl implements GrouponRulesService{
         return grouponRulesMapper.queryGrouponRulesById(rulesId);
     }
 
+    @Override
     public List<GrouponRules> queryGrouponsRulesList(Integer page, Integer size) {
         PageHelper.startPage(page,size);
         return grouponRulesMapper.queryGrouponRulersList();
@@ -86,4 +87,5 @@ public class GrouponRulesServiceImpl implements GrouponRulesService{
     public GrouponRules selectRulesById(Integer rulesId) {
         return grouponRulesMapper.selectByPrimaryKey(rulesId);
     }
+
 }

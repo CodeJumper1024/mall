@@ -82,11 +82,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public BaseReqVo register(User user, HashMap<String, Object> wxCode) {
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
-        User user1 = userMapper.selectUserByName(user.getUsername());
-        if(user1 != null){
-            baseReqVo.setErrno(1);
+        if (user.getUsername() == null){
+            baseReqVo.setErrmsg("参数不对");
+            baseReqVo.setErrno(0);
             return baseReqVo;
         }
+
         String code = (String) wxCode.get(user.getMobile());
         if(!user.getCode().equals(wxCode)){
             baseReqVo.setErrno(703);
@@ -98,6 +99,7 @@ public class UserServiceImpl implements UserService {
         user.setNickname(user.getUsername());
         user.setDeleted(false);
         int insert = userMapper.insert(user);
+
         Subject subject = SecurityUtils.getSubject();
         CustomToken token = new CustomToken(user.getUsername(), user.getPassword(), "wx");
         try {
@@ -128,6 +130,7 @@ public class UserServiceImpl implements UserService {
         baseReqVo.setErrmsg("成功");
         return baseReqVo;
     }
+
     @Override
     public BaseReqVo reset(User user, HashMap<String, Object> wxCode) {
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
@@ -141,6 +144,7 @@ public class UserServiceImpl implements UserService {
         }
         return baseReqVo;
     }
+
     @Override
     public User queryUserByUserId(Integer creatorUserId) {
         return userMapper.selectByPrimaryKey(creatorUserId);

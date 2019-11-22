@@ -369,4 +369,10 @@
     and has_picture = 1
     and deleted = 0
   </select>
+  <select id="queryContent" resultType="java.lang.String">
+    select content from cskaoyan_mall_comment where id = #{commentId} and deleted = 0
+  </select>
+  <update id="addComment">
+    update cskaoyan_mall_comment set content = #{content} where id = #{commentId}
+  </update>
 </mapper>

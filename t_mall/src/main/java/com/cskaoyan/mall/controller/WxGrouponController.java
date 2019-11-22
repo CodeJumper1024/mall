@@ -38,45 +38,46 @@ public class WxGrouponController {
 
     @RequestMapping("list")
     public BaseReqVo list(Integer page,Integer size){
+        BaseReqVo baseReqVo = new BaseReqVo();
         List<GrouponRules> grouponsRulesList = grouponRulesService.queryGrouponsRulesList(page,size);
 
-        //查询所有的条目数
-        PageInfo<GrouponRules> pageInfo = new PageInfo<>(grouponsRulesList);
-        long total = pageInfo.getTotal();
-        ArrayList<Map> list = new ArrayList<>();
-        for(GrouponRules grouponRules : grouponsRulesList){
+        if(grouponsRulesList.size()!=0){
+            //查询所有的条目数
+            PageInfo<GrouponRules> pageInfo = new PageInfo<>(grouponsRulesList);
+            long total = pageInfo.getTotal();
+            ArrayList<Map> list = new ArrayList<>();
+            for(GrouponRules grouponRules : grouponsRulesList){
+                HashMap<String, Object> map = new HashMap<>();
+                HashMap<String, Object> goodsMap = new HashMap<>();
+                Integer id = grouponRules.getGoodsId();
+                Integer rulesId = grouponRules.getId(); //关联groupon的rules_id
+                BigDecimal discount =  grouponRules.getDiscount();
+
+                //查询goods相关
+                Goods goods = goodsService.queryGoods(id);
+                goodsMap.put("id",id);
+                goodsMap.put("name",goods.getName());
+                goodsMap.put("brief",goods.getBrief());
+                goodsMap.put("picUrl",goods.getPicUrl());
+                goodsMap.put("counterPrice",goods.getCounterPrice());
+                goodsMap.put("retailPrice",goods.getRetailPrice());
+
+                //查询group_member团购人数相关
+                Integer group_member = grouponService.selectGrouponMemberByRuleId(rulesId);
+                //查询groupon_price现价相关
+                BigDecimal groupon_price = goods.getRetailPrice().subtract(discount);
+                map.put("goods",goodsMap);
+                map.put("groupon_price",groupon_price);
+                map.put("groupon_member",group_member);
+                list.add(map);
+            }
             HashMap<String, Object> map = new HashMap<>();
-            HashMap<String, Object> goodsMap = new HashMap<>();
-            Integer id = grouponRules.getGoodsId();
-            Integer rulesId = grouponRules.getId(); //关联groupon的rules_id
-            BigDecimal discount =  grouponRules.getDiscount();
 
-            //查询goods相关
-            Goods goods = goodsService.queryGoods(id);
-            goodsMap.put("id",id);
-            goodsMap.put("name",goods.getName());
-            goodsMap.put("brief",goods.getBrief());
-            goodsMap.put("picUrl",goods.getPicUrl());
-            goodsMap.put("counterPrice",goods.getCounterPrice());
-            goodsMap.put("retailPrice",goods.getRetailPrice());
+            map.put("data",list);
+            map.put("count",total);
 
-            //查询group_member团购人数相关
-            Integer group_member = grouponService.selectGrouponMemberByRuleId(rulesId);
-            //查询groupon_price现价相关
-            BigDecimal groupon_price = goods.getRetailPrice().subtract(discount);
-            map.put("goods",goodsMap);
-            map.put("groupon_price",groupon_price);
-            map.put("groupon_member",group_member);
-            list.add(map);
+            baseReqVo.setData(map);
         }
-
-        BaseReqVo baseReqVo = new BaseReqVo();
-        HashMap<String, Object> map = new HashMap<>();
-
-        map.put("data",list);
-        map.put("count",total);
-
-        baseReqVo.setData(map);
         baseReqVo.setErrmsg("成功");
         baseReqVo.setErrno(0);
         return baseReqVo;

@@ -50,7 +50,7 @@ public class SecurityAspect {
     @Before(value = "securityPointcut()")
     public void myBefore(JoinPoint joinPoint){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String uri = request.getRequestURI().toString();
+        String uri = request.getRequestURI();
         if("/admin/admin/update".equals(uri)){
             Object[] args = joinPoint.getArgs();
             Admin admin = (Admin) args[0];
@@ -78,24 +78,17 @@ public class SecurityAspect {
     @Around(value = "securityPointcut()")
     public Object myAround(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession();
         //ip,uri,action,admin
         ipAddress = AopUtils.getIpAddress();
-        String uri = request.getRequestURI().toString();
+        String uri = request.getRequestURI();
         //action可能为null
         action = urlToAction(uri);
-
-/*        System.out.println("ip地址:" + ipAddress);
-        System.out.println("URI:" + uri);
-        System.out.println("操作动作:" + action);
-        System.out.println("管理员:" + admin);*/
 
         Object proceed = joinPoint.proceed();
 
         Subject subject = SecurityUtils.getSubject();
         Admin principal = (Admin) subject.getPrincipal();
         admin = principal.getUsername();
-        //System.out.println(admin);
 
         return proceed;
     }
@@ -104,7 +97,7 @@ public class SecurityAspect {
     @AfterReturning(value = "securityPointcut()",returning = "baseReqVo")
     public void myafterReturning(Object baseReqVo){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String uri = request.getRequestURI().toString();
+        String uri = request.getRequestURI();
         BaseReqVo reqVo = (BaseReqVo) baseReqVo;
         if("/admin/admin/update".equals(uri)){
             if("成功".equals(reqVo.getErrmsg())){
@@ -129,16 +122,22 @@ public class SecurityAspect {
                 status = true;
             }else{
                 status = false;
-                result = null;
+                result = "管理员已存在";
             }
             //System.out.println("操作状态:" + status);
         }
+
         if("/admin/auth/login".equals(uri)){
-            //登录逻辑还没做好，每次都会成功的
-            status = true;
-            //System.out.println("操作状态:" + status);
-            //status = false;
-            //result = null;
+            if(reqVo.getErrno()==0){
+                status = true;
+                result = "登录成功";
+            }else if(reqVo.getErrno()==401){
+                status = false;
+                result = "未输入账号或者密码";
+            }else if(reqVo.getErrno()==605){
+                status = false;
+                result = "账号或者密码不正确";
+            }
         }
 
         //被代理方法执行完毕，把操作记录写入操作日志

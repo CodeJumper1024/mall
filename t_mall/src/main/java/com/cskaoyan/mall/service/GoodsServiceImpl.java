@@ -200,8 +200,10 @@ public class GoodsServiceImpl implements GoodsService {
         return goodsMapper.selectByGoodsId(goodsId);
     }
 
+
     @Override
     public Goods queryGoods(Integer id) {
         return goodsMapper.selectByPrimaryKey(id);
     }
+
 }
