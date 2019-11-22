@@ -675,6 +675,10 @@
       <if test="brandId != null">
         and brand_id = #{brandId}
       </if>
+<<<<<<< HEAD
+=======
+      <if test="1==1">
+>>>>>>> 1c2cada8afb076d32854e1caa058049696ad73ee
         and deleted = 0
     </where>
     <if test="sort != null">

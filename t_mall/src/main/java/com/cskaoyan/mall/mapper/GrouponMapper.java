@@ -36,4 +36,12 @@ public interface GrouponMapper {
     int selectGrouponOrNotByOrderId(@Param("orderId") Integer orderId);
 
     List<Groupon> queryGroupon();
+
+    int insertGroupon(@Param("groupon") Groupon groupon);
+
+    int selectLastId();
+
+    int setPayedTrue(@Param("orderId") int orderId);
+
+    int updateGrouponId(@Param("grouponId") int id );
 }
