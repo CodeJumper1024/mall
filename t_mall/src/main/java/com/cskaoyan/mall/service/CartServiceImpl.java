@@ -1,7 +1,6 @@
 package com.cskaoyan.mall.service;
 
 import com.cskaoyan.mall.bean.*;
-import com.cskaoyan.mall.bean.System;
 import com.cskaoyan.mall.mapper.*;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.apache.shiro.SecurityUtils;
@@ -12,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
+import java.lang.System;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -37,7 +37,17 @@ public class CartServiceImpl implements CartService {
     SystemMapper systemMapper;
     @Override
     public BaseReqVo addCart(Cart cart) {
+        Subject subject = SecurityUtils.getSubject();
+        User user= (User) subject.getPrincipal();;
         BaseReqVo baseReqVo=new BaseReqVo();
+        if (user == null) {
+            baseReqVo.setStatusCode(200);
+            baseReqVo.setData(123);
+            baseReqVo.setErrno(502);
+            baseReqVo.setErrmsg("失败");
+            return baseReqVo;
+        }
+        cart.setUserId(user.getId());
         Goods goods = goodsMapper.selectByPrimaryKey(cart.getGoodsId());
         GoodsProduct product = productMapper.selectByPrimaryKey(cart.getProductId());
         cart.setChecked(false);
@@ -100,6 +110,13 @@ public class CartServiceImpl implements CartService {
         BaseReqVo baseReqVo = new BaseReqVo();
         Subject subject = SecurityUtils.getSubject();
         User user= (User) subject.getPrincipal();
+        if (user == null) {
+            baseReqVo.setStatusCode(200);
+            baseReqVo.setData(123);
+            baseReqVo.setErrno(502);
+            baseReqVo.setErrmsg("失败");
+            return baseReqVo;
+        }
         List<Cart> cartList= cartMapper.selectByUserId(user.getId());
         int goodsCount=0;
         int goodsAmount =0;
@@ -171,6 +188,13 @@ public class CartServiceImpl implements CartService {
         GoodsProduct product = productMapper.selectByPrimaryKey(cart.getProductId());
         Subject subject = SecurityUtils.getSubject();
         User user= (User) subject.getPrincipal();
+        if (user == null) {
+            baseReqVo.setStatusCode(200);
+            baseReqVo.setData(123);
+            baseReqVo.setErrno(502);
+            baseReqVo.setErrmsg("失败");
+            return baseReqVo;
+        }
         cart.setUserId(user.getId());
         cart.setChecked(true);
         cart.setGoodsSn(goods.getGoodsSn());
@@ -200,6 +224,7 @@ public class CartServiceImpl implements CartService {
         int number=0;
         int price=0;
         int goodsTotalPrice=0;
+        int grouponPrice=0;
         Date date=new Date();
         if(checkOut.getCartId()==0){
             CartExample cartExample = new CartExample();
@@ -225,25 +250,27 @@ public class CartServiceImpl implements CartService {
             checkoutMap.put("grouponRulesId",0);
         }else{
             GrouponRules grouponRules = grouponRulesMapper.selectByPrimaryKey(checkOut.getGrouponRulesId());
-            checkoutMap.put("grouponPrice",grouponRules.getDiscount());
+            grouponPrice=grouponRules.getDiscount().intValue();
+            checkoutMap.put("grouponPrice",grouponPrice);
             checkoutMap.put("grouponRulesId",grouponRules.getId());
+            goodsTotalPrice=goodsTotalPrice-grouponPrice;
         }
         checkoutMap.put("goodsTotalPrice",goodsTotalPrice);
         if(checkOut.getAddressId()==0){
-            Address address=addressMapper.selecetByUserIdAndDefault(user.getId(),1);
+            Address address=new Address();
+            address=addressMapper.selecetByUserIdAndDefault(user.getId(),1);
             checkoutMap.put("checkedAddress",address);
-            checkoutMap.put("addressId",address.getId());
+            checkoutMap.put("addressId",checkOut.getAddressId());
         }else{
             Address address=addressMapper.selectByPrimaryKey(checkOut.getAddressId());
             checkoutMap.put("checkedAddress",address);
             checkoutMap.put("addressId",address.getId());
         }
         CouponUserExample couponUserExample = new CouponUserExample();
-        couponUserExample.createCriteria().andUserIdEqualTo(user.getId()).andStatusEqualTo((short)0).andDeletedEqualTo(false).andStartTimeLessThanOrEqualTo(date).andEndTimeGreaterThanOrEqualTo(date);
+        couponUserExample.createCriteria().andUserIdEqualTo(user.getId()).andStatusEqualTo((short)0).andDeletedEqualTo(false).andAddTimeLessThanOrEqualTo(date).andEndTimeGreaterThanOrEqualTo(date);
         List<CouponUser> couponUsers = couponUserMapper.selectByExample(couponUserExample);
         int actualPrice=0;
         if(checkOut.getCouponId()==0||checkOut.getCouponId()==-1){
-            actualPrice=0;
             int couponPrice=0;
             int availableCouponLength=0;
             int couponId=0;
@@ -259,6 +286,12 @@ public class CartServiceImpl implements CartService {
             }
             if(availableCouponLength==0){
                 couponPrice=0;
+                couponId=0;
+            }
+            if(checkOut.getCouponId()==-1){
+                couponPrice=0;
+                couponId=-1;
+
             }
             actualPrice=goodsTotalPrice-couponPrice;
             checkoutMap.put("couponPrice",couponPrice);
@@ -267,9 +300,6 @@ public class CartServiceImpl implements CartService {
         }else{
             int availableCouponLength=0;
             Coupon coupon=couponMapper.selectALL(checkOut.getCouponId());
-            actualPrice=goodsTotalPrice-coupon.getDiscount().intValue();
-            checkoutMap.put("couponId",coupon.getId());
-            CouponExample couponExample = new CouponExample();
             for (CouponUser couponUser : couponUsers) {
                 Coupon coupon1 = couponMapper.selectALL(couponUser.getCouponId());
                 if (coupon1.getMin().intValue() < goodsTotalPrice) {
@@ -278,7 +308,10 @@ public class CartServiceImpl implements CartService {
             }
             if(availableCouponLength==0){
                 coupon.setDiscount(new BigDecimal(0));
+                coupon.setId(0);
             }
+            checkoutMap.put("couponId",coupon.getId());
+            actualPrice=goodsTotalPrice-coupon.getDiscount().intValue();
             checkoutMap.put("couponPrice",coupon.getDiscount());
             checkoutMap.put("availableCouponLength",availableCouponLength);
 

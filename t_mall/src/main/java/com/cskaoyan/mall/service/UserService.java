@@ -13,11 +13,11 @@ public interface UserService {
 
     BaseReqVo login(User user);
 
+    User queryUserByUserId(Integer creatorUserId);
+
     BaseReqVo register(User user, HashMap<String, Object> wxCode);
 
     BaseReqVo reset(User user, HashMap<String, Object> wxCode);
 
-    User queryUserByUserId(Integer creatorUserId);
-
-
 }
+

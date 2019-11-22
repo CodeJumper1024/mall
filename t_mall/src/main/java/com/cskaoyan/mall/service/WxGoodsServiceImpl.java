@@ -3,6 +3,8 @@ package com.cskaoyan.mall.service;
 import com.cskaoyan.mall.bean.*;
 import com.cskaoyan.mall.mapper.*;
 import com.github.pagehelper.PageHelper;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -146,21 +148,27 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     }
 
     @Override
-    public List<Goods> queryGoods(String keyword, Integer page, Integer size, String sort, String order, Integer categoryId, Integer id, Boolean isNew, Boolean isHot, Integer brandId) {
+    public List<Goods> queryGoods(String keyword, Integer page, Integer size, String sort, String order, Integer categoryId, Boolean isNew, Boolean isHot, Integer brandId) {
+
         PageHelper.startPage(page, size);
+
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+
         List<Goods> goodsList = goodsMapper.queryGoods("%" + keyword + "%", categoryId, sort, order, isNew, isHot, brandId);
+
         if (keyword != null) {
             Date date = new Date();
             SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
             String addTime = dateFormat.format(date);
-            searchHistoryMapper.addToHistory(id, keyword, addTime);
+            searchHistoryMapper.addToHistory(user.getId(), keyword, addTime);
         }
         return goodsList;
     }
 
     @Override
-    public List<Integer> queryCategoryIds(String keyword) {
-        List<Integer> cidList = goodsMapper.queryCategoryIds("%" + keyword + "%");
+    public List<Integer> queryCategoryIds(String keyword, Boolean isNew, Boolean isHot) {
+        List<Integer> cidList = goodsMapper.queryCategoryIds("%" + keyword + "%", isNew, isHot);
         Set set = new HashSet();
         List list = new ArrayList();
         set.addAll(cidList);

@@ -196,7 +196,9 @@ public class GoodsServiceImpl implements GoodsService {
     public Goods queryGoodsByGoodsId(Integer goodsId) {
         return goodsMapper.selectByGoodsId(goodsId);
     }
+
     public Goods queryGoods(Integer id) {
         return goodsMapper.selectByPrimaryKey(id);
     }
+
 }

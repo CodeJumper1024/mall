@@ -125,7 +125,7 @@ public class ConfigServiceImpl implements ConfigService{
         String unconfirm = orderz.getLitemall_order_unconfirm();
         String unpaid = orderz.getLitemall_order_unpaid();
 
-        if(!comment.matches(regex3)||!unconfirm.matches(regex3)||unpaid.matches(regex3)){
+        if(!comment.matches(regex3)||!unconfirm.matches(regex3)||!unpaid.matches(regex3)){
             return 0;
         }
         system.setUpdateTime(date);

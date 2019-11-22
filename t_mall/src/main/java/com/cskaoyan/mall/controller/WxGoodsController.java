@@ -135,18 +135,14 @@ public class WxGoodsController {
     public BaseReqVo goodsList(String keyword, Integer page, Integer size, String sort, String order,
                                Integer categoryId, Boolean isNew, Boolean isHot, Integer brandId) {
 
-        Subject subject = SecurityUtils.getSubject();
-        User user = (User) subject.getPrincipal();
-
-        List<Goods> goodsList = wxGoodsService.queryGoods(keyword, page, size, sort, order, categoryId, user.getId(), isNew, isHot, brandId);
-
+        List<Goods> goodsList = wxGoodsService.queryGoods(keyword, page, size, sort, order, categoryId, isNew, isHot, brandId);
         PageInfo<Goods> goodsPageInfo = new PageInfo<>(goodsList);
         long total = goodsPageInfo.getTotal();
 
         int count = (int) total;
 
         List<Category> filterCategoryList = new ArrayList<>();
-        List<Integer> cidList = wxGoodsService.queryCategoryIds(keyword);
+        List<Integer> cidList = wxGoodsService.queryCategoryIds(keyword, isNew, isHot);
         for (Integer cid : cidList) {
             Category category = categoryService.queryCategoriesByCid(cid);
             filterCategoryList.add(category);
