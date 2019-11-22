@@ -26,8 +26,13 @@ public class WxCommentController {
         UserInfo userInfo = new UserInfo();
         Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getPrincipal();
-        userInfo.setAvatarUrl(user.getAvatar());
-        userInfo.setNickname(user.getNickname());
+        if(user == null){
+            userInfo.setAvatarUrl("");
+            userInfo.setNickname("");
+        }else {
+            userInfo.setAvatarUrl(user.getAvatar());
+            userInfo.setNickname(user.getNickname());
+        }
         ArrayList<WxComment> wxComments = new ArrayList<>();
         for (Comment comment : comments) {
             WxComment wxComment = new WxComment();
