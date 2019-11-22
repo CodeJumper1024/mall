@@ -40,7 +40,7 @@ public class AuthController {
         BaseReqVo<String> baseReqVo = new BaseReqVo<>();
         if (admin.getUsername() == null){
             baseReqVo.setErrmsg("参数不对");
-            baseReqVo.setErrno(0);
+            baseReqVo.setErrno(401);
             return baseReqVo;
         }
         Subject subject = SecurityUtils.getSubject();
