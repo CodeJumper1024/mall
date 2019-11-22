@@ -93,9 +93,15 @@ public class CartServiceImpl implements CartService {
         BaseReqVo baseReqVo = new BaseReqVo();
         Subject subject = SecurityUtils.getSubject();
         User user= (User) subject.getPrincipal();
+        int sum=0;
+        if(user==null){
+            baseReqVo.setErrmsg("成功");
+            baseReqVo.setErrno(0);
+            baseReqVo.setData(sum);
+            return baseReqVo;
+        }
         List<Cart> cartList=null;
         cartList= cartMapper.selectByUserId(user.getId());
-        int sum=0;
         if(!cartList.isEmpty()){
             sum = cartMapper.selectSumNumber(user.getId());
         }
