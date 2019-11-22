@@ -675,9 +675,7 @@
       <if test="brandId != null">
         and brand_id = #{brandId}
       </if>
-      <if test="1=1">
         and deleted = 0
-      </if>
     </where>
     <if test="sort != null">
       order by ${sort}
