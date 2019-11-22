@@ -43,6 +43,9 @@ public class WxOrderServiceImpl implements WxOrderService {
     @Autowired
     SystemMapper systemMapper;
 
+    @Autowired
+    CommentMapper commentMapper;
+
     @Override
     public Map<String, Object> orderList(Integer showType, int page, int size) {
         //分页工具
@@ -476,5 +479,11 @@ public class WxOrderServiceImpl implements WxOrderService {
     public OrderGoods commentGoods(Integer orderId, Integer goodsId) {
         OrderGoods orderGoods = orderGoodsMapper.queryOrderGoods(orderId, goodsId);
         return orderGoods;
+    }
+
+    @Override
+    public void commitComment(Integer orderGoodsId, String content, Integer star, Boolean hasPicture, Integer id) {
+        int goodsId = orderGoodsMapper.queryGoodsIdByOrderGoodsId(orderGoodsId);
+        commentMapper.commitComment(goodsId, content, star, hasPicture, id);
     }
 }

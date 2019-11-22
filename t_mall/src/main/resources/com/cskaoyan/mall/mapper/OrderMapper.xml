@@ -628,13 +628,14 @@
     where id = #{order.id}
   </update>
 
-  <update id="delete">
-    update cskaoyan_mall_order set
+  <delete id="delete">
+    <!--update cskaoyan_mall_order set
     update_time = #{order.updateTime},
     end_time = #{order.endTime},
     deleted = 1
-    where id = #{order.id}
-  </update>
+    where id = #{order.id}-->
+    delete from cskaoyan_mall_order where id = #{order.id}
+  </delete>
 
   <update id="ship">
     update cskaoyan_mall_order set

@@ -4,6 +4,7 @@ import com.cskaoyan.mall.bean.Order;
 import com.cskaoyan.mall.bean.OrderGoods;
 import com.cskaoyan.mall.bean.OrderSubmitCondition;
 
+import java.util.List;
 import java.util.Map;
 
 public interface WxOrderService {
@@ -25,4 +26,6 @@ public interface WxOrderService {
     int delete(String orderId);
 
     OrderGoods commentGoods(Integer orderId, Integer goodsId);
+
+    void commitComment(Integer orderGoodsId, String content, Integer star, Boolean hasPicture, Integer id);
 }
