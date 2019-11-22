@@ -20,7 +20,7 @@ public class WxAuthController {
     UserService userService;
     @Autowired
     SmsService smsService;
-    HashMap<String ,Object> wxCode = new HashMap<>();
+    static HashMap<String ,Object> wxCode = new HashMap<>();
     //登录
     @RequestMapping(value = "login",method = RequestMethod.POST)
     public BaseReqVo login(@RequestBody User user) {
@@ -45,6 +45,9 @@ public class WxAuthController {
         String mobile = user.getMobile();
         int randomNo = (int) (Math.random()*1000000);
         String code = String.valueOf(randomNo);
+        while(code.length()<6){
+            code = "0" + code;
+        }
         if(mobile != null){
             wxCode.put(mobile,code);
             smsService.sendRegCaptcha(mobile,code);
