@@ -375,4 +375,8 @@
   <update id="addComment">
     update cskaoyan_mall_comment set content = #{content} where id = #{commentId}
   </update>
+  <insert id="commitComment">
+    insert into cskaoyan_mall_comment(value_id, content, user_id, has_picture, star)
+    values (#{goodsId}, #{content}, #{id}, #{hasPicture}, #{star})
+  </insert>
 </mapper>
