@@ -316,4 +316,32 @@
         select <include refid="Base_Column_List"/>
         from cskaoyan_mall_groupon where deleted = 0
     </select>
+
+  <insert id="insertGroupon">
+    insert into cskaoyan_mall_groupon (order_id,rules_id,user_id,creator_user_id,add_time,update_time,share_url,payed,deleted) values
+    (
+        #{groupon.orderId},
+        #{groupon.rulesId},
+        #{groupon.userId},
+        #{groupon.creatorUserId},
+        #{groupon.addTime},
+        #{groupon.updateTime},
+        #{groupon.shareUrl},
+        #{groupon.payed},
+        #{groupon.deleted}
+    )
+  </insert>
+
+  <select id="selectLastId" resultType="int">
+    select LAST_INSERT_ID()
+  </select>
+
+  <update id="updateGrouponId">
+    update cskaoyan_mall_groupon set groupon_id = #{grouponId} where id = #{grouponId}
+  </update>
+
+  <update id="setPayedTrue">
+    update cskaoyan_mall_groupon set payed=1 where order_id = #{orderId};
+  </update>
+
 </mapper>

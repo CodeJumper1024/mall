@@ -47,4 +47,8 @@ public interface CommentMapper {
     String queryContent(@Param("commentId") Integer commentId);
 
     void addComment(@Param("commentId") Integer commentId, @Param("content") String content);
+
+    void commitComment(@Param("goodsId") int goodsId, @Param("content") String content, @Param("star") Integer star,
+                       @Param("hasPicture") Boolean hasPicture,
+                       @Param("id") Integer id);
 }

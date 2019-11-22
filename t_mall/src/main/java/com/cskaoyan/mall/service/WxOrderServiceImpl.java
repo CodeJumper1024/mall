@@ -43,6 +43,9 @@ public class WxOrderServiceImpl implements WxOrderService {
     @Autowired
     SystemMapper systemMapper;
 
+    @Autowired
+    CommentMapper commentMapper;
+
     @Override
     public Map<String, Object> orderList(Integer showType, int page, int size) {
         //分页工具
@@ -324,10 +327,10 @@ public class WxOrderServiceImpl implements WxOrderService {
         }
 
         //计算订单费用和实际费用写入订单 (cskaoyan_mall_order)
-        // 订单费用 = goods_price + freight_price - coupon_price
+        // 订单费用 = goods_price + freight_price - coupon_price - groupon_price
         // 实付费用 = order_price - integral_price
 
-        BigDecimal orderPrice = goodsPrice.add(freightPrice).subtract(couponPrice);
+        BigDecimal orderPrice = goodsPrice.add(freightPrice).subtract(couponPrice).subtract(grouponPrice);
         BigDecimal actualPrice = orderPrice.subtract(integralPrice);
 
         //创建时间和更新时间
@@ -398,6 +401,26 @@ public class WxOrderServiceImpl implements WxOrderService {
             orderGoodsMapper.submitOrderGoods(orderGoods);
         }
 
+        //封装团购信息
+        Groupon groupon = new Groupon();
+        groupon.setOrderId(orderId);
+        groupon.setRulesId(grouponRulesId);
+        groupon.setUserId(userId);
+        groupon.setCreatorUserId(userId);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = simpleDateFormat.format(date);
+        groupon.setAddTime(time);
+        groupon.setUpdateTime(time);
+        groupon.setPayed(false);
+        groupon.setDeleted(false);
+        groupon.setShareUrl("qwe");
+
+        //添加团购信息
+        grouponMapper.insertGroupon(groupon);
+        int lastId = grouponMapper.selectLastId();
+        grouponMapper.updateGrouponId(lastId);
+
         //返回新创建的订单id
         return orderId;
     }
@@ -414,6 +437,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         order.setOrderStatus((short)201);
         order.setPayId("1");
         int update = orderMapper.prepay(order);
+        grouponMapper.setPayedTrue(id);
         return update;
     }
 
@@ -476,5 +500,11 @@ public class WxOrderServiceImpl implements WxOrderService {
     public OrderGoods commentGoods(Integer orderId, Integer goodsId) {
         OrderGoods orderGoods = orderGoodsMapper.queryOrderGoods(orderId, goodsId);
         return orderGoods;
+    }
+
+    @Override
+    public void commitComment(Integer orderGoodsId, String content, Integer star, Boolean hasPicture, Integer id) {
+        int goodsId = orderGoodsMapper.queryGoodsIdByOrderGoodsId(orderGoodsId);
+        commentMapper.commitComment(goodsId, content, star, hasPicture, id);
     }
 }

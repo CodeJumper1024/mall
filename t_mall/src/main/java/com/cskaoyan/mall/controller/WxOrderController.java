@@ -1,16 +1,17 @@
 package com.cskaoyan.mall.controller;
 
-import com.cskaoyan.mall.bean.BaseReqVo;
-import com.cskaoyan.mall.bean.Order;
-import com.cskaoyan.mall.bean.OrderGoods;
-import com.cskaoyan.mall.bean.OrderSubmitCondition;
+import com.cskaoyan.mall.bean.*;
 import com.cskaoyan.mall.service.WxOrderService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("wx/order/")
@@ -123,10 +124,27 @@ public class WxOrderController {
     public BaseReqVo goods(Integer orderId, Integer goodsId) {
 
         OrderGoods orderGoods = wxOrderService.commentGoods(orderId, goodsId);
-
         BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
         baseReqVo.setErrno(0);
         baseReqVo.setData(orderGoods);
+        baseReqVo.setErrmsg("成功");
+        return baseReqVo;
+    }
+
+    @PostMapping("comment")
+    public BaseReqVo comment(@RequestBody Map<String, Object> map) {
+
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+
+        String content = (String) map.get("content");
+        Boolean hasPicture = (Boolean) map.get("hasPicture");
+        Integer orderGoodsId = (Integer) map.get("orderGoodsId");
+        Integer star = (Integer) map.get("star");
+
+        wxOrderService.commitComment(orderGoodsId, content, star, hasPicture, user.getId());
+        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+        baseReqVo.setErrno(0);
         baseReqVo.setErrmsg("成功");
         return baseReqVo;
     }
