@@ -88,7 +88,9 @@ public class SecurityAspect {
 
         Subject subject = SecurityUtils.getSubject();
         Admin principal = (Admin) subject.getPrincipal();
-        admin = principal.getUsername();
+        if(principal !=null) {
+            admin = principal.getUsername();
+        }
 
         return proceed;
     }
@@ -134,9 +136,11 @@ public class SecurityAspect {
             }else if(reqVo.getErrno()==401){
                 status = false;
                 result = "未输入账号或者密码";
+                admin = "匿名用户";
             }else if(reqVo.getErrno()==605){
                 status = false;
                 result = "账号或者密码不正确";
+                admin = "匿名用户";
             }
         }
 
