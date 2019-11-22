@@ -4,6 +4,7 @@ import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.bean.Order;
 import com.cskaoyan.mall.bean.OrderGoods;
 import com.cskaoyan.mall.bean.User;
+import com.cskaoyan.mall.mapper.CommentMapper;
 import com.cskaoyan.mall.mapper.OrderGoodsMapper;
 import com.cskaoyan.mall.mapper.OrderMapper;
 import com.cskaoyan.mall.mapper.UserMapper;
@@ -25,6 +26,9 @@ public class OrderServiceImpl implements OrderService {
     OrderGoodsMapper orderGoodsMapper;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    CommentMapper commentMapper;
+
     @Override
     public BaseReqVo list(Integer page, Integer limit, String sort, String order, Integer[] orderStatusArray, Integer userId, String orderSn) {
         BaseReqVo baseReqVo=new BaseReqVo();
@@ -77,6 +81,18 @@ public class OrderServiceImpl implements OrderService {
         order.setUpdateTime(date);
         int update = orderMapper.ship(order);
         return update;
+    }
+
+    @Override
+    public int replyComment(Integer commentId, String content) {
+
+        String contentText = commentMapper.queryContent(commentId);
+        if (!"".equals(contentText)) {
+            return 0;
+        } else {
+            commentMapper.addComment(commentId, content);
+            return 1;
+        }
     }
 
 }

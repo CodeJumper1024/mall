@@ -23,7 +23,7 @@ public class Comment {
 
     private Short star;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm-ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date addTime;
 
     private Date updateTime;

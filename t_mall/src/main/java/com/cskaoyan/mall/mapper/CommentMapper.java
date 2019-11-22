@@ -34,13 +34,17 @@ public interface CommentMapper {
     void deleteComment(@Param("id") Integer id);
 
 
-    List<Comment> queryCommentsByValueIdAndByType(@Param("valueId") Integer valueId, @Param("type") Integer type,@Param("showType") Integer showType);
+    List<Comment> queryCommentsByValueIdAndByType(@Param("valueId") Integer valueId, @Param("type") Integer type, @Param("showType") Integer showType);
 
     List<Comment> queryCommentsByValueId(@Param("goodsId") Integer id);
 
     int queryCommentCountByValueId(@Param("goodsId") Integer id);
 
-    int queryCommentsCount(@Param("valueId") Integer valueId,@Param("type") Integer type);
+    int queryCommentsCount(@Param("valueId") Integer valueId, @Param("type") Integer type);
 
     int queryCommentsHasPicCount(@Param("valueId") Integer valueId, @Param("type") Integer type);
+
+    String queryContent(@Param("commentId") Integer commentId);
+
+    void addComment(@Param("commentId") Integer commentId, @Param("content") String content);
 }

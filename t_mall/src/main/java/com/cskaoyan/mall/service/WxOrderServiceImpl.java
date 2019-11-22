@@ -448,4 +448,9 @@ public class WxOrderServiceImpl implements WxOrderService {
         return delete;
     }
 
+    @Override
+    public OrderGoods commentGoods(Integer orderId, Integer goodsId) {
+        OrderGoods orderGoods = orderGoodsMapper.queryOrderGoods(orderId, goodsId);
+        return orderGoods;
+    }
 }
