@@ -7,7 +7,7 @@ public class BaseReqVo<T> {
     T data;
     String errmsg;
     int errno;
-
+    Integer statusCode;
     public static BaseReqVo ok(){
         BaseReqVo baseReqVo = new BaseReqVo();
         baseReqVo.setErrno(0);

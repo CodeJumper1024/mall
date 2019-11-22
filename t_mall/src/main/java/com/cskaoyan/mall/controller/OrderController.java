@@ -6,6 +6,7 @@ import com.cskaoyan.mall.service.OrderService;
 import com.fasterxml.jackson.databind.ser.Serializers;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,4 +52,19 @@ public class OrderController {
         return baseReqVo;
     }
 
+    @PostMapping("reply")
+    public BaseReqVo reply(@RequestBody Map<String, Object> map) {
+        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+        Integer commentId = (Integer) map.get("commentId");
+        String content = (String) map.get("content");
+        int result = orderService.replyComment(commentId, content);
+        if (result == 1) {
+            baseReqVo.setErrno(0);
+            baseReqVo.setErrmsg("回复成功");
+        } else {
+            baseReqVo.setErrno(622);
+            baseReqVo.setErrmsg("订单商品已回复");
+        }
+        return baseReqVo;
+    }
 }

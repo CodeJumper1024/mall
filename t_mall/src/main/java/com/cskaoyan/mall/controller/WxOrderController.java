@@ -1,7 +1,8 @@
 package com.cskaoyan.mall.controller;
 
-import com.cskaoyan.mall.aopAnnotation.Order;
 import com.cskaoyan.mall.bean.BaseReqVo;
+import com.cskaoyan.mall.bean.Order;
+import com.cskaoyan.mall.bean.OrderGoods;
 import com.cskaoyan.mall.bean.OrderSubmitCondition;
 import com.cskaoyan.mall.service.WxOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,4 +119,15 @@ public class WxOrderController {
         return baseReqVo;
     }
 
+    @RequestMapping("goods")
+    public BaseReqVo goods(Integer orderId, Integer goodsId) {
+
+        OrderGoods orderGoods = wxOrderService.commentGoods(orderId, goodsId);
+
+        BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
+        baseReqVo.setErrno(0);
+        baseReqVo.setData(orderGoods);
+        baseReqVo.setErrmsg("成功");
+        return baseReqVo;
+    }
 }

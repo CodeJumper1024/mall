@@ -1,6 +1,7 @@
 package com.cskaoyan.mall.service;
 
 import com.cskaoyan.mall.bean.Order;
+import com.cskaoyan.mall.bean.OrderGoods;
 import com.cskaoyan.mall.bean.OrderSubmitCondition;
 
 import java.util.Map;
@@ -22,4 +23,6 @@ public interface WxOrderService {
     int confirm(String orderId);
 
     int delete(String orderId);
+
+    OrderGoods commentGoods(Integer orderId, Integer goodsId);
 }
