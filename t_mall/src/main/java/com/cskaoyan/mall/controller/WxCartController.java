@@ -25,9 +25,6 @@ public class WxCartController {
     CartService cartService;
     @RequestMapping("add")
     public BaseReqVo addCart(@RequestBody Cart cart){
-        Subject subject = SecurityUtils.getSubject();
-        User user= (User) subject.getPrincipal();;
-        cart.setUserId(user.getId());
         BaseReqVo baseReqVo=cartService.addCart(cart);
         return baseReqVo;
     }

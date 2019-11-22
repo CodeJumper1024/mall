@@ -37,7 +37,17 @@ public class CartServiceImpl implements CartService {
     SystemMapper systemMapper;
     @Override
     public BaseReqVo addCart(Cart cart) {
+        Subject subject = SecurityUtils.getSubject();
+        User user= (User) subject.getPrincipal();;
         BaseReqVo baseReqVo=new BaseReqVo();
+        if (user == null) {
+            baseReqVo.setStatusCode(200);
+            baseReqVo.setData(123);
+            baseReqVo.setErrno(502);
+            baseReqVo.setErrmsg("失败");
+            return baseReqVo;
+        }
+        cart.setUserId(user.getId());
         Goods goods = goodsMapper.selectByPrimaryKey(cart.getGoodsId());
         GoodsProduct product = productMapper.selectByPrimaryKey(cart.getProductId());
         cart.setChecked(false);
@@ -100,6 +110,13 @@ public class CartServiceImpl implements CartService {
         BaseReqVo baseReqVo = new BaseReqVo();
         Subject subject = SecurityUtils.getSubject();
         User user= (User) subject.getPrincipal();
+        if (user == null) {
+            baseReqVo.setStatusCode(200);
+            baseReqVo.setData(123);
+            baseReqVo.setErrno(502);
+            baseReqVo.setErrmsg("失败");
+            return baseReqVo;
+        }
         List<Cart> cartList= cartMapper.selectByUserId(user.getId());
         int goodsCount=0;
         int goodsAmount =0;
@@ -170,7 +187,14 @@ public class CartServiceImpl implements CartService {
         Goods goods = goodsMapper.selectByPrimaryKey(cart.getGoodsId());
         GoodsProduct product = productMapper.selectByPrimaryKey(cart.getProductId());
         Subject subject = SecurityUtils.getSubject();
-        User user= (User) subject.getPrincipal();;
+        User user= (User) subject.getPrincipal();
+        if (user == null) {
+            baseReqVo.setStatusCode(200);
+            baseReqVo.setData(123);
+            baseReqVo.setErrno(502);
+            baseReqVo.setErrmsg("失败");
+            return baseReqVo;
+        }
         cart.setUserId(user.getId());
         cart.setChecked(true);
         cart.setGoodsSn(goods.getGoodsSn());
@@ -200,6 +224,7 @@ public class CartServiceImpl implements CartService {
         int number=0;
         int price=0;
         int goodsTotalPrice=0;
+        int grouponPrice=0;
         Date date=new Date();
         if(checkOut.getCartId()==0){
             CartExample cartExample = new CartExample();
@@ -225,8 +250,10 @@ public class CartServiceImpl implements CartService {
             checkoutMap.put("grouponRulesId",0);
         }else{
             GrouponRules grouponRules = grouponRulesMapper.selectByPrimaryKey(checkOut.getGrouponRulesId());
-            checkoutMap.put("grouponPrice",grouponRules.getDiscount());
+            grouponPrice=grouponRules.getDiscount().intValue();
+            checkoutMap.put("grouponPrice",grouponPrice);
             checkoutMap.put("grouponRulesId",grouponRules.getId());
+            goodsTotalPrice=goodsTotalPrice-grouponPrice;
         }
         checkoutMap.put("goodsTotalPrice",goodsTotalPrice);
         if(checkOut.getAddressId()==0){
