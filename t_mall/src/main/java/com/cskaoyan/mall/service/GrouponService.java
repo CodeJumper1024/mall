@@ -8,8 +8,6 @@ public interface GrouponService {
 
     Integer selectGrouponMemberByRuleId(Integer rulesId);
 
-    int selectgrouponCount();
-
     //登入用户为团购发起者
     List<Groupon> selectGrouponByUId(Integer creatorUserId);
 
@@ -22,4 +20,8 @@ public interface GrouponService {
     Groupon selectGrouponById(Integer id);
 
     List<Groupon> selectGrouponByGrouponId(Integer grouponId);
+
+    int selectGrouponCountByCUId(Integer userId);
+
+    int selectGrouponCountByUId(Integer userId);
 }

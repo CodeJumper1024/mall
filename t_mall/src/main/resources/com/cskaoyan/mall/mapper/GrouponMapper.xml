@@ -316,4 +316,11 @@
         select <include refid="Base_Column_List"/>
         from cskaoyan_mall_groupon where deleted = 0
     </select>
+  <select id="selectGrouponCountByUId" resultType="int">
+    select count(id) from cskaoyan_mall_groupon where creator_user_id = #{userId}
+  </select>
+  <select id="selectGrouponCountByNUId" resultType="int">
+    select count(id) from cskaoyan_mall_groupon where creator_user_id != #{userId}
+  </select>
+
 </mapper>

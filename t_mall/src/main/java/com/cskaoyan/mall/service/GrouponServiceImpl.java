@@ -19,11 +19,6 @@ public class GrouponServiceImpl implements GrouponService{
     }
 
     @Override
-    public int selectgrouponCount() {
-        return 0;
-    }
-
-    @Override
     public List<Groupon> selectGrouponByUId(Integer creatorUserId) {
         GrouponExample grouponExample = new GrouponExample();
         grouponExample.createCriteria().andCreatorUserIdEqualTo(creatorUserId);
@@ -52,6 +47,16 @@ public class GrouponServiceImpl implements GrouponService{
         GrouponExample grouponExample = new GrouponExample();
         grouponExample.createCriteria().andGrouponIdEqualTo(grouponId);
         return grouponMapper.selectByExample(grouponExample);
+    }
+
+    @Override
+    public int selectGrouponCountByCUId(Integer userId) {
+        return grouponMapper.selectGrouponCountByNUId(userId);
+    }
+
+    @Override
+    public int selectGrouponCountByUId(Integer userId) {
+        return grouponMapper.selectGrouponCountByUId(userId);
     }
 
 }

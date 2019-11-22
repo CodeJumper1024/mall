@@ -110,9 +110,13 @@ public class WxGrouponController {
 
         List<Groupon> grouponList = null;
         boolean isCreator = true;
+        int count = 0 ;
         if(showType == 0){ //登入用户是团购发起者
+            //查询订单数量
+            count = grouponService.selectGrouponCountByUId(userId);
             grouponList = grouponService.selectGrouponByUId(userId);
         }else{  //登入用户是团购参与者
+            count = grouponService.selectGrouponCountByCUId(userId);
             grouponList = grouponService.selectGrouponByCUId(userId);
             isCreator = false;
         }
@@ -130,12 +134,14 @@ public class WxGrouponController {
             List<OrderGoods> orderGoodsList =
                     orderGoodsService.selectOrderGoodsByOrderId(groupon.getOrderId());
             HashMap<String, Object> goodsMap = null;
+            ArrayList<Map> goodsList = new ArrayList<>();
             for(OrderGoods orderGoods : orderGoodsList){
                 goodsMap = new HashMap<>();
                 goodsMap.put("goodsName",orderGoods.getGoodsName());
                 goodsMap.put("id",orderGoods.getId());
                 goodsMap.put("number",orderGoods.getNumber());
                 goodsMap.put("picUrl",orderGoods.getPicUrl());
+                goodsList.add(goodsMap);
             }
             //根据orderStatus获取handleOption
             Short status = order.getOrderStatus();
@@ -165,7 +171,7 @@ public class WxGrouponController {
 
             grouponMap.put("rules",grouponRules); //团购规则
             grouponMap.put("handleOption",handleMap); //不同商品状态可作处理
-            grouponMap.put("goodsList",goodsMap); //获取订单内的商品详情
+            grouponMap.put("goodsList",goodsList); //获取订单内的商品详情
             grouponMap.put("groupon",groupon); //获取团购订单详情
             grouponMap.put("isCreator",isCreator); //是否是发起者
             grouponMap.put("creator",grouponUser.getNickname()); //获取发起人昵称
@@ -175,10 +181,9 @@ public class WxGrouponController {
             grouponMap.put("acturalPrice",order.getActualPrice()); //实付金额
             grouponMap.put("joinerCount",joinerCount); //获取参团人数
             grouponMap.put("orderStatusText",statusName); //修改订单状态
-        }
 
-        //查询订单数量
-        int count = grouponService.selectgrouponCount();
+            list.add(grouponMap);
+        }
 
         map.put("data",list);
         map.put("count",count);
@@ -190,12 +195,12 @@ public class WxGrouponController {
     }
 
     @RequestMapping("detail")
-    public BaseReqVo list(Integer id){
+    public BaseReqVo list(Integer grouponId){
         HashMap<String, Object> dataMap = new HashMap<>();
 
         //获取creator信息
         HashMap<String, Object> creatorMap = new HashMap<>();
-        Groupon groupon = grouponService.selectGrouponById(id);
+        Groupon groupon = grouponService.selectGrouponById(grouponId);
         Integer userId = groupon.getCreatorUserId();
         User user = userService.queryUserByUserId(userId);
         creatorMap.put("avatar",user.getAvatar());

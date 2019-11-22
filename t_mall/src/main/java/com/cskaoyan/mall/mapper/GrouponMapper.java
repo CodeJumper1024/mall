@@ -36,4 +36,8 @@ public interface GrouponMapper {
     int selectGrouponOrNotByOrderId(@Param("orderId") Integer orderId);
 
     List<Groupon> queryGroupon();
+
+    int selectGrouponCountByNUId(@Param("userId") Integer userId);
+
+    int selectGrouponCountByUId(@Param("userId")Integer userId);
 }
