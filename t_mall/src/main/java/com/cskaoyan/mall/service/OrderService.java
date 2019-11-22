@@ -13,4 +13,6 @@ public interface OrderService {
     int ship(Integer orderId, String shipChannel, String shipSn);
 
     int replyComment(Integer commentId, String content);
+
+    int queryOrderByUserIdAndStatus(Integer id, Integer i);
 }

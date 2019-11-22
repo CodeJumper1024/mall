@@ -95,4 +95,9 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    public int queryOrderByUserIdAndStatus(Integer userId, Integer status) {
+        return orderMapper.queryOrderByUserIdAndStatus(userId,status);
+    }
+
 }

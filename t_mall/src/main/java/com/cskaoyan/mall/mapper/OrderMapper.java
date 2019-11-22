@@ -47,5 +47,7 @@ public interface OrderMapper {
     int delete(@Param("order") Order order);
 
     int ship(@Param("order") Order order);
+
+    int queryOrderByUserIdAndStatus(@Param("userId") Integer userId,@Param("status") Integer status);
 }
 
