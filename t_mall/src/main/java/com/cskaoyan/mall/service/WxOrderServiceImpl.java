@@ -506,5 +506,7 @@ public class WxOrderServiceImpl implements WxOrderService {
     public void commitComment(Integer orderGoodsId, String content, Integer star, Boolean hasPicture, Integer id) {
         int goodsId = orderGoodsMapper.queryGoodsIdByOrderGoodsId(orderGoodsId);
         commentMapper.commitComment(goodsId, content, star, hasPicture, id);
+        int orderId = orderGoodsMapper.queryOrderIdByOrderGoodsId(orderGoodsId);
+        orderMapper.deleteOrder(orderId);
     }
 }

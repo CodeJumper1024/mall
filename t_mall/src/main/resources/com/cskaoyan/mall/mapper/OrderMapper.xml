@@ -646,8 +646,12 @@
     ship_time = #{order.shipTime}
     where id = #{order.id}
   </update>
-    <select id="queryOrderByUserIdAndStatus" resultType="int">
-      select count(id) from cskaoyan_mall_order where user_id = #{userId} and order_status = #{status}
-      and deleted = 0
-    </select>
+  <delete id="deleteOrder">
+    delete from cskaoyan_mall_order where id = #{orderId}
+  </delete>
+  <select id="queryOrderByUserIdAndStatus" resultType="int">
+    select count(id) from cskaoyan_mall_order where user_id = #{userId} and order_status = #{status}
+    and deleted = 0
+  </select>
+
 </mapper>

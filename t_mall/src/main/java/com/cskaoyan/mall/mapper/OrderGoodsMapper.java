@@ -44,4 +44,6 @@ public interface OrderGoodsMapper {
     OrderGoods queryOrderGoods(@Param("orderId") Integer orderId, @Param("goodsId") Integer goodsId);
 
     int queryGoodsIdByOrderGoodsId(@Param("orderGoodsId") Integer orderGoodsId);
+
+    int queryOrderIdByOrderGoodsId(@Param("orderGoodsId") Integer orderGoodsId);
 }
