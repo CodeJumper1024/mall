@@ -170,7 +170,7 @@ public class CartServiceImpl implements CartService {
         Goods goods = goodsMapper.selectByPrimaryKey(cart.getGoodsId());
         GoodsProduct product = productMapper.selectByPrimaryKey(cart.getProductId());
         Subject subject = SecurityUtils.getSubject();
-        User user= (User) subject.getPrincipal();;
+        User user= (User) subject.getPrincipal();
         cart.setUserId(user.getId());
         cart.setChecked(true);
         cart.setGoodsSn(goods.getGoodsSn());

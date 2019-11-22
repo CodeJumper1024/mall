@@ -88,9 +88,10 @@ public class UserServiceImpl implements UserService {
             return baseReqVo;
         }
         String code = (String) wxCode.get(user.getMobile());
-        if(!user.getCode().equals(wxCode)){
+        if(!user.getCode().equals(code)){
             baseReqVo.setErrno(703);
             baseReqVo.setErrmsg("验证码错误 ");
+            return baseReqVo;
         }
         String password = Md5Utils.getMd5(user.getPassword());
         user.setPassword(password);
@@ -134,6 +135,7 @@ public class UserServiceImpl implements UserService {
         String code = (String) wxCode.get(user.getMobile());
         if (!user.getCode().equals(code)) {
             baseReqVo.setErrno(1);
+            baseReqVo.setErrmsg("验证码错误 ");
         } else {
             user.setUpdateTime(new Date());
             int i = userMapper.updateByMobile(user);
@@ -145,5 +147,4 @@ public class UserServiceImpl implements UserService {
     public User queryUserByUserId(Integer creatorUserId) {
         return userMapper.selectByPrimaryKey(creatorUserId);
     }
-
 }
