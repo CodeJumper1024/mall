@@ -38,7 +38,7 @@ public class AuthController {
     @RequestMapping("login")
     public BaseReqVo login(@RequestBody Admin admin){
         BaseReqVo<String> baseReqVo = new BaseReqVo<>();
-        if (admin.getUsername() == null){
+        if (admin.getUsername() == null || admin.getUsername().equals("")){
             baseReqVo.setErrmsg("参数不对");
             baseReqVo.setErrno(401);
             return baseReqVo;
