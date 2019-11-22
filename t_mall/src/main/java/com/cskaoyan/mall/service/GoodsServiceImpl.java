@@ -175,6 +175,9 @@ public class GoodsServiceImpl implements GoodsService {
         goodsMap.put("id", 1);
         int result = goodsMapper.insertByGoodsMap(goodsMap, addTime);
         int goodsId = (Integer) goodsMap.get("id");
+        String gallery = "";
+        String shareUrl = "";
+        goodsMapper.updateInfoOfLastInsert(goodsId, gallery, shareUrl);
         List<Map> specifications = (List)(info.get("specifications"));
         for (Map specification : specifications) {
             goodsSpecificationMapper.insertBySpecificationMap(specification, addTime, goodsId);
@@ -196,6 +199,8 @@ public class GoodsServiceImpl implements GoodsService {
     public Goods queryGoodsByGoodsId(Integer goodsId) {
         return goodsMapper.selectByGoodsId(goodsId);
     }
+
+    @Override
     public Goods queryGoods(Integer id) {
         return goodsMapper.selectByPrimaryKey(id);
     }
