@@ -34,7 +34,7 @@ public class WxStorageServiceImpl implements WxStorageService {
                 file.transferTo(saveFile);
                 OSSClient ossClient = aliyunComponent.getOssClient();
                 ossClient.putObject(aliyunComponent.getOss().getBucket(), name, saveFile);
-                String url = aliyunComponent.getOss().getEndPoint() + aliyunComponent.getOss().getBucket() + name;
+                String url = aliyunComponent.getOss().getBucket() + "." + aliyunComponent.getOss().getEndPoint() + "/" + name;
                 BaseReqVo<Object> baseReqVo = new BaseReqVo<>();
                 HashMap<String, Object> dataMap = new HashMap<>();
                 dataMap.put("hasPicture", true);
