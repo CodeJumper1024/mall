@@ -675,7 +675,7 @@
       <if test="brandId != null">
         and brand_id = #{brandId}
       </if>
-      <if test="1=1">
+      <if test="1==1">
         and deleted = 0
       </if>
     </where>

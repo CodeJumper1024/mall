@@ -159,7 +159,7 @@ public class WxGoodsServiceImpl implements WxGoodsService {
 
         if (keyword != null) {
             Date date = new Date();
-            SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+            SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String addTime = dateFormat.format(date);
             searchHistoryMapper.addToHistory(user.getId(), keyword, addTime);
         }
