@@ -21,5 +21,4 @@ public interface GoodsService {
     Goods queryGoodsByGoodsId(Integer goodsId);
 
     Goods queryGoods(Integer id);
-
 }

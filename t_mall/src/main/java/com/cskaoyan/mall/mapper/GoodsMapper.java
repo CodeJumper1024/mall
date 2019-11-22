@@ -1,6 +1,5 @@
 package com.cskaoyan.mall.mapper;
 
-import com.cskaoyan.mall.bean.Collect;
 import com.cskaoyan.mall.bean.Goods;
 import com.cskaoyan.mall.bean.GoodsExample;
 import com.cskaoyan.mall.bean.Groupon;
@@ -47,6 +46,8 @@ public interface GoodsMapper {
 
     int insertByGoodsMap(@Param("goods") Map goods, @Param("addTime") String addTime);
 
+    void updateInfoOfLastInsert(@Param("goodsId") int goodsId, @Param("gallery") String gallery, @Param("shareUrl") String shareUrl);
+
     Goods queryGoodsInfoByGoodsId(@Param("goodsId") Integer id);
 
     List<Goods> selectNewGoods();
@@ -63,7 +64,7 @@ public interface GoodsMapper {
 
     int queryGoodsNumByCategoryId(@Param("categoryId") Integer categoryId);
 
-    List<Integer> queryCategoryIds(@Param("keyword") String keyword);
+    List<Integer> queryCategoryIds(@Param("keyword") String keyword, @Param("isNew") Boolean isNew, @Param("isHot") Boolean isHot);
 
     List<Goods> queryGoods(@Param("keyword") String keyword, @Param("categoryId") Integer categoryId,
                            @Param("sort") String sort, @Param("order") String order,
@@ -83,4 +84,5 @@ public interface GoodsMapper {
     int queryCategoryIdById(@Param("id") Integer id);
 
     int queryBrandIdById(@Param("id") Integer id);
+
 }

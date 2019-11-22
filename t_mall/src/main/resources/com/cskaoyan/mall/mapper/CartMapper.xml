@@ -408,4 +408,7 @@
       select goods_id from cskaoyan_mall_cart where id = #{cartId}
     </select>
 
+  <select id="selectByCartId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_cart where id= #{cartId}
+  </select>
 </mapper>

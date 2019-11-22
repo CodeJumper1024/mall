@@ -30,12 +30,16 @@ public interface OrderGoodsMapper {
     int updateByPrimaryKeySelective(OrderGoods record);
 
     int updateByPrimaryKey(OrderGoods record);
+
     int queryOrderNumByAddTime(@Param("addTime") Date addTime);
 
     int queryGoodsNumByAddTime(@Param("addTime") Date addTime);
 
-    List<OrderGoods> selectByOrderId(@Param("orderId")Integer orderId);
+    List<OrderGoods> selectByOrderId(@Param("orderId") Integer orderId);
+
     List<GoodsStatInfo> queryGoodsStatInfo();
 
     int submitOrderGoods(@Param("orderGoods") OrderGoods orderGoods);
+
+    OrderGoods queryOrderGoods(@Param("orderId") Integer orderId, @Param("goodsId") Integer goodsId);
 }

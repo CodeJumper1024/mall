@@ -87,7 +87,7 @@
   <sql id="Base_Column_List">
     id, goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale,
     sort_order, pic_url, share_url, is_new, is_hot, unit, counter_price, retail_price,
-    add_time, update_time, deleted
+    detail, add_time, update_time, deleted
   </sql>
   <sql id="Blob_Column_List">
     detail
@@ -561,7 +561,7 @@
       name = #{goods.name},
       category_id = #{goods.categoryId},
       brand_id = #{goods.brandId},
-      gallery = #{goods.gallery},
+      <!--gallery = #{goods.gallery, typeHandler=com.cskaoyan.mall.handler.String2StringArrayTypeHandler},-->
       keywords = #{goods.keywords},
       brief = #{goods.brief},
       is_on_sale = #{goods.isOnSale},
@@ -643,7 +643,18 @@
     select count(id) from cskaoyan_mall_goods where category_id = #{categoryId}
   </select>
   <select id="queryCategoryIds" resultType="java.lang.Integer">
-    select category_id from cskaoyan_mall_goods where name like #{keyword}
+    select category_id from cskaoyan_mall_goods
+    <where>
+      <if test="keyword != '%null%'">
+        name like #{keyword}
+      </if>
+      <if test="isNew != null">
+        and is_new = 1
+      </if>
+      <if test="isHot != null">
+        and is_hot = 1
+      </if>
+    </where>
   </select>
   <select id="queryGoods" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
@@ -664,7 +675,9 @@
       <if test="brandId != null">
         and brand_id = #{brandId}
       </if>
-      and deleted = 0
+      <if test="1=1">
+        and deleted = 0
+      </if>
     </where>
     <if test="sort != null">
       order by ${sort}
@@ -700,4 +713,9 @@
   <select id="queryBrandIdById" resultType="int">
     select brand_id from cskaoyan_mall_goods where id = #{id}
   </select>
+  <update id="updateInfoOfLastInsert">
+    update cskaoyan_mall_goods set goods_sn = #{goodsId},
+    gallery = #{gallery}, share_url = #{shareUrl}
+    where id = #{goodsId}
+  </update>
 </mapper>

@@ -2,7 +2,6 @@ package com.cskaoyan.mall.controller;
 
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.bean.User;
-import com.cskaoyan.mall.bean.UserInfo;
 import com.cskaoyan.mall.service.SmsService;
 import com.cskaoyan.mall.service.UserService;
 import lombok.Data;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
-
 @RestController
 @RequestMapping("wx/auth/")
 @Data
@@ -22,7 +20,7 @@ public class WxAuthController {
     UserService userService;
     @Autowired
     SmsService smsService;
-    HashMap<String ,Object> wxCode = new HashMap<>();
+    static HashMap<String ,Object> wxCode = new HashMap<>();
     //登录
     @RequestMapping(value = "login",method = RequestMethod.POST)
     public BaseReqVo login(@RequestBody User user) {
@@ -47,6 +45,9 @@ public class WxAuthController {
         String mobile = user.getMobile();
         int randomNo = (int) (Math.random()*1000000);
         String code = String.valueOf(randomNo);
+        while(code.length()<6){
+            code = "0" + code;
+        }
         if(mobile != null){
             wxCode.put(mobile,code);
             smsService.sendRegCaptcha(mobile,code);
