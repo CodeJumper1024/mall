@@ -40,6 +40,9 @@ public class WxOrderServiceImpl implements WxOrderService {
     @Autowired
     CartMapper cartMapper;
 
+    @Autowired
+    SystemMapper systemMapper;
+
     @Override
     public Map<String, Object> orderList(Integer showType, int page, int size) {
         //分页工具
@@ -263,13 +266,24 @@ public class WxOrderServiceImpl implements WxOrderService {
         String consignee = ad.getName();
         String address = ad.getAddress();
         String mobile = ad.getMobile();
-        //把留言信息message写入订单(cskaoyan_mall_order)
 
-        //根据当前用户id获得购物车中checked = 1的信息(cskaoyan_mall_cart) 获得提交到订单的商品信息
-        List<Cart> carts = cartMapper.selectByUserIdAndChecked(userId);
+        //从购物车表中获得下单信息
+        List<Cart> carts = null;
+        Integer cartId = orderSubmitCondition.getCartId();
+        if(cartId != 0){
+            //立即购买下单
 
-        //逻辑删除购物车表中checked = 1的商品(逻辑删除已经提交到订单的商品)
-        cartMapper.deleteGoodsSubmitted();
+            //根据cartId去购物车表(cskaoyan_mall_cart)中查找提交到订单的信息,后续无需逻辑删除
+            carts =  cartMapper.selectByCartId(cartId);
+        }else{
+            //添加购物车进行下单
+
+            //根据当前用户id获得购物车中checked = 1的信息(cskaoyan_mall_cart) 获得提交到订单的商品信息
+            carts = cartMapper.selectByUserIdAndChecked(userId);
+
+            //逻辑删除购物车表中checked = 1的商品(逻辑删除已经提交到订单的商品)
+            cartMapper.deleteGoodsSubmitted();
+        }
 
         //把商品总价计算出来  price * number 把商品总价写入订单(cskaoyan_mall_order)
         BigDecimal goodsPrice = new BigDecimal(0);
@@ -279,8 +293,14 @@ public class WxOrderServiceImpl implements WxOrderService {
             goodsPrice = goodsPrice.add(price.multiply(number));
         }
 
-        //快递包邮！
+        //去找com_cskaoyan_system查找 cskaoyan_mall_express_freight_min 和 cskaoyan_mall_express_freight_value 字段
+        int freight_min = systemMapper.selectByName("cskaoyan_mall_express_freight_min");
+        int freight_value = systemMapper.selectByName("cskaoyan_mall_express_freight_value");
         BigDecimal freightPrice = new BigDecimal(0);
+        if(goodsPrice.intValue() < freight_min){
+            //商品总价商品总价小于cskaoyan_mall_express_freight_min 要给邮费
+            freightPrice = new BigDecimal(freight_value);
+        }
 
         //根据couponId查找优惠信息discount(cskaoyan_mall_coupon) 写入订单(cskaoyan_mall_order)
         Coupon coupon = null;
@@ -319,7 +339,11 @@ public class WxOrderServiceImpl implements WxOrderService {
         //自动生成订单编码
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String orderSn = sdf.format(date);
-        orderSn.replaceAll("-","").replaceAll(":","");
+        orderSn = orderSn.replaceAll("-", "").replaceAll(":","").replaceAll(" ","");
+        int newNum = (int)((Math.random()*9+1)*100000);
+        newNum += orderStatus  +  (int)((Math.random()*9+1)*532);
+        String s = String.valueOf(newNum);
+        orderSn += s;
 
         //用javabean封装订单信息
         Order order = new Order();

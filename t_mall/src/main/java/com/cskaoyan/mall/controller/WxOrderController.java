@@ -1,7 +1,7 @@
 package com.cskaoyan.mall.controller;
 
+import com.cskaoyan.mall.aopAnnotation.Order;
 import com.cskaoyan.mall.bean.BaseReqVo;
-import com.cskaoyan.mall.bean.Order;
 import com.cskaoyan.mall.bean.OrderSubmitCondition;
 import com.cskaoyan.mall.service.WxOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ public class WxOrderController {
             map.put("orderId",orderId);
             baseReqVo.setData(map);
             baseReqVo.setErrno(0);
-            baseReqVo.setErrmsg("成功");
+            baseReqVo.setErrmsg("提交订单成功");
         }
         return baseReqVo;
     }
@@ -61,7 +61,7 @@ public class WxOrderController {
         int update = wxOrderService.prepay(orderId);
         if(update != 0){
             baseReqVo.setErrno(0);
-            baseReqVo.setErrmsg("土豪任性，免密支付成功");
+            baseReqVo.setErrmsg("支付成功");
         }
         return baseReqVo;
     }
@@ -117,4 +117,5 @@ public class WxOrderController {
         }
         return baseReqVo;
     }
+
 }

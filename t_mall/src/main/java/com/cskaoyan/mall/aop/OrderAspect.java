@@ -3,8 +3,11 @@ package com.cskaoyan.mall.aop;
 import com.cskaoyan.mall.bean.Admin;
 import com.cskaoyan.mall.bean.BaseReqVo;
 import com.cskaoyan.mall.bean.Log;
+import com.cskaoyan.mall.bean.User;
 import com.cskaoyan.mall.mapper.LogMapper;
 import com.cskaoyan.mall.utils.AopUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -40,9 +43,6 @@ public class OrderAspect {
 
     @Before(value = "orderPointcut()")
     public void myBefore(JoinPoint joinPoint){
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String uri = request.getRequestURI().toString();
-
     }
 
     @After("orderPointcut()")
@@ -52,23 +52,18 @@ public class OrderAspect {
     @Around(value = "orderPointcut()")
     public Object myAround(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession();
-        //ip,uri,action,admin
+        //ip,uri,action,user
         ipAddress = AopUtils.getIpAddress();
-
-        String uri = request.getRequestURI().toString();
+        String uri = request.getRequestURI();
         //action可能为null
         action = urlToAction(uri);
 
-        //admin = (String) session.getAttribute("username");
-        //System.out.println(admin);
-
-        System.out.println("ip地址:" + ipAddress);
-        System.out.println("URI:" + uri);
-        System.out.println("操作动作:" + action);
-        System.out.println("管理员:" + admin);
-
         Object proceed = joinPoint.proceed();
+
+        Subject subject = SecurityUtils.getSubject();
+        Admin principal = (Admin) subject.getPrincipal();
+        admin = principal.getUsername();
+
         return proceed;
     }
 
@@ -76,11 +71,17 @@ public class OrderAspect {
     @AfterReturning(value = "orderPointcut()",returning = "baseReqVo")
     public void myafterReturning(Object baseReqVo){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String uri = request.getRequestURI().toString();
+        String uri = request.getRequestURI();
 
+        BaseReqVo reqVo = (BaseReqVo) baseReqVo;
+        if("/admin/order/ship".equals(uri)){
+            if("发货成功".equals(reqVo.getErrmsg())){
+                status = true;
+                result = "系统发货成功";
+            }
+        }
 
-        //被代理方法执行完毕，把操作记录写入操作日志
-       /* Log log = new Log();
+        Log log = new Log();
         log.setAdmin(admin);
         log.setIp(ipAddress);
         log.setType(type);
@@ -93,7 +94,7 @@ public class OrderAspect {
         log.setAddTime(date);
         log.setUpdateTime(date);
 
-        logMapper.insertLogger(log);*/
+        logMapper.insertLogger(log);
     }
 
     @AfterThrowing(value = "orderPointcut()",throwing = "exceptionz")
@@ -101,18 +102,16 @@ public class OrderAspect {
         //System.out.println("afterThrowing:" + exceptionz.getMessage());
     }
 
-
     /**
      * 根据uri获得操作动作
      * @param uri
      * @return
      */
-    public String urlToAction(String uri){
-
-
-
+    public String urlToAction(String uri) {
+        if("/admin/order/ship".equals(uri)){
+            return "订单发货";
+        }
         return null;
     }
-
 
 }
