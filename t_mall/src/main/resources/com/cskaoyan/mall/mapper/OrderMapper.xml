@@ -646,4 +646,7 @@
     ship_time = #{order.shipTime}
     where id = #{order.id}
   </update>
+  <delete id="deleteOrder">
+    delete from cskaoyan_mall_order where id = #{orderId}
+  </delete>
 </mapper>

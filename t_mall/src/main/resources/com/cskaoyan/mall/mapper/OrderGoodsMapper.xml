@@ -409,4 +409,7 @@
   <select id="queryGoodsIdByOrderGoodsId" resultType="int">
     select goods_id from cskaoyan_mall_order_goods where id = #{orderGoodsId}
   </select>
+  <select id="queryOrderIdByOrderGoodsId" resultType="int">
+    select order_id from cskaoyan_mall_order_goods where id = #{orderGoodsId}
+  </select>
 </mapper>
